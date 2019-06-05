@@ -41,22 +41,16 @@ public class EntryListFragment extends Fragment implements RecyclerViewAdapter.O
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.fragment_entry_list, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mEntryId, mFruitTitle, mFruitAmount, mTotalVitamins,
+                mDate, getActivity(), this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        setDataTest();
+
         return view;
     }
 
-    /**
-     * Method initializes List view with values for Wish List
-     */
-
-    private void initRecyclerView() {
-        Log.d(TAG, "initRecyclerView: recycler view init");
-
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mEntryId, mFruitTitle, mFruitAmount, mTotalVitamins,
-                mDate, (ActivityMain) this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
 
     @Override
     public void onEntryClick(int position) {
@@ -70,5 +64,17 @@ public class EntryListFragment extends Fragment implements RecyclerViewAdapter.O
                 .replace(R.id.frame_entryDetails_fragment, detailedEntryFragment)
                 .commit();
     }
+
+    public void setDataTest() {
+
+        mEntryId.add(1);
+        mFruitTitle.add("Apple");
+        mFruitAmount.add(3);
+        mTotalVitamins.add(10);
+        mDate.add(LocalDate.now());
+
+    }
+
+
 
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public RecyclerViewAdapter(ArrayList<Integer> mEntryId, ArrayList<String> mFruitTitle, ArrayList<Integer> mFruitAmount,
                                ArrayList<Integer> mTotalVitamins, ArrayList<LocalDate> mDate,
-                               Context mContext, OnEntryListener onWishListener) {
+                               Context mContext, OnEntryListener onEntryListener) {
 
         this.mEntryId = mEntryId;
         this.mFruitTitle = mFruitTitle;
@@ -42,7 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.mTotalVitamins = mTotalVitamins;
         this.mDate = mDate;
         this.mContext = mContext;
-        this.mOnEntryListener = onWishListener;
+        this.mOnEntryListener = onEntryListener;
     }
 
 
@@ -93,21 +94,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        CardView cardView;
         TextView fruitTitle;
         TextView fruitAmount;
         TextView totalVitamins;
         TextView date;
-        ConstraintLayout parentLayout;
         OnEntryListener onEntryListener;
 
         public ViewHolder(@NonNull View itemView, OnEntryListener onEntryListener) {
             super(itemView);
 
+            cardView =itemView.findViewById(R.id.listItem_view);
             fruitTitle = itemView.findViewById(R.id.fruitTitle);
             fruitAmount = itemView.findViewById(R.id.fruitAmount);
             totalVitamins = itemView.findViewById(R.id.totalVitamins);
             date = itemView.findViewById(R.id.date);
-            parentLayout = itemView.findViewById(R.id.listItem_view);
             this.onEntryListener = onEntryListener;
 
             itemView.setOnClickListener(this);
