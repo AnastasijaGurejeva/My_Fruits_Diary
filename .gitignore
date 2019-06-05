@@ -1,0 +1,9 @@
+.DS_Store
+	My_Fruits_Diary.iml
+local.properties
+	settings.gradle
+build.gradle
+	gradle.properties
+	gradle/
+	gradlew
+	gradlew.bat
