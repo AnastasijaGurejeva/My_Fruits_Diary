@@ -2,6 +2,7 @@ package com.example.my_fruits_diary.MyDiary;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,30 +24,37 @@ import java.util.ArrayList;
  */
 public class EntryListFragment extends Fragment implements RecyclerViewAdapter.OnEntryListener {
     private static final String TAG = "EntryListFragment";
+
     protected ArrayList<Integer> mEntryId = new ArrayList<>();
     private ArrayList<String> mFruitTitle = new ArrayList<>();
     private ArrayList<Integer> mFruitAmount = new ArrayList<>();
-    protected int id;
-    // private ArrayList<Integer> mFruitImages = new ArrayList<>();
     private ArrayList<Integer> mTotalVitamins = new ArrayList<>();
     private ArrayList<LocalDate> mDate = new ArrayList<>();
+    // private ArrayList<Integer> mFruitImages = new ArrayList<>();
+
+    protected int id;
+    private FloatingActionButton onAddNewEntry;
 
     public EntryListFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_entry_list, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
+        onAddNewEntry = view.findViewById(R.id.add_Entry);
+
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(mEntryId, mFruitTitle, mFruitAmount, mTotalVitamins,
                 mDate, getActivity(), this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         setDataTest();
+        activateOnAddNewEntry();
+
 
         return view;
     }
@@ -61,7 +69,7 @@ public class EntryListFragment extends Fragment implements RecyclerViewAdapter.O
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame_entryDetails_fragment, detailedEntryFragment)
+                .replace(R.id.frame_fragment, detailedEntryFragment)
                 .commit();
     }
 
@@ -73,6 +81,24 @@ public class EntryListFragment extends Fragment implements RecyclerViewAdapter.O
         mTotalVitamins.add(10);
         mDate.add(LocalDate.now());
 
+    }
+
+
+    public void activateOnAddNewEntry() {
+
+        onAddNewEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onAddEntry: activated");
+                NewEntryFragment newEntryFragment = new NewEntryFragment();
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_fragment, newEntryFragment)
+                        .commit();
+
+            }
+        });
     }
 
 
