@@ -1,4 +1,4 @@
-package com.example.my_fruits_diary;
+package com.example.my_fruits_diary.DataHandling;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -18,6 +18,7 @@ public class FruitJSONParser extends AsyncTask<String, Void, List<Fruit>> implem
     private List<Fruit> mFruitsList = null;
     private final OnDataAvailable mCallBack;
     private String mUrl;
+    private String baseUrl;
 
 
     interface OnDataAvailable {
@@ -56,14 +57,14 @@ public class FruitJSONParser extends AsyncTask<String, Void, List<Fruit>> implem
 
             try {
                 JSONArray itemsArray = new JSONArray(data);
+                baseUrl = "https://fruitdiary.test.themobilelife.com/";
 
                 for (int i = 0; i < itemsArray.length(); i++) {
                     JSONObject jsonFruit = itemsArray.getJSONObject(i);
                     int id = jsonFruit.getInt("id");
                     String type = jsonFruit.getString("type");
                     int vitamins = jsonFruit.getInt("vitamins");
-                    String image = jsonFruit.getString("image");
-
+                    String image = baseUrl.concat(jsonFruit.getString("image"));
 
                     Fruit fruitObject = new Fruit(id, type, vitamins, image);
                     mFruitsList.add(fruitObject);

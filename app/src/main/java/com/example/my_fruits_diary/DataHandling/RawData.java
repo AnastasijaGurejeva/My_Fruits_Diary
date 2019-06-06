@@ -1,4 +1,4 @@
-package com.example.my_fruits_diary;
+package com.example.my_fruits_diary.DataHandling;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -18,7 +18,7 @@ import java.net.URL;
 enum DownloadStatus { IDLE, PROCESSING, NOT_INITIALISED, FAILED_OR_EMPTY, OK }
 
 class RawData extends AsyncTask<String, Void, String> {
-    private static final String TAG = "RawData";
+    private static final String TAG = "RawDataForEntries";
 
     private DownloadStatus mDownloadStatus;
     private final OnDownloadComplete mCallBack;

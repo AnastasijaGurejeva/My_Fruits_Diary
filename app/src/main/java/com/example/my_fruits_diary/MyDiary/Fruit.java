@@ -57,4 +57,5 @@ public class Fruit {
                 ", mImage'" + mImage + '\'' +
                 '}';
     }
+
 }
