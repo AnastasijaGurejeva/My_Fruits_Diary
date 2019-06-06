@@ -1,6 +1,5 @@
 package com.example.my_fruits_diary;
 
-import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,22 +10,9 @@ import com.example.my_fruits_diary.About.AboutFragment;
 import com.example.my_fruits_diary.MyDiary.EntryListFragment;
 import com.example.my_fruits_diary.MyDiary.Fruit;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
-
-public class MainActivity extends AppCompatActivity implements ParseJSON.OnDataAvailable {
+public class MainActivity extends AppCompatActivity implements FruitJSONParser.OnDataAvailable {
 
     public static final String TAG ="MainActivity";
     private SectionsPageAdapter mSectionsPageAdapter;
@@ -48,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements ParseJSON.OnDataA
         tabLayout.setupWithViewPager(mViewPager);
 
         Log.d(TAG, "onCreate: staring AsyncTask");
-//        GetRawData getRawData = new GetRawData(this);
+//        RawData getRawData = new RawData(this);
 //        getRawData.execute("https://fruitdiary.test.themobilelife.com/api/fruit");
 
     }
@@ -59,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements ParseJSON.OnDataA
         super.onResume();
         String baseUrl = "https://fruitdiary.test.themobilelife.com";
         String fruitAPI ="/api/fruit";
-        ParseJSON getJsondata = new ParseJSON(this, baseUrl + fruitAPI);
+        FruitJSONParser getJsondata = new FruitJSONParser(this, baseUrl + fruitAPI);
         getJsondata.execute();
 
     }

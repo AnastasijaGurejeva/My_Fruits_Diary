@@ -12,12 +12,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParseJSON extends AsyncTask<String, Void, List<Fruit>> implements GetRawData.OnDownloadComplete {
-    public static final String TAG = "ParseJSON";
+public class FruitJSONParser extends AsyncTask<String, Void, List<Fruit>> implements RawData.OnDownloadComplete {
+    public static final String TAG = "FruitJSONParser";
 
     private List<Fruit> mFruitsList = null;
     private final OnDataAvailable mCallBack;
-    private boolean runningOnSameThread;
     private String mUrl;
 
 
@@ -25,8 +24,8 @@ public class ParseJSON extends AsyncTask<String, Void, List<Fruit>> implements G
         void onDataAvailable (List<Fruit> data, DownloadStatus status);
     }
 
-    public ParseJSON(OnDataAvailable CallBack, String url) {
-        Log.d(TAG, "ParseJSON: called");
+    public FruitJSONParser(OnDataAvailable CallBack, String url) {
+        Log.d(TAG, "FruitJSONParser: called");
         mCallBack = CallBack;
         mUrl = url;
     }
@@ -44,8 +43,8 @@ public class ParseJSON extends AsyncTask<String, Void, List<Fruit>> implements G
     protected List<Fruit> doInBackground(String... params) {
         Log.d(TAG, "doInBackground: starts");
 
-        GetRawData getRawData = new GetRawData(this);
-        getRawData.fetchRawData(mUrl);
+        RawData rawData = new RawData(this);
+        rawData.fetchRawData(mUrl);
         return mFruitsList;
     }
 
@@ -63,16 +62,13 @@ public class ParseJSON extends AsyncTask<String, Void, List<Fruit>> implements G
                     int id = jsonFruit.getInt("id");
                     String type = jsonFruit.getString("type");
                     int vitamins = jsonFruit.getInt("vitamins");
-                    String imageUrl = jsonFruit.getString("image");
+                    String image = jsonFruit.getString("image");
 
 
-//                    String imageUrl = image.getString("m");
+                    Fruit fruitObject = new Fruit(id, type, vitamins, image);
+                    mFruitsList.add(fruitObject);
 
-//                    Fruit fruitObject = new Fruit(id, type, vitamins, imageUrl);
-//                    mFruitsList.add(fruitObject);
-
-                    //Log.d(TAG, "onDownloadComplete: " + fruitObject.toString());
-
+                    Log.d(TAG, "onDownloadComplete: " + fruitObject.toString());
                 }
             } catch (JSONException e) {
                 Log.e(TAG, "onDownloadComplete: " + e.getMessage());
@@ -81,7 +77,7 @@ public class ParseJSON extends AsyncTask<String, Void, List<Fruit>> implements G
             }
         }
 
-        if(runningOnSameThread && mCallBack != null) {
+        if(mCallBack != null) {
             mCallBack.onDataAvailable(mFruitsList, status);
         }
         Log.d(TAG, "onDownloadComplete: ends");

@@ -12,13 +12,13 @@ import java.net.URL;
 
 
 /**
- * Class to download JSON data from the web on separate thread
+ * Class to download raw data from the web on separate thread
  * author: Anastasij Gurejeva
  */
 enum DownloadStatus { IDLE, PROCESSING, NOT_INITIALISED, FAILED_OR_EMPTY, OK }
 
-class GetRawData extends AsyncTask<String, Void, String> {
-    private static final String TAG = "GetRawData";
+class RawData extends AsyncTask<String, Void, String> {
+    private static final String TAG = "RawData";
 
     private DownloadStatus mDownloadStatus;
     private final OnDownloadComplete mCallBack;
@@ -28,7 +28,7 @@ class GetRawData extends AsyncTask<String, Void, String> {
         void onDownloadComplete(String data, DownloadStatus status);
     }
 
-    public GetRawData(OnDownloadComplete mCallBack) {
+    public RawData(OnDownloadComplete mCallBack) {
         this.mCallBack = mCallBack;
         this.mDownloadStatus = DownloadStatus.IDLE;
     }
