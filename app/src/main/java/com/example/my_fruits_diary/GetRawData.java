@@ -10,30 +10,55 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+
 /**
  * Class to download JSON data from the web on separate thread
  * author: Anastasij Gurejeva
  */
+enum DownloadStatus { IDLE, PROCESSING, NOT_INITIALISED, FAILED_OR_EMPTY, OK }
 
 class GetRawData extends AsyncTask<String, Void, String> {
     private static final String TAG = "GetRawData";
 
-    @Override
-    protected void onPostExecute(String s) {
-        Log.d(TAG, "onPostExecute: parameter s is: " + s);
+    private DownloadStatus mDownloadStatus;
+    private final OnDownloadComplete mCallBack;
 
+
+    interface OnDownloadComplete {
+        void onDownloadComplete(String data, DownloadStatus status);
+    }
+
+    public GetRawData(OnDownloadComplete mCallBack) {
+        this.mCallBack = mCallBack;
+        this.mDownloadStatus = DownloadStatus.IDLE;
+    }
+
+    void fetchRawData(String s) {
+        Log.d(TAG, "fetchRawData: starts");
+        onPostExecute(download(s));
+        Log.d(TAG, "fetchRawData: ends");
     }
 
     @Override
-    protected String doInBackground(String... strings) {
-        Log.d(TAG, "doInBackground: starts with " + strings[0]);
+    protected void onPostExecute(String s) {
+        if(mCallBack != null) {
+            mCallBack.onDownloadComplete(s, mDownloadStatus);
+        }
+    }
+
+    private String download(String url) {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
 
-        try {
-            URL url = new URL(strings[0]);
+        if(url == null) {
+            mDownloadStatus = DownloadStatus.NOT_INITIALISED;
+            return null;
+        }
 
-            connection = (HttpURLConnection) url.openConnection();
+        try {
+            mDownloadStatus = DownloadStatus.PROCESSING;
+            URL link = new URL(url);
+            connection = (HttpURLConnection) link.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
             int response = connection.getResponseCode();
@@ -44,17 +69,16 @@ class GetRawData extends AsyncTask<String, Void, String> {
 
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 result.append(line).append("\n");
-                return result.toString();
             }
-            reader.close();
-
+            mDownloadStatus = DownloadStatus.OK;
+            return result.toString();
 
         } catch (MalformedURLException e) {
-            Log.e(TAG, "downloadXML: Invalid url " + e.getMessage());
+            Log.e(TAG, "download: Invalid url " + e.getMessage());
         } catch (IOException e) {
-            Log.e(TAG, "downloadXML: IO exception " + e.getMessage());
+            Log.e(TAG, "download: IO exception " + e.getMessage());
         } catch (SecurityException e) {
-            Log.e(TAG, "downloadXML: security needs permission" + e.getMessage());
+            Log.e(TAG, "download: security needs permission" + e.getMessage());
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -67,7 +91,15 @@ class GetRawData extends AsyncTask<String, Void, String> {
                 }
             }
         }
+        mDownloadStatus = DownloadStatus.FAILED_OR_EMPTY;
         return null;
     }
+
+    @Override
+    protected String doInBackground(String... strings) {
+        Log.d(TAG, "doInBackground: starts with " + strings[0]);
+        return download(strings[0]);
+    }
+
 
 }

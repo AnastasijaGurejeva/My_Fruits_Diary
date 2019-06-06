@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.example.my_fruits_diary.About.AboutFragment;
 import com.example.my_fruits_diary.MyDiary.EntryListFragment;
+import com.example.my_fruits_diary.MyDiary.Fruit;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,14 +22,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ParseJSON.OnDataAvailable {
 
     public static final String TAG ="MainActivity";
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,19 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         Log.d(TAG, "onCreate: staring AsyncTask");
-        GetRawData getRawData = new GetRawData();
-        getRawData.execute("https://fruitdiary.test.themobilelife.com/api/fruit");
+//        GetRawData getRawData = new GetRawData(this);
+//        getRawData.execute("https://fruitdiary.test.themobilelife.com/api/fruit");
+
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: starts");
+        super.onResume();
+        String baseUrl = "https://fruitdiary.test.themobilelife.com";
+        String fruitAPI ="/api/fruit";
+        ParseJSON getJsondata = new ParseJSON(this, baseUrl + fruitAPI);
+        getJsondata.execute();
 
     }
 
@@ -58,4 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onDataAvailable(List<Fruit> data, DownloadStatus status) {
+        if(status == DownloadStatus.OK) {
+            Log.d(TAG, "onDownloadComplete: data is " + data);
+        } else {
+            Log.e(TAG, "onDownloadComplete failed with status " + status);
+        }
+    }
 }
