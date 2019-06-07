@@ -85,9 +85,6 @@ public class EntriesJSONParser extends AsyncTask<String, Void, List<Entry>> impl
             }
         }
 
-        if(mCallBack != null) {
-            mCallBack.onEntryDataAvailable(mEntries, status);
-        }
         Log.d(TAG, "onDownloadComplete: ends");
     }
 }

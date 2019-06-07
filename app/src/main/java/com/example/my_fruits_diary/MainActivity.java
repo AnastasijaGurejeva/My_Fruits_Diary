@@ -8,14 +8,19 @@ import android.util.Log;
 
 import com.example.my_fruits_diary.About.AboutFragment;
 import com.example.my_fruits_diary.DataHandling.DataHandler;
+import com.example.my_fruits_diary.DataHandling.EntriesData;
+import com.example.my_fruits_diary.DataHandling.FruitsData;
 import com.example.my_fruits_diary.MyDiary.EntryListFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     public static final String TAG ="MainActivity";
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
-    private DataHandler dataHandler = new DataHandler();
+    private DataHandler mDataHandler = new DataHandler();
+    private FruitsData mFruitsData;
+    private EntriesData mEntriesData;
+
 
 
 
@@ -25,8 +30,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: Starting app");
 
+//        mFruitsData = new FruitsData();
+//        mFruitsData.addObserver(this);
+//        mFruitsData.getFruitData();
 
-            mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
             mViewPager = findViewById(R.id.container);
             setViewPager(mViewPager);
@@ -37,19 +45,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+//    @Override
+//    public void update(Observable o, Object data) {
+//
+//        Log.d(TAG, "UPDATED FROM OBSERVER");
+//
+//    }
+
     @Override
     protected void onResume() {
         Log.d(TAG, "onResume: starts");
         super.onResume();
-        dataHandler.downloadDataForAvailableEntries();
-        dataHandler.downloadDataForAvailableFruits();
+        mDataHandler.downloadDataForAvailableEntries();
+        mDataHandler.downloadDataForAvailableFruits();
     }
+
+
 
     private void setViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         EntryListFragment entryListFragment = new EntryListFragment();
-        entryListFragment.updateEntryData(dataHandler.passEntryData());
-        entryListFragment.updateData(dataHandler.passFruitData());
+        entryListFragment.setData(mDataHandler.getEntriesData());
+        entryListFragment.setFruitsData(mDataHandler.getFruitsData());
         adapter.addFragment(entryListFragment,"My Diary");
         adapter.addFragment(new AboutFragment(), "About");
         viewPager.setAdapter(adapter);

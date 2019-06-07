@@ -9,16 +9,14 @@ import java.util.List;
 
 public class DataHandler implements FruitJSONParser.OnDataAvailable, EntriesJSONParser.OnEntryDataAvailable {
     public static final String TAG = "DataHandler";
+    private FruitsData mFruitsData = new FruitsData();
+    private EntriesData mEntriesData = new EntriesData();
 
-    private List<Fruit> mFruits;
-    private List<Entry> mEntries;
-    private boolean flag = false;
 
     private static String availableFruitsUrl = "https://fruitdiary.test.themobilelife.com/api/fruit";
     private static String availableEntriesUrl = "https://fruitdiary.test.themobilelife.com/api/entries";
 
     public DataHandler() {
-
     }
 
     public void downloadDataForAvailableFruits() {
@@ -31,33 +29,30 @@ public class DataHandler implements FruitJSONParser.OnDataAvailable, EntriesJSON
         getJsonData.execute();
     }
 
-    public Boolean getFruitDownloadFlag() {
-        return flag;
-    }
-
-    public Boolean getEntriesDownloadFlag() {
-        return flag;
-    }
-
     @Override
     public void onDataAvailable(List<Fruit> data, DownloadStatus status) {
         if (status == DownloadStatus.OK) {
             Log.d(TAG, "onDownloadComplete: data is " + data);
-            mFruits = data;
-            flag = true;
-
+            mFruitsData.setData(data);
         } else {
             Log.e(TAG, "onDownloadComplete failed with status " + status);
-            flag = false;
         }
     }
 
-    public List<Entry> passEntryData() {
-        return mEntries;
+    /**
+     * Method passes Downloaded Entries Data to Main activity
+     */
+
+    public EntriesData getEntriesData() {
+        return mEntriesData;
     }
 
-    public List<Fruit> passFruitData() {
-        return mFruits;
+    /**
+     * Method passes Downloaded Fruit Data to Main activity
+     */
+
+    public FruitsData getFruitsData() {
+        return mFruitsData;
     }
 
 
@@ -65,12 +60,9 @@ public class DataHandler implements FruitJSONParser.OnDataAvailable, EntriesJSON
     public void onEntryDataAvailable(List<Entry> data, DownloadStatus status) {
         if (status == DownloadStatus.OK) {
             Log.d(TAG, "onDownloadComplete: data is " + data);
-            mEntries = data;
-            flag = true;
+            mEntriesData.setData(data);
         } else {
             Log.e(TAG, "onDownloadComplete failed with status " + status);
-            flag = false;
         }
     }
-
 }

@@ -77,10 +77,6 @@ public class FruitJSONParser extends AsyncTask<String, Void, List<Fruit>> implem
                 status = DownloadStatus.FAILED_OR_EMPTY;
             }
         }
-
-        if(mCallBack != null) {
-            mCallBack.onDataAvailable(mFruitsList, status);
-        }
         Log.d(TAG, "onDownloadComplete: ends");
     }
 }

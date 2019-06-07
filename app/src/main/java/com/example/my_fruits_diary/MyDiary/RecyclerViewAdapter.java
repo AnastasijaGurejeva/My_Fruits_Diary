@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,23 +22,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private static final String TAG = "RecyclerViewAdapter";
 
     private List<Entry> mEntries;
-
     private Context mContext;
     private OnEntryListener mOnEntryListener;
+    private int mTotalFruitAmount = 0;
+    private int mTotalVitaminsAmount = 0;
+    private String mDate;
 
 
     public RecyclerViewAdapter(List<Entry> mEntries,
                                Context mContext, OnEntryListener onEntryListener) {
 
-
         this.mContext = mContext;
         this.mOnEntryListener = onEntryListener;
     }
 
-
     /**
      * Method creates a Layout view for the Entry List
-     *
      * @param viewGroup
      * @param i
      * @return viewholder
@@ -54,6 +54,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     /**
      * Method pass Entry values to the view section
+     * Checks if data is uploaded, if not sets 0 values
      * @param viewHolder
      * @param i
      */
@@ -61,35 +62,39 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-
-        HashMap<Integer, Integer> eatenFruits = mEntries.get(i).getmEatenFruits();
-        Set<Integer> keys = eatenFruits.keySet();
-        Collection <Integer> values = eatenFruits.values();
-
-        int totalFruitAmount = 0;
-        int totalVitaminsAmount = 0;
-        for (Integer key : keys) {
-            totalFruitAmount += key;
+        if (mEntries != null && mEntries.size() != 0) {
+            mDate = mEntries.get(i).getDate();
+            HashMap<Integer, Integer> eatenFruits = mEntries.get(i).getmEatenFruits();
+            Set<Integer> keys = eatenFruits.keySet();
+            Collection<Integer> values = eatenFruits.values();
+            for (Integer key : keys) {
+                mTotalFruitAmount += key;
+            }
+            for (Integer value : values) {
+                mTotalVitaminsAmount += value;
+            }
         }
 
-        for (Integer value : values) {
-            totalVitaminsAmount += value;
-        }
+        viewHolder.fruitAmount.setText("Total Fruits: " + mTotalFruitAmount);
+        viewHolder.totalVitamins.setText("Total Vitamins: " + mTotalVitaminsAmount);
+        viewHolder.date.setText(mDate);
+    }
 
-        viewHolder.fruitAmount.setText("Total Fruits: " + totalFruitAmount);
-        viewHolder.totalVitamins.setText("Total Vitamins: " + totalVitaminsAmount);
-
-        viewHolder.date.setText(mEntries.get(i).getDate());
+    void loadNewData(List<Entry> newEntries) {
+        mEntries = newEntries;
+        Log.d(TAG, "loadNewData: " + mEntries);
+        notifyDataSetChanged();
     }
 
     /**
-     * Method returns size of the entryList
+     * Method returns size of the entryList, returns 1 if data is null or 0;
      */
 
     @Override
     public int getItemCount() {
-        return mEntries.size();
+        return ((mEntries != null) && (mEntries.size() !=0) ? mEntries.size() : 1);
     }
+
 
     /**
      * View Holder class initiates elements inside the Entry
@@ -118,7 +123,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View v) {
             onEntryListener.onEntryClick(getAdapterPosition());
-
         }
     }
 

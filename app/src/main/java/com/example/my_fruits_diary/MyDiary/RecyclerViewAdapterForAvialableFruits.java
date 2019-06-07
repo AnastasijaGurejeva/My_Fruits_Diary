@@ -22,6 +22,8 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
     private List<Fruit> mFruitList;
     private Context mContext;
     private OnEntryListener mOnEntryListener;
+    private String mFruitType;
+    private String mFruitVitamins;
 
 
     public RecyclerViewAdapterForAvialableFruits(List<Fruit> mFruitList, Context mContext,
@@ -58,30 +60,40 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        if (mFruitList != null && mFruitList.size() != 0) {
+            viewHolder.fruitType.setText(mFruitList.get(i).getType());
+            viewHolder.vitamins.setText(String.valueOf(mFruitList.get(i).getVitamins()));
 
-        viewHolder.fruitType.setText(mFruitList.get(i).getType());
-        viewHolder.vitamins.setText(String.valueOf(mFruitList.get(i).getVitamins()));
+            // Picasso Third party library which helps to download images from web
+            Log.d(TAG, "onBindViewHolder: Link for picasso: " + mFruitList.get(i).getImage());
+            Picasso.get()
+                    .load(mFruitList.get(i).getImage())
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
+                    .into(viewHolder.fruitImage);
+        } else {
+            viewHolder.fruitType.setText(mFruitType);
+            viewHolder.vitamins.setText(mFruitVitamins);
+            viewHolder.fruitImage.setImageResource(R.drawable.placeholder);
+        }
+    }
 
-        // Picasso Third party library which helps to download images from web
-        Log.d(TAG, "onBindViewHolder: Link for picasso: " + mFruitList.get(i).getImage());
-        Picasso.get()
-                .load(mFruitList.get(i).getImage())
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.placeholder)
-                .into(viewHolder.fruitImage);
 
+    void loadNewData(List<Fruit> newFruits) {
+        mFruitList = newFruits;
+        Log.d(TAG, "loadNewData: " + newFruits.toString());
+        notifyDataSetChanged();
     }
 
 
     /**
-     * Method returns size of the entryList
+     * Method returns size of the entryList; returns 1 if data is 0 or null
      */
 
     @Override
     public int getItemCount() {
-        return mFruitList.size();
+        return ((mFruitList != null) && (mFruitList.size() !=0) ? mFruitList.size() : 1);
     }
-
     /**
      * View Holder class initiates elements inside the Entry
      */
