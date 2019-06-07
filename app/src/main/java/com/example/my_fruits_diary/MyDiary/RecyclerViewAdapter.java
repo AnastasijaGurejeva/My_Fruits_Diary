@@ -15,7 +15,6 @@ import com.example.my_fruits_diary.R;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -23,17 +22,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<Entry> mEntries;
     private Context mContext;
-    private OnEntryListener mOnEntryListener;
+    private View.OnClickListener mOnEntryListener;
     private int mTotalFruitAmount = 0;
     private int mTotalVitaminsAmount = 0;
     private String mDate;
 
 
     public RecyclerViewAdapter(List<Entry> mEntries,
-                               Context mContext, OnEntryListener onEntryListener) {
+                               Context mContext) {
 
         this.mContext = mContext;
-        this.mOnEntryListener = onEntryListener;
+
     }
 
     /**
@@ -48,7 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_layout, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(view, mOnEntryListener);
+        ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
@@ -65,19 +64,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (mEntries != null && mEntries.size() != 0) {
             mDate = mEntries.get(i).getDate();
             HashMap<Integer, Integer> eatenFruits = mEntries.get(i).getmEatenFruits();
-            Set<Integer> keys = eatenFruits.keySet();
-            Collection<Integer> values = eatenFruits.values();
-            for (Integer key : keys) {
-                mTotalFruitAmount += key;
-            }
-            for (Integer value : values) {
-                mTotalVitaminsAmount += value;
+            mTotalFruitAmount = eatenFruits.size();
+            if (eatenFruits.size() != 0) {
+                Collection<Integer> values = eatenFruits.values();
+                for (Integer value : values) {
+                    mTotalVitaminsAmount += value;
+                }
+            } else {
+                mTotalVitaminsAmount = 0;
             }
         }
 
         viewHolder.fruitAmount.setText("Total Fruits: " + mTotalFruitAmount);
         viewHolder.totalVitamins.setText("Total Vitamins: " + mTotalVitaminsAmount);
         viewHolder.date.setText(mDate);
+
     }
 
     void loadNewData(List<Entry> newEntries) {
@@ -100,33 +101,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      * View Holder class initiates elements inside the Entry
      */
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
         TextView fruitAmount;
         TextView totalVitamins;
         TextView date;
-        OnEntryListener onEntryListener;
 
-        public ViewHolder(@NonNull View itemView, OnEntryListener onEntryListener) {
+
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             cardView =itemView.findViewById(R.id.listItem_view);
             fruitAmount = itemView.findViewById(R.id.fruitAmount);
             totalVitamins = itemView.findViewById(R.id.totalVitamins);
-            date = itemView.findViewById(R.id.date);
-            this.onEntryListener = onEntryListener;
-
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            onEntryListener.onEntryClick(getAdapterPosition());
-        }
+            date = itemView.findViewById(R.id.date_entryFr);
+            itemView.setTag(this);
+            itemView.setOnClickListener(mOnEntryListener);
     }
 
-    public interface OnEntryListener {
-        void onEntryClick(int position);
+
+    }
+
+    public void setOnEntryListener (View.OnClickListener itemClickListener) {
+        mOnEntryListener = itemClickListener;
     }
 }

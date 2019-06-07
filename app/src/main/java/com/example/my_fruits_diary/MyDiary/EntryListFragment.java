@@ -25,7 +25,7 @@ import java.util.Observer;
  * Created 5/06/2019
  * Author: Anastasija Gurejeva
  */
-public class EntryListFragment extends Fragment implements RecyclerViewAdapter.OnEntryListener, Observer {
+public class EntryListFragment extends Fragment implements Observer {
     private static final String TAG = "EntryListFragment";
 
     protected ArrayList<Integer> mEntryId = new ArrayList<>();
@@ -41,6 +41,21 @@ public class EntryListFragment extends Fragment implements RecyclerViewAdapter.O
     private List<Entry> mEntries;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
+            int position = viewHolder.getAdapterPosition();
+            Log.d(TAG, "onClick: clicked position " + position);
+            DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
+            detailedEntryFragment.dataPassed(position, mEntriesData);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_fragment, detailedEntryFragment)
+                    .commit();
+        }
+    };
+
 
     public EntryListFragment() {
     }
@@ -58,9 +73,10 @@ public class EntryListFragment extends Fragment implements RecyclerViewAdapter.O
         Log.d(TAG, "onCreateView: setting layout manager");
         recyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new RecyclerViewAdapter(mEntries, getActivity(), this);
+        mAdapter = new RecyclerViewAdapter(mEntries, getActivity());
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter.setOnEntryListener(onItemClickListener);
 
         activateOnAddNewFruit();
         return view;
@@ -77,27 +93,6 @@ public class EntryListFragment extends Fragment implements RecyclerViewAdapter.O
     public void update(Observable o, Object data) {
         mAdapter.loadNewData((List<Entry>) data);
         Log.d(TAG, "UPDATED FROM OBSERVER " + data.toString());
-    }
-
-
-
-
-    @Override
-    public void onEntryClick(int position) {
-        Log.d(TAG, "onEntryClick: clicked : " + position);
-        id = mEntryId.get(position);
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.replace(R.id.frame_wish_fragment, new WishFragment());
-//        index = position;
-//        ft.commit();
-
-        DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
-      //  detailedEntryFragment.
-
-                getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_fragment, detailedEntryFragment)
-                .commit();
     }
 
     public void setFruitsData(FruitsData fruitsData) {
