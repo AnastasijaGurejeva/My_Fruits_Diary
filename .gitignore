@@ -42,3 +42,8 @@ project.properties
 ##Gradle-based build
 .gradle
 build/
+gradle/
+build.gradle
+gradle.properties
+gradlew.bat
+settings.gradle
