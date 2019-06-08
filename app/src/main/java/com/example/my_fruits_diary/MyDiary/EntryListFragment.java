@@ -104,6 +104,7 @@ public class EntryListFragment extends Fragment implements Observer {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onAddEntry: activated");
+                onAddNewEntry.hide();
                 AddFruitFragment addFruitFragment = new AddFruitFragment();
 
                 addFruitFragment.updateFruitsData(mFruitsData, mEntriesData);

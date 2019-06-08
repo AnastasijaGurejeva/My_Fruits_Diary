@@ -17,14 +17,13 @@ import java.net.URL;
 
 enum PostStatus { IDLE, PROCESSING, NOT_INITIALISED, FAILED, OK }
 
-
 public class PostJSONData extends AsyncTask<String, Void, String> {
 
 
     private static final String TAG = "PostJSONData";
     private PostStatus mPostStatus;
     private final OnPostComplete mCallBack;
-    private final String url = "https://fruitdiary.test.themobilelife.com/api/entries";
+
 
     interface OnPostComplete {
         void onPostComplete(String data, PostStatus status);
@@ -36,10 +35,10 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
 
     }
 
-    void postData(String s) {
-        Log.d(TAG, "posting: starts");
-        onPostExecute(postJSONData(s));
-        Log.d(TAG, "posting: ends");
+    void postData(String date, String url) {
+        Log.d(TAG, "posting: starts " + date + "" + url);
+        onPostExecute(postJSONData(date, url));
+        Log.d(TAG, "posting: ends ");
     }
 
     @Override
@@ -49,12 +48,11 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
         }
     }
 
-    public String postJSONData(String date) {
+    public String postJSONData(String date, String url) {
 
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         InputStream inputStream = null;
-
         if(url == null) {
           mPostStatus = PostStatus.NOT_INITIALISED;
             return null;
@@ -64,7 +62,6 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
             mPostStatus = PostStatus.PROCESSING;
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("date", date);
-//
 
             URL link = new URL(url);
             connection = (HttpURLConnection) link.openConnection();
@@ -94,9 +91,9 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
 
             mPostStatus = PostStatus.OK;
         } catch (MalformedURLException e) {
-            Log.e(TAG, "download: Invalid url " + e.getMessage());
+            Log.e(TAG, "posting: Invalid url " + e.getMessage());
         } catch (IOException e) {
-            Log.e(TAG, "download: IO exception " + e.getMessage());
+            Log.e(TAG, "posting: IO exception " + e.getMessage());
         } catch (JSONException e) {
             e.printStackTrace();
         } finally {
@@ -114,10 +111,11 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
         mPostStatus = PostStatus.FAILED;
         return null;
     }
+
     @Override
     protected String doInBackground(String... strings) {
-        Log.d(TAG, "doInBackground: starts with " + strings[0]);
-        return postJSONData(strings[0]);
+        Log.d(TAG, "doInBackground: starts with " + strings[0] + strings[1]);
+        return postJSONData(strings[0], strings[1]);
     }
 }
 

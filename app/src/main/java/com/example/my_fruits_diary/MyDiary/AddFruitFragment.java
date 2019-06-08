@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
-import com.example.my_fruits_diary.DataHandling.PostHandler;
+import com.example.my_fruits_diary.DataHandling.PostCaller;
 import com.example.my_fruits_diary.R;
 
 import java.util.Calendar;
@@ -32,7 +34,14 @@ public class AddFruitFragment extends Fragment
     private EntriesData mEntriesData;
     private TextView setEntryDate;
     private String mSelectedDate;
-    private final String url ="https://fruitdiary.test.themobilelife.com/api/entries";
+    private int mSelectedEntryID;
+    private int mSelectedFruitId;
+    private String mSelectedAmount;
+    private Button mSaveEntry;
+    private TextView mSelectFruit;
+    private EditText mSelectAmount;
+    private PostCaller postCaller = new PostCaller();
+    private final String url = "https://fruitdiary.test.themobilelife.com/api/entries";
 
 
     public AddFruitFragment() {
@@ -57,10 +66,9 @@ public class AddFruitFragment extends Fragment
 
                     @Override
                     public void onDateSet(android.widget.DatePicker v, int year, int month, int day) {
-                        calendar.set(year, month , day);
-                        mSelectedDate = ( new SimpleDateFormat("yyyy-MM-DD").format(calendar.getTime()));
+                        calendar.set(year, month, day-151);
+                        mSelectedDate = (new SimpleDateFormat("yyyy-MM-DD").format(calendar.getTime()));
                         setEntryDate.setText(mSelectedDate);
-                        createEntry();
                         Log.d(TAG, "onDateSet: " + mSelectedDate);
                     }
                 }, yy, mm, dd);
@@ -69,12 +77,17 @@ public class AddFruitFragment extends Fragment
             }
         });
 
+        mSelectFruit = view.findViewById(R.id.selectFruit);
+        mSelectAmount = view.findViewById(R.id.selectAmount);
+        mSaveEntry = view.findViewById(R.id.saveEntry);
+        mSelectedAmount = mSelectAmount.getText().toString().trim();
 
         RecyclerView recyclerView = view.findViewById(R.id.frame_availavleFruits);
-
         mAdapterForFruits = new RecyclerViewAdapterForAvialableFruits(mFruitList, getActivity(), this);
         recyclerView.setAdapter(mAdapterForFruits);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        onOkClickActivated();
         return view;
     }
 
@@ -98,16 +111,30 @@ public class AddFruitFragment extends Fragment
     public void onEntryClick(int position) {
         Log.d(TAG, "onEntryClick: clicked : " + position);
         List<Entry> entries = mEntriesData.getEntriesData();
+        Fruit fruit = mFruitList.get(position);
+        mSelectedFruitId = fruit.getID();
+        mSelectFruit.setText(fruit.getType());
 
-        //add to th entry
 
     }
 
-    public void createEntry() {
-        PostHandler postHandler = new PostHandler("2019-06-10");
-        postHandler.postNewEntry();
+    public void onOkClickActivated() {
+        mSaveEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onOkClick: activated");
+                postCaller.postNewEntry(mSelectedDate);
+                List<Entry> entries = mEntriesData.getEntriesData();
+                for (int i = 0; i < entries.size(); i++) {
+                    if (mSelectedDate.equals(entries.get(i).getDate())) {
+                        mSelectedEntryID = (entries.get(i).getEntryId());
+                        break;
+                    }
+                }
+                postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
+            }
+        });
     }
-
 
 
 }

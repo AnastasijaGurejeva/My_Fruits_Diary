@@ -7,23 +7,23 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/imageFrame"
-        android:layout_width="66dp"
-        android:layout_height="66dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:backgroundTint="?attr/colorAccent"
         android:elevation="12dp"
-        app:cardCornerRadius="33dp"
+        app:cardCornerRadius="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.CardView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
             android:elevation="12dp"
-            app:cardCornerRadius="30dp">
+            app:cardCornerRadius="28dp">
 
             <ImageView
                 android:id="@+id/fruit_image"
@@ -38,12 +38,14 @@
         android:id="@+id/text_fruitType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:textAlignment="textStart"
+        android:textAllCaps="true"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageFrame"
         app:layout_constraintEnd_toStartOf="@+id/text_Vitamins"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@+id/imageFrame"
         app:layout_constraintTop_toTopOf="@+id/imageFrame" />
 
@@ -51,12 +53,10 @@
         android:id="@+id/text_Vitamins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
         android:textAlignment="textStart"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_fruitType"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/text_fruitType"
         app:layout_constraintTop_toTopOf="@+id/text_fruitType" />
 </android.support.constraint.ConstraintLayout>
