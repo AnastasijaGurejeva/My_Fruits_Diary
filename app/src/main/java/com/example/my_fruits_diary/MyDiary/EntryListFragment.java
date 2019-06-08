@@ -78,7 +78,7 @@ public class EntryListFragment extends Fragment implements Observer {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.setOnEntryListener(onItemClickListener);
 
-        activateOnAddNewFruit();
+        activateOnAddNewEntry();
         return view;
     }
 
@@ -99,22 +99,23 @@ public class EntryListFragment extends Fragment implements Observer {
         mFruitsData = fruitsData;
     }
 
-    public void activateOnAddNewFruit() {
-       onAddNewEntry.setOnClickListener(new View.OnClickListener() {
+    public void activateOnAddNewEntry() {
+        onAddNewEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onAddEntry: activated");
+                onAddNewEntry.hide();
                 AddFruitFragment addFruitFragment = new AddFruitFragment();
 
-                addFruitFragment.updateFruitsData(mFruitsData);
+                addFruitFragment.updateFruitsData(mFruitsData, mEntriesData);
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame_new_entry, addFruitFragment)
+                        .replace(R.id.frame_fragment, addFruitFragment)
                         .commit();
-
-            }
+                }
         });
     }
+
 
 
 }
