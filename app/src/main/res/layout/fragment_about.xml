@@ -9,24 +9,24 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
-        android:id="@+id/titleAbout"
+        android:id="@+id/title_about"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:gravity="center"
         android:text="About My Fruit Diary"
-        app:layout_constraintBottom_toTopOf="@+id/textAbout"
+        app:layout_constraintBottom_toTopOf="@+id/text_about"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textAbout"
+        android:id="@+id/text_about"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleAbout" />
+        app:layout_constraintTop_toBottomOf="@+id/title_about" />
 
 
 </android.support.constraint.ConstraintLayout>

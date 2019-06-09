@@ -1,5 +1,6 @@
 package com.example.my_fruits_diary.MyDiary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
 import com.example.my_fruits_diary.DataHandling.PostCaller;
+import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.R;
 
 import java.util.List;
@@ -38,12 +40,10 @@ public class AddFruitFragment extends Fragment
     private TextView mSelectFruit;
     private EditText mSelectAmount;
     private PostCaller postCaller = new PostCaller();
-    public static final int REQUEST_CODE = 11;
-
+    private boolean isIdReceived;
 
     public AddFruitFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,12 +51,12 @@ public class AddFruitFragment extends Fragment
 
         View view = inflater.inflate(R.layout.fragment_add_fruit, container, false);
 
-        mSelectFruit = view.findViewById(R.id.selectFruit);
-        mSelectAmount = view.findViewById(R.id.selectAmount);
-        mSaveEntry = view.findViewById(R.id.saveEntry);
+        mSelectFruit = view.findViewById(R.id.select_fruit);
+        mSelectAmount = view.findViewById(R.id.select_amount);
+        mSaveEntry = view.findViewById(R.id.save_entry);
         mSelectedAmount = mSelectAmount.getText().toString().trim();
 
-        RecyclerView recyclerView = view.findViewById(R.id.frame_availavleFruits);
+        RecyclerView recyclerView = view.findViewById(R.id.frame_availavle_fruits);
         mAdapterForFruits = new RecyclerViewAdapterForAvialableFruits(mFruitList, getActivity(), this);
         recyclerView.setAdapter(mAdapterForFruits);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -75,10 +75,6 @@ public class AddFruitFragment extends Fragment
         Log.d(TAG, "setData: observer added for Fruit list");
     }
 
-    public void updateSelectedDate(String selectedDate) {
-        mSelectedDate = selectedDate;
-    }
-
     @Override
     public void update(Observable o, Object data) {
         mAdapterForFruits.loadNewData((List<Fruit>) data);
@@ -94,27 +90,24 @@ public class AddFruitFragment extends Fragment
         mSelectFruit.setText(fruit.getType());
     }
 
+    public void onPassId(int id) {
+        mSelectedEntryID = id;
+    }
+
     public void onOkClickActivated() {
         mSaveEntry.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onOkClick: activated");
-                List<Entry> entries = mEntriesData.getEntriesData();
-                for (int i = 0; i < entries.size(); i++) {
-                    if (mSelectedDate.equals(entries.get(i).getDate())) {
-                        mSelectedEntryID = (entries.get(i).getEntryId());
-                        //postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
-                        Log.d(TAG, "onClick: selected ID in the loop" + mSelectedEntryID);
-                        break;
+                mSelectedAmount = mSelectAmount.getText().toString().trim();
+                Log.d(TAG, "onClick: amount is " + mSelectedAmount);
+
+                if (mSelectedEntryID != 0) {
+                        postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
                     }
-                    Log.d(TAG, "onClick: IDafter the loop " + mSelectedEntryID);
-                }
-                postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }
-
-
 }

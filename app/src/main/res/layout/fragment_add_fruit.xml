@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@android:color/white"
     tools:context=".MyDiary.AddFruitFragment">
 
 
     <TextView
-        android:id="@+id/selectFruit"
+        android:id="@+id/select_fruit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -19,13 +19,13 @@
         android:textAllCaps="true"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/selectAmount"
+        app:layout_constraintEnd_toStartOf="@id/select_amount"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/selectAmount"
+        android:id="@+id/select_amount"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -35,12 +35,12 @@
         android:inputType="number"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@id/saveEntry"
-        app:layout_constraintStart_toEndOf="@+id/selectFruit"
+        app:layout_constraintEnd_toStartOf="@id/save_entry"
+        app:layout_constraintStart_toEndOf="@+id/select_fruit"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/frame_availavleFruits"
+        android:id="@+id/frame_availavle_fruits"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -50,10 +50,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveEntry" />
+        app:layout_constraintTop_toBottomOf="@+id/save_entry" />
 
     <Button
-        android:id="@+id/saveEntry"
+        android:id="@+id/save_entry"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -62,7 +62,7 @@
         android:text="Ok"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/selectAmount"
+        app:layout_constraintStart_toEndOf="@+id/select_amount"
         app:layout_constraintTop_toTopOf="parent" />
 
 

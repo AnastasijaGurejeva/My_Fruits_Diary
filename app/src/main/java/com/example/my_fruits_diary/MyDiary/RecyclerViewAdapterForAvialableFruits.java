@@ -108,8 +108,8 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
         public ViewHolder(@NonNull View itemView, OnEntryListener onEntryListener) {
             super(itemView);
 
-            fruitType= itemView.findViewById(R.id.text_fruitType);
-            vitamins = itemView.findViewById(R.id.text_Vitamins);
+            fruitType= itemView.findViewById(R.id.text_fruit_type);
+            vitamins = itemView.findViewById(R.id.text_vitamins);
             fruitImage = itemView.findViewById(R.id.fruit_image);
             this.onEntryListener = onEntryListener;
 

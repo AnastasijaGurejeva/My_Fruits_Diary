@@ -20,6 +20,9 @@ import com.example.my_fruits_diary.DataHandling.FruitsData;
 import com.example.my_fruits_diary.DataHandling.PostCaller;
 import com.example.my_fruits_diary.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -30,14 +33,13 @@ import java.util.Observer;
  * Created 5/06/2019
  * Author: Anastasija Gurejeva
  */
-public class EntryListFragment extends Fragment implements Observer {
+public class EntryListFragment extends Fragment implements Observer, OnPostDataReceivedListener {
     private static final String TAG = "EntryListFragment";
 
     protected ArrayList<Integer> mEntryId = new ArrayList<>();
     private ArrayList<Integer> mFruitAmount = new ArrayList<>();
     private ArrayList<Integer> mTotalVitamins = new ArrayList<>();
     private ArrayList<String> mDate = new ArrayList<>();
-
     protected int id;
     private FloatingActionButton onAddNewEntry;
     private FruitsData mFruitsData;
@@ -46,9 +48,12 @@ public class EntryListFragment extends Fragment implements Observer {
     private List<Entry> mEntries;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    public static final int REQUEST_CODE = 11;
+    public static final int REQUEST_CODE = 1;
     private AddFruitFragment addFruitFragment;
     private String mSelectedDate;
+    private int mSelectedEntryID;
+    private boolean flag = false;
+    private PostCaller postCaller = new PostCaller();
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
@@ -101,11 +106,33 @@ public class EntryListFragment extends Fragment implements Observer {
     @Override
     public void update(Observable o, Object data) {
         mAdapter.loadNewData((List<Entry>) data);
-        Log.d(TAG, "UPDATED FROM OBSERVER " + data.toString());
     }
 
     public void setFruitsData(FruitsData fruitsData) {
         mFruitsData = fruitsData;
+    }
+
+    @Override
+    public void onReceived(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            mSelectedEntryID = (Integer) jsonObject.get("id");
+            Log.d(TAG, "onReceived: id " + mSelectedEntryID);
+            addFruitFragment = new AddFruitFragment();
+            addFruitFragment.updateFruitsData(mFruitsData, mEntriesData);
+            if (mSelectedEntryID != 0) {
+                postCaller.removeOnPostDataReceivedListener(this);
+                Log.d(TAG, "onReceived: starting addfruit fragment " + mSelectedEntryID);
+                addFruitFragment.onPassId(mSelectedEntryID);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_fragment, addFruitFragment)
+                        .commit();
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "onReceived: id is" + e.getMessage());
+
+        }
     }
 
 
@@ -114,45 +141,27 @@ public class EntryListFragment extends Fragment implements Observer {
             @Override
             public void onClick(View v) {
                 onAddNewEntry.hide();
-
                 DialogFragment datePickerFragment = new DatePickerFragment();
                 datePickerFragment.setTargetFragment(EntryListFragment.this, REQUEST_CODE);
                 datePickerFragment.show(getFragmentManager(), "datePicker");
-
-                addFruitFragment = new AddFruitFragment();
-                addFruitFragment.updateFruitsData(mFruitsData, mEntriesData);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame_fragment, addFruitFragment)
-                        .commit();
-            }
+                }
         });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // check for the results
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             mSelectedDate = data.getStringExtra("selectedDate");
             Log.d(TAG, "onActivityResult: selected date " + mSelectedDate);
-            PostCaller postCaller = new PostCaller();
+            postCaller.setOnPostDataReceivedListener(this);
             postCaller.postNewEntry(mSelectedDate);
-            addFruitFragment.updateSelectedDate(mSelectedDate);
-
-
-            // set the value of the editText
-            //dateOfBirthET.setText(selectedDate);
         }
     }
+
 }
 
-//       mSelectedDate = sb.toString();
-//        List<Entry> entries = mData.getEntriesData();
-//        for (int i = 0; i < entries.size(); i++) {
-//            if (mSelectedDate.equals(entries.get(i).getDate())) {
-//                Log.d(TAG, "onDateSet: date exists");
-//                Toast.makeText(getActivity(), "Date already exists, pick a new date",
-//                        Toast.LENGTH_LONG).show();
+
+
 
 
 

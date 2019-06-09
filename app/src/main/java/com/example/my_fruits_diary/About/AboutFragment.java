@@ -29,8 +29,8 @@ public class AboutFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about, container, false);
-        TextView title = view.findViewById(R.id.titleAbout);
-        TextView textAbout = view.findViewById(R.id.textAbout);
+        TextView title = view.findViewById(R.id.title_about);
+        TextView textAbout = view.findViewById(R.id.text_about);
         return view;
     }
 

@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/date_entryFr"
+        android:id="@+id/date_entry_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,15 +19,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/totalFruits_entryFr"
+        android:id="@+id/total_fruits_entry_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_entryFr" />
+        app:layout_constraintTop_toBottomOf="@+id/date_entry_fragment" />
 
     <TextView
-        android:id="@+id/totalVitamins_entryFr"
+        android:id="@+id/total_vitamins_entryFr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -35,6 +35,6 @@
         android:layout_marginBottom="658dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalFruits_entryFr" />
+        app:layout_constraintTop_toBottomOf="@+id/total_fruits_entry_fragment" />
 
 </android.support.constraint.ConstraintLayout>

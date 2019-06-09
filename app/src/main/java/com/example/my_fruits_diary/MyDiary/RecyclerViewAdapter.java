@@ -113,9 +113,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
 
             cardView =itemView.findViewById(R.id.listItem_view);
-            fruitAmount = itemView.findViewById(R.id.fruitAmount);
-            totalVitamins = itemView.findViewById(R.id.totalVitamins);
-            date = itemView.findViewById(R.id.date_entryFr);
+            fruitAmount = itemView.findViewById(R.id.fruit_amount);
+            totalVitamins = itemView.findViewById(R.id.total_vitamins);
+            date = itemView.findViewById(R.id.date_entry_fragment);
             itemView.setTag(this);
             itemView.setOnClickListener(mOnEntryListener);
     }
