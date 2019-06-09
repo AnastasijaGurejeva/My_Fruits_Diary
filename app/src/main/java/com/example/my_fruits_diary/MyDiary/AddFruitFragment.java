@@ -38,12 +38,10 @@ public class AddFruitFragment extends Fragment
     private TextView mSelectFruit;
     private EditText mSelectAmount;
     private PostCaller postCaller = new PostCaller();
-    public static final int REQUEST_CODE = 11;
-
+    private boolean isIdReceived;
 
     public AddFruitFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,10 +73,6 @@ public class AddFruitFragment extends Fragment
         Log.d(TAG, "setData: observer added for Fruit list");
     }
 
-    public void updateSelectedDate(String selectedDate) {
-        mSelectedDate = selectedDate;
-    }
-
     @Override
     public void update(Observable o, Object data) {
         mAdapterForFruits.loadNewData((List<Fruit>) data);
@@ -94,27 +88,20 @@ public class AddFruitFragment extends Fragment
         mSelectFruit.setText(fruit.getType());
     }
 
+    public void onPassId(int id) {
+        mSelectedEntryID = id;
+    }
+
     public void onOkClickActivated() {
         mSaveEntry.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onOkClick: activated");
-                List<Entry> entries = mEntriesData.getEntriesData();
-                for (int i = 0; i < entries.size(); i++) {
-                    if (mSelectedDate.equals(entries.get(i).getDate())) {
-                        mSelectedEntryID = (entries.get(i).getEntryId());
-                        //postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
-                        Log.d(TAG, "onClick: selected ID in the loop" + mSelectedEntryID);
-                        break;
+                    if (mSelectedEntryID != 0) {
+                        postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
                     }
-                    Log.d(TAG, "onClick: IDafter the loop " + mSelectedEntryID);
-                }
-                postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
+              getActivity().onBackPressed();
             }
         });
     }
-
-
 }

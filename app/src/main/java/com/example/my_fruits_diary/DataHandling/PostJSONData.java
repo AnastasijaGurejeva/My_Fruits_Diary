@@ -19,11 +19,9 @@ enum PostStatus { IDLE, PROCESSING, NOT_INITIALISED, FAILED, OK }
 
 public class PostJSONData extends AsyncTask<String, Void, String> {
 
-
     private static final String TAG = "PostJSONData";
     private PostStatus mPostStatus;
     private final OnPostComplete mCallBack;
-
 
     interface OnPostComplete {
         void onPostComplete(String data, PostStatus status);
@@ -32,7 +30,6 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
     public PostJSONData(OnPostComplete mCallBack) {
         this.mCallBack = mCallBack;
         this.mPostStatus = PostStatus.IDLE;
-
     }
 
     void postData(String date, String url) {
@@ -49,7 +46,6 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
     }
 
     public String postJSONData(String date, String url) {
-
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         InputStream inputStream = null;
@@ -70,7 +66,6 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
             connection.setRequestProperty("Content-Type", "application/json");
             connection.connect();
 
-
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
             wr.writeBytes(jsonObject.toString());
             wr.flush();
@@ -80,6 +75,7 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
             reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder sb = new StringBuilder();
             String line ;
+
             try {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line + "\n");
@@ -88,8 +84,9 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
                 Log.e(TAG, "doInBackground: IOException" + e.getMessage() );
                 e.printStackTrace();
             }
-
             mPostStatus = PostStatus.OK;
+            return sb.toString();
+
         } catch (MalformedURLException e) {
             Log.e(TAG, "posting: Invalid url " + e.getMessage());
         } catch (IOException e) {
