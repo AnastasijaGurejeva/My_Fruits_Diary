@@ -1,8 +1,11 @@
 package com.example.my_fruits_diary.MyDiary;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.my_fruits_diary.DataHandling.DatePickerFragment;
 import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
+import com.example.my_fruits_diary.DataHandling.PostCaller;
 import com.example.my_fruits_diary.R;
 
 import java.util.ArrayList;
@@ -41,6 +46,10 @@ public class EntryListFragment extends Fragment implements Observer {
     private List<Entry> mEntries;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    public static final int REQUEST_CODE = 11;
+    private AddFruitFragment addFruitFragment;
+    private String mSelectedDate;
+
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -99,23 +108,53 @@ public class EntryListFragment extends Fragment implements Observer {
         mFruitsData = fruitsData;
     }
 
+
     public void activateOnAddNewEntry() {
         onAddNewEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onAddEntry: activated");
                 onAddNewEntry.hide();
-                AddFruitFragment addFruitFragment = new AddFruitFragment();
 
+                DialogFragment datePickerFragment = new DatePickerFragment();
+                datePickerFragment.setTargetFragment(EntryListFragment.this, REQUEST_CODE);
+                datePickerFragment.show(getFragmentManager(), "datePicker");
+
+                addFruitFragment = new AddFruitFragment();
                 addFruitFragment.updateFruitsData(mFruitsData, mEntriesData);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame_fragment, addFruitFragment)
                         .commit();
-                }
+            }
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // check for the results
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            mSelectedDate = data.getStringExtra("selectedDate");
+            Log.d(TAG, "onActivityResult: selected date " + mSelectedDate);
+            PostCaller postCaller = new PostCaller();
+            postCaller.postNewEntry(mSelectedDate);
+            addFruitFragment.updateSelectedDate(mSelectedDate);
 
 
+            // set the value of the editText
+            //dateOfBirthET.setText(selectedDate);
+        }
+    }
 }
+
+//       mSelectedDate = sb.toString();
+//        List<Entry> entries = mData.getEntriesData();
+//        for (int i = 0; i < entries.size(); i++) {
+//            if (mSelectedDate.equals(entries.get(i).getDate())) {
+//                Log.d(TAG, "onDateSet: date exists");
+//                Toast.makeText(getActivity(), "Date already exists, pick a new date",
+//                        Toast.LENGTH_LONG).show();
+
+
+
+
+
