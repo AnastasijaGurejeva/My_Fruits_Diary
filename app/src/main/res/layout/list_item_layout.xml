@@ -31,7 +31,7 @@
             android:layout_marginBottom="5dp">
 
             <TextView
-                android:id="@+id/totalVitamins"
+                android:id="@+id/total_vitamins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -42,10 +42,10 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fruitAmount" />
+                app:layout_constraintTop_toBottomOf="@+id/fruit_amount" />
 
             <TextView
-                android:id="@+id/fruitAmount"
+                android:id="@+id/fruit_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
@@ -57,7 +57,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/date_entryFr"
+                android:id="@+id/date_entry_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

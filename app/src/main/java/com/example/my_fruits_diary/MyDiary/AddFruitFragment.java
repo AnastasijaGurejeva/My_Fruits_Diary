@@ -51,12 +51,12 @@ public class AddFruitFragment extends Fragment
 
         View view = inflater.inflate(R.layout.fragment_add_fruit, container, false);
 
-        mSelectFruit = view.findViewById(R.id.selectFruit);
-        mSelectAmount = view.findViewById(R.id.selectAmount);
-        mSaveEntry = view.findViewById(R.id.saveEntry);
+        mSelectFruit = view.findViewById(R.id.select_fruit);
+        mSelectAmount = view.findViewById(R.id.select_amount);
+        mSaveEntry = view.findViewById(R.id.save_entry);
         mSelectedAmount = mSelectAmount.getText().toString().trim();
 
-        RecyclerView recyclerView = view.findViewById(R.id.frame_availavleFruits);
+        RecyclerView recyclerView = view.findViewById(R.id.frame_availavle_fruits);
         mAdapterForFruits = new RecyclerViewAdapterForAvialableFruits(mFruitList, getActivity(), this);
         recyclerView.setAdapter(mAdapterForFruits);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -99,7 +99,10 @@ public class AddFruitFragment extends Fragment
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onOkClick: activated");
-                    if (mSelectedEntryID != 0) {
+                mSelectedAmount = mSelectAmount.getText().toString().trim();
+                Log.d(TAG, "onClick: amount is " + mSelectedAmount);
+
+                if (mSelectedEntryID != 0) {
                         postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
                     }
                 Intent intent = new Intent(getActivity(), MainActivity.class);

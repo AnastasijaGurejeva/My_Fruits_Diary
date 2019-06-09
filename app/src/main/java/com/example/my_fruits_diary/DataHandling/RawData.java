@@ -70,6 +70,7 @@ class RawData extends AsyncTask<String, Void, String> {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 result.append(line).append("\n");
             }
+            Log.d(TAG, "download: raw " + result.toString());
             mDownloadStatus = DownloadStatus.OK;
             return result.toString();
 

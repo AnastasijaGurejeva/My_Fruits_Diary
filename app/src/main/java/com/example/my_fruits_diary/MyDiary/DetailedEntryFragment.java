@@ -29,9 +29,9 @@ public class DetailedEntryFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detailed_entry, container, false);
-        TextView dateView = view.findViewById(R.id.date_entryFr);
-        TextView totalVitaminsView = view.findViewById(R.id.totalVitamins_entryFr);
-        TextView totalFruits = view.findViewById(R.id.totalFruits_entryFr);
+        TextView dateView = view.findViewById(R.id.date_entry_fragment);
+        TextView totalVitaminsView = view.findViewById(R.id.total_vitamins_entryFr);
+        TextView totalFruits = view.findViewById(R.id.total_fruits_entry_fragment);
         setData();
         dateView.setText(mDate);
         totalVitaminsView.setText(mTotalVitamins + "");
