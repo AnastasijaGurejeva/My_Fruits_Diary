@@ -1,5 +1,6 @@
 package com.example.my_fruits_diary.MyDiary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
 import com.example.my_fruits_diary.DataHandling.PostCaller;
+import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.R;
 
 import java.util.List;
@@ -100,7 +102,8 @@ public class AddFruitFragment extends Fragment
                     if (mSelectedEntryID != 0) {
                         postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
                     }
-              getActivity().onBackPressed();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }
