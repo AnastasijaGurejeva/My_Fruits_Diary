@@ -1,14 +1,14 @@
 package com.example.my_fruits_diary.MyDiary;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_fruits_diary.R;
 import com.squareup.picasso.Picasso;
@@ -43,9 +43,9 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
      * @return viewholder
      */
 
-    @NonNull
+
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_for_available_fruits, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view, mOnEntryListener);
@@ -59,7 +59,7 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
      */
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
         if (mFruitList != null && mFruitList.size() != 0) {
             viewHolder.fruitType.setText(mFruitList.get(i).getType());
             viewHolder.vitamins.setText("Vitamins: " + mFruitList.get(i).getVitamins());
@@ -105,7 +105,7 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
         ImageView fruitImage;
         OnEntryListener onEntryListener;
 
-        public ViewHolder(@NonNull View itemView, OnEntryListener onEntryListener) {
+        public ViewHolder(View itemView, OnEntryListener onEntryListener) {
             super(itemView);
 
             fruitType= itemView.findViewById(R.id.fruit_type_available_fruits);

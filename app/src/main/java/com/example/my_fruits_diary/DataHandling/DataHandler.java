@@ -48,7 +48,9 @@ public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
         post("");
     }
 
-    public void onDeleteEntries() {
+    public void onDeleteAllEntries() {
+        mPostRequest = "DELETE";
+        post("");
 
     }
 
@@ -75,7 +77,7 @@ public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
     public void onNewPostComplete(String data, PostStatus status) {
         mDataReceived = data;
         if(isNewEntryCalled) {
-            onPostDataReceivedListener.onReceived(mDataReceived);
+            onPostDataReceivedListener.onReceivedPostIdData(mDataReceived);
         }
         Log.d(TAG, "onNewPostComplete: DONE data " + data);
     }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:background="@android:color/white"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/frame_available_fruit"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginLeft="2dp"
@@ -32,8 +32,8 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/placeholder" />
-        </android.support.v7.widget.CardView>
-    </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/fruit_type_available_fruits"
@@ -60,4 +60,4 @@
         app:layout_constraintBottom_toBottomOf="@+id/fruit_type_available_fruits"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fruit_type_available_fruits" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

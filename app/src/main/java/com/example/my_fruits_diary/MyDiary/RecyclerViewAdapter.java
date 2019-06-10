@@ -1,14 +1,14 @@
 package com.example.my_fruits_diary.MyDiary;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_fruits_diary.DataHandling.DataHandler;
 import com.example.my_fruits_diary.R;
@@ -47,9 +47,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      * @return viewholder
      */
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_layout, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view, mOnEntryClickListener);
@@ -72,7 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      */
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder( ViewHolder viewHolder, int i) {
 
         if (mEntries != null && mEntries.size() != 0) {
             mDate = mEntries.get(i).getDate();
@@ -123,7 +122,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         OnEntryClickListener onEntryClickListener;
 
 
-        public ViewHolder(@NonNull View itemView, OnEntryClickListener onEntryClickListener) {
+        public ViewHolder( View itemView, OnEntryClickListener onEntryClickListener) {
             super(itemView);
 
             cardView = itemView.findViewById(R.id.listItem_view);

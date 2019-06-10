@@ -1,31 +1,38 @@
 package com.example.my_fruits_diary.MyDiary;
 
 
-import android.app.Activity;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.my_fruits_diary.DataHandling.DataHandler;
-import com.example.my_fruits_diary.DataHandling.DatePickerFragment;
 import com.example.my_fruits_diary.DataHandling.DownloadDataHandler;
 import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
+import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -37,7 +44,7 @@ import java.util.Observer;
  * Author: Anastasija Gurejeva
  */
 public class EntryListFragment extends Fragment implements Observer,
-        OnPostDataReceivedListener, OnFruitDataReceivedListener, RecyclerViewAdapter.OnEntryClickListener {
+        OnPostDataReceivedListener, OnFruitDataReceivedListener, RecyclerViewAdapter.OnEntryClickListener, DatePickerDialog.OnDateSetListener {
     private static final String TAG = "EntryListFragment";
 
     protected ArrayList<Integer> mEntryId = new ArrayList<>();
@@ -48,8 +55,8 @@ public class EntryListFragment extends Fragment implements Observer,
     private FloatingActionButton onAddNewEntry;
     private FruitsData mFruitsData;
     private EntriesData mEntriesData;
-    private List<Fruit> mFruits;
     private List<Entry> mEntries;
+    private List<Fruit> mFruits;
     private HashMap<Integer, Integer> mfruitEntries;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -86,14 +93,42 @@ public class EntryListFragment extends Fragment implements Observer,
                 ItemTouchHelper(new SwipeToDelete(mAdapter, getContext()));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-
         activateOnAddNewEntry();
         return view;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.options_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
+        switch (id) {
+            case R.id.mnuDeleteAllEntries:
+                dataHandler.onDeleteAllEntries();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                break;
+//            case R.id.mnuPlantInfo:
+//                intent = new Intent(this, PlantInfoActivity.class);
+//                startActivity(intent);
+//                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
 
 
     public void setData(EntriesData entriesData, DownloadDataHandler downloadDataHandler) {
@@ -105,13 +140,23 @@ public class EntryListFragment extends Fragment implements Observer,
         Log.d(TAG, "setData: observer added");
     }
 
+    /**
+     * Method receives callback when Entry List if fully loaded
+     * And calls method to ipdate recyclerView
+     *
+     * @param o
+     * @param data
+     */
+
     @Override
     public void update(Observable o, Object data) {
         mAdapter.loadNewData((List<Entry>) data);
+        Log.d(TAG, "update: dataEntrie loaded" + data.toString());
+
     }
 
     @Override
-    public void onReceived(String s) {
+    public void onReceivedPostIdData(String s) {
         try {
             JSONObject jsonObject = new JSONObject(s);
             mSelectedEntryID = (Integer) jsonObject.get("id");
@@ -138,23 +183,62 @@ public class EntryListFragment extends Fragment implements Observer,
         onAddNewEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onAddNewEntry.hide();
-                DialogFragment datePickerFragment = new DatePickerFragment();
-                datePickerFragment.setTargetFragment(EntryListFragment.this, REQUEST_CODE);
-                datePickerFragment.show(getFragmentManager(), "datePicker");
+                Calendar calendar = Calendar.getInstance();
+                DatePickerDialog datePickerDialog = (DatePickerDialog) DatePickerDialog.newInstance(
+                        EntryListFragment.this,
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)
+                );
+                datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                String[] existingDateEntries = mEntriesData.getEntriesData().stream()
+                        .map(x -> x.getDate())
+                        .sorted()
+                        .toArray(String[]::new);
+                java.util.Date date = null;
+
+                for (int i = 0; i < existingDateEntries.length; i++) {
+                    try {
+                        date = simpleDateFormat.parse(existingDateEntries[i]);
+                    } catch (ParseException e) {
+                        Log.e(TAG, "showDatePicker: Parse date exception" + e.getMessage());
+                        e.printStackTrace();
+                    }
+                    calendar = dateToCalendar(date);
+                    System.out.println(calendar.getTime());
+
+                    List<Calendar> unavailableDates = new ArrayList<>();
+                    unavailableDates.add(calendar);
+                    Calendar[] disabledDays1 = unavailableDates.toArray(new Calendar[unavailableDates.size()]);
+                    datePickerDialog.setDisabledDays(disabledDays1);
+                }
+            }
+
+            private Calendar dateToCalendar(Date date) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                return calendar;
             }
         });
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            mSelectedDate = data.getStringExtra("selectedDate");
-            Log.d(TAG, "onActivityResult: selected date " + mSelectedDate);
-            dataHandler.setOnPostDataReceivedListener(this);
-            dataHandler.postNewEntry(mSelectedDate);
-        }
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, monthOfYear, dayOfMonth);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        mSelectedDate = dateFormat.format(calendar.getTime());
+
+        Log.d(TAG, "onDateSet: " + mSelectedDate);
+        dataHandler.setOnPostDataReceivedListener(this);
+        dataHandler.postNewEntry(mSelectedDate);
     }
+
+
 
     @Override
     public void onEntryClickListener(int position) {
@@ -176,7 +260,9 @@ public class EntryListFragment extends Fragment implements Observer,
         mFruits = mFruitsData.getFruitData();
         Log.d(TAG, "onReceivedFruitsData: entryFragment" + mFruits.toString());
         isFruitDataReceived = true;
+        dataHandler.removeOnPostDataReceivedListener(this);
     }
+
 }
 
 

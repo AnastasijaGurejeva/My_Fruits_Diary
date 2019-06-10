@@ -1,10 +1,10 @@
 package com.example.my_fruits_diary;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.my_fruits_diary.About.AboutFragment;
 import com.example.my_fruits_diary.DataHandling.DownloadDataHandler;
@@ -12,6 +12,7 @@ import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
 import com.example.my_fruits_diary.MyDiary.EntryListFragment;
 import com.example.my_fruits_diary.MyDiary.Fruit;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: Starting app");
+
 
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.container);

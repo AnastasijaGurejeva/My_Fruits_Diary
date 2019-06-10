@@ -19,7 +19,7 @@ public class PostDeleteDataCaller extends AsyncTask<String, Void, String> implem
     }
 
     public PostDeleteDataCaller(OnNewPostComplete CallBack, String date, String url, String postRequest) {
-        Log.d(TAG, "PostDeleteDataCaller: called");
+        Log.d(TAG, "PostDeleteDataCaller: called:" + postRequest + url+ date);
         mCallBack = CallBack;
         mDate = date;
         mUrl = url;
@@ -29,6 +29,7 @@ public class PostDeleteDataCaller extends AsyncTask<String, Void, String> implem
     @Override
     protected void onPostExecute(String s) {
         if (mCallBack != null) {
+            Log.d(TAG, "onPostExecute: callback " + mPostRequest + s);
             mCallBack.onNewPostComplete(s, mPostStatus);
         }
     }
