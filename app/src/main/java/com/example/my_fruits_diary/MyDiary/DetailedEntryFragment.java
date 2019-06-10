@@ -27,7 +27,7 @@ public class DetailedEntryFragment extends Fragment {
     private HashMap<Integer, Integer> mFruitEntries;
     private RecyclerViewAdapterForDetailedEntry mAdapterForDetailedEntry;
     private List<Fruit> mFruitList;
-    private int mEntryId;
+    private int mPosition;
     private EntriesData mEntriesData;
     private FruitsData mFruitsData;
     private static final String TAG = "DetailedEntryFragment";
@@ -77,13 +77,13 @@ public class DetailedEntryFragment extends Fragment {
         mDate = entriesData.getEntriesData().get(position).getDate();
         mEntriesData = entriesData;
         mFruitsData = fruitsData;
-        mEntryId = entriesData.getEntriesData().get(position).getEntryId();
+        mPosition = position;
     }
 
     public void activateOnAddNewFruit() {
         onAddNewFruit.setOnClickListener(v -> {
             AddFruitFragment addFruitFragment = new AddFruitFragment();
-            addFruitFragment.onPassedDataFromDetailedFragment(mEntriesData, mFruitsData, mEntryId);
+            addFruitFragment.onPassedDataFromDetailedFragment(mEntriesData, mFruitsData, mPosition);
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.frame_fragment, addFruitFragment)

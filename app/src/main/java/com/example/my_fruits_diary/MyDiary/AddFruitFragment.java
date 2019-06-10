@@ -22,9 +22,12 @@ import com.example.my_fruits_diary.DataHandling.FruitsData;
 import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 public class AddFruitFragment extends Fragment
         implements RecyclerViewAdapterForAvialableFruits.OnEntryListener, Observer {
@@ -41,6 +44,8 @@ public class AddFruitFragment extends Fragment
     private TextView mSelectFruit;
     private EditText mSelectAmount;
     private DataHandler dataHandler = new DataHandler();
+    private int mPosition;
+
 
 
     public AddFruitFragment() {
@@ -95,11 +100,12 @@ public class AddFruitFragment extends Fragment
         mSelectedEntryID = id;
     }
 
-    public void onPassedDataFromDetailedFragment(EntriesData entriesData, FruitsData fruitsData, int entryId) {
-        mSelectedEntryID = entryId;
+    public void onPassedDataFromDetailedFragment(EntriesData entriesData, FruitsData fruitsData, int position) {
+        mSelectedEntryID = entriesData.getEntriesData().get(position).getEntryId();
         mEntriesData = entriesData;
         mFruitList = fruitsData.getFruitData();
-        mFruitsData =fruitsData;
+        mFruitsData = fruitsData;
+        mPosition = position;
     }
 
     public void onOkClickActivated() {
@@ -107,13 +113,24 @@ public class AddFruitFragment extends Fragment
             Log.d(TAG, "onOkClick: activated");
             mSelectedAmount = mSelectAmount.getText().toString().trim();
             Log.d(TAG, "onClick: amount is " + mSelectedAmount);
+            HashMap<Integer,Integer> eatenFruits = mEntriesData.getEntriesData().get(mPosition).getmEatenFruits();
+            if(!eatenFruits.isEmpty()) {
+               Set<Integer> keys = eatenFruits.keySet();
+               List<Integer> fruitsId = new ArrayList<>(keys);
+               for(int i = 0; i < fruitsId.size(); i++) {
+                   if(mSelectedFruitId == fruitsId.get(i)) {
+                      int newAmount = Integer.parseInt(mSelectedAmount) + eatenFruits.get(mSelectedFruitId);
+                      mSelectedAmount = Integer.toString(newAmount);
+                   }
+               }
+            }
 
             if (mSelectedAmount.isEmpty()) {
                 mSelectAmount.setError("Field must be filled");
             } else if (Integer.parseInt(mSelectedAmount) <= 0) {
                 mSelectAmount.setError("Amount must be larger than 0");
             } else if (mSelectFruit.length() == 0) {
-                Toast toast = Toast.makeText(getActivity(),"Please select fruit", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getActivity(), "Please select fruit", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP, 0, 300);
                 toast.show();
             } else if (mSelectedEntryID != 0) {
