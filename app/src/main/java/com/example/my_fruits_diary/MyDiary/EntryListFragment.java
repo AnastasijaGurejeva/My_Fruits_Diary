@@ -1,6 +1,7 @@
 package com.example.my_fruits_diary.MyDiary;
 
 
+import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.example.my_fruits_diary.DataHandling.DataHandler;
 import com.example.my_fruits_diary.DataHandling.DownloadDataHandler;
 import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
+import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -53,8 +55,8 @@ public class EntryListFragment extends Fragment implements Observer,
     private FloatingActionButton onAddNewEntry;
     private FruitsData mFruitsData;
     private EntriesData mEntriesData;
-    private List<Fruit> mFruits;
     private List<Entry> mEntries;
+    private List<Fruit> mFruits;
     private HashMap<Integer, Integer> mfruitEntries;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -115,8 +117,8 @@ public class EntryListFragment extends Fragment implements Observer,
         switch (id) {
             case R.id.mnuDeleteAllEntries:
                 dataHandler.onDeleteAllEntries();
-                mEntries.clear();
-                mAdapter.notifyDataSetChanged();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
                 break;
 //            case R.id.mnuPlantInfo:
 //                intent = new Intent(this, PlantInfoActivity.class);
@@ -149,6 +151,8 @@ public class EntryListFragment extends Fragment implements Observer,
     @Override
     public void update(Observable o, Object data) {
         mAdapter.loadNewData((List<Entry>) data);
+        Log.d(TAG, "update: dataEntrie loaded" + data.toString());
+
     }
 
     @Override
@@ -189,7 +193,7 @@ public class EntryListFragment extends Fragment implements Observer,
                 datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                String[] existingDateEntries = mEntries.stream()
+                String[] existingDateEntries = mEntriesData.getEntriesData().stream()
                         .map(x -> x.getDate())
                         .sorted()
                         .toArray(String[]::new);
@@ -222,14 +226,16 @@ public class EntryListFragment extends Fragment implements Observer,
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(year);
-        sb.append("-");
-        sb.append(monthOfYear);
-        sb.append("-");
-        sb.append(dayOfMonth);
-        mSelectedDate = sb.toString();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, monthOfYear, dayOfMonth);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        mSelectedDate = dateFormat.format(calendar.getTime());
+
         Log.d(TAG, "onDateSet: " + mSelectedDate);
+        dataHandler.setOnPostDataReceivedListener(this);
+        dataHandler.postNewEntry(mSelectedDate);
     }
 
 
