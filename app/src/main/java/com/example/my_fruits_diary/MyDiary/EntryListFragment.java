@@ -57,7 +57,7 @@ public class EntryListFragment extends Fragment implements Observer,
     private EntriesData mEntriesData;
     private List<Entry> mEntries;
     private List<Fruit> mFruits;
-    private HashMap<Integer, Integer> mfruitEntries;
+    private HashMap<Integer, Integer> mFruitEntries;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public static final int REQUEST_CODE = 1;
@@ -120,7 +120,7 @@ public class EntryListFragment extends Fragment implements Observer,
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
                 break;
-//            case R.id.mnuPlantInfo:
+  //          case R.id.mnuRefreshData:
 //                intent = new Intent(this, PlantInfoActivity.class);
 //                startActivity(intent);
 //                break;
@@ -243,10 +243,11 @@ public class EntryListFragment extends Fragment implements Observer,
     @Override
     public void onEntryClickListener(int position) {
         Log.d(TAG, "onClick: clicked position " + position);
-        mfruitEntries = mEntriesData.getEntriesData().get(position).getmEatenFruits();
+        onAddNewEntry.hide();
         DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
         if (isFruitDataReceived) {
-            detailedEntryFragment.dataPassed(mfruitEntries, mFruits);
+            String date = mEntriesData.getEntriesData().get(position).getDate();
+            detailedEntryFragment.dataPassed(mEntriesData, mFruitsData, position);
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.frame_fragment, detailedEntryFragment)

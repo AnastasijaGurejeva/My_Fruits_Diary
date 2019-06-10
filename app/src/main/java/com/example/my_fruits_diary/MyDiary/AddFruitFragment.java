@@ -95,6 +95,13 @@ public class AddFruitFragment extends Fragment
         mSelectedEntryID = id;
     }
 
+    public void onPassedDataFromDetailedFragment(EntriesData entriesData, FruitsData fruitsData, int entryId) {
+        mSelectedEntryID = entryId;
+        mEntriesData = entriesData;
+        mFruitList = fruitsData.getFruitData();
+        mFruitsData =fruitsData;
+    }
+
     public void onOkClickActivated() {
         mSaveEntry.setOnClickListener(v -> {
             Log.d(TAG, "onOkClick: activated");

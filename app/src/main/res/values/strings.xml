@@ -11,4 +11,6 @@
     <string name="select_fruit">Select Fruit</string>
     <string name="delete_entries">Delete All Entries</string>
     <string name="mnu">do something</string>
+    <string name="total_vitamins_consumed">Total Vitamins Consumed</string>
+    <string name="total_number_of_fruits">Total Number of Fruits</string>
 </resources>
