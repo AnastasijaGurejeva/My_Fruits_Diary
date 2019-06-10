@@ -28,7 +28,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int mTotalVitaminsAmount = 0;
     private String mDate;
     private OnEntryClickListener mOnEntryClickListener;
-    private Entry mRecentlyRemovedItem;
 
 
 
@@ -56,7 +55,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void deleteItem(int position) {
-        mRecentlyRemovedItem = mEntries.get(position);
         DataHandler dataHandler = new DataHandler();
         dataHandler.onDeleteOneEntry(mEntries.get(position).getEntryId());
         mEntries.remove(position);

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.my_fruits_diary.DataHandling.DataHandler;
 import com.example.my_fruits_diary.R;
 import com.squareup.picasso.Picasso;
 
@@ -27,15 +28,17 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
     private List<Fruit> mFruitList;
     private String mFruitType;
     private int mFruitAmount;
-    private String mFruitVitamins;
     private int mEntryId;
+    private OnDetailedEntryCnangeListener onDetailedEntryCnangeListener;
 
 
-    public RecyclerViewAdapterForDetailedEntry(HashMap<Integer, Integer> fruitEntries, List<Fruit> fruitList, Context mContext) {
+    public RecyclerViewAdapterForDetailedEntry(HashMap<Integer, Integer> fruitEntries,
+                                               List<Fruit> fruitList, int entryId, Context mContext) {
 
         this.mFruitEntries = fruitEntries;
         this.mContext = mContext;
         this.mFruitList = fruitList;
+        this.mEntryId = entryId;
     }
 
 
@@ -53,7 +56,28 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_for_detailed_entry, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
+
         return viewHolder;
+    }
+
+    public void deleteItem(int position) {
+         DataHandler dataHandler = new DataHandler();
+         Set fruitKeys = mFruitEntries.keySet();
+         List<Integer> fruitsId = new ArrayList<>(fruitKeys);
+         int fruitId = fruitsId.get(position);
+         int amountInt = mFruitEntries.get(fruitId);
+         String amount = Integer.toString(amountInt);
+         dataHandler.editEntry(mEntryId, fruitId,amount);
+         mFruitEntries.remove(fruitId);
+         onDetailedEntryCnangeListener.onEntryRemoved(mFruitEntries);
+         notifyItemRemoved(position);
+    }
+    public void setOnDetailedEntryCnangeListener(OnDetailedEntryCnangeListener onDetailedEntryCnangeListener) {
+        this.onDetailedEntryCnangeListener = onDetailedEntryCnangeListener;
+    }
+
+    public void removeOnDetailedEntryChangeListener(OnDetailedEntryCnangeListener onDetailedEntryCnangeListener) {
+        this.onDetailedEntryCnangeListener = null;
     }
 
     /**
