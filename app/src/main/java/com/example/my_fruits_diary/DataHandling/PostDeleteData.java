@@ -17,24 +17,26 @@ import java.net.URL;
 
 enum PostStatus { IDLE, PROCESSING, NOT_INITIALISED, FAILED, OK }
 
-public class PostJSONData extends AsyncTask<String, Void, String> {
+public class PostDeleteData extends AsyncTask<String, Void, String> {
 
-    private static final String TAG = "PostJSONData";
+    private static final String TAG = "PostDeleteData";
     private PostStatus mPostStatus;
     private final OnPostComplete mCallBack;
+    private String mPostRequest;
+
 
     interface OnPostComplete {
         void onPostComplete(String data, PostStatus status);
     }
 
-    public PostJSONData(OnPostComplete mCallBack) {
+    public PostDeleteData(OnPostComplete mCallBack) {
         this.mCallBack = mCallBack;
         this.mPostStatus = PostStatus.IDLE;
     }
 
-    void postData(String date, String url) {
+    void postData(String date, String url, String postRequest) {
         Log.d(TAG, "posting: starts " + date + "" + url);
-        onPostExecute(postJSONData(date, url));
+        onPostExecute(postJSONData(date, url, postRequest));
         Log.d(TAG, "posting: ends ");
     }
 
@@ -45,15 +47,20 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
         }
     }
 
-    public String postJSONData(String date, String url) {
+    public String postJSONData(String date, String url, String requestType) {
         HttpURLConnection connection = null;
-        BufferedReader reader = null;
+        BufferedReader reader;
         InputStream inputStream = null;
+        if (requestType.equals("postNew")) {
+            mPostRequest = "POST";
+        } else {
+            mPostRequest = "DELETE";
+        }
+
         if(url == null) {
           mPostStatus = PostStatus.NOT_INITIALISED;
             return null;
         }
-
         try {
             mPostStatus = PostStatus.PROCESSING;
             JSONObject jsonObject = new JSONObject();
@@ -62,7 +69,7 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
             URL link = new URL(url);
             connection = (HttpURLConnection) link.openConnection();
             connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod(mPostRequest);
             connection.setRequestProperty("Content-Type", "application/json");
             connection.connect();
 
@@ -112,7 +119,7 @@ public class PostJSONData extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         Log.d(TAG, "doInBackground: starts with " + strings[0] + strings[1]);
-        return postJSONData(strings[0], strings[1]);
+        return postJSONData(strings[0], strings[1], strings[3]);
     }
 }
 

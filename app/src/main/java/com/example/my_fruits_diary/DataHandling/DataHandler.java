@@ -2,67 +2,81 @@ package com.example.my_fruits_diary.DataHandling;
 
 import android.util.Log;
 
-import com.example.my_fruits_diary.MyDiary.Entry;
-import com.example.my_fruits_diary.MyDiary.Fruit;
+import com.example.my_fruits_diary.MyDiary.OnPostDataReceivedListener;
 
-import java.util.List;
+public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
 
-public class DataHandler implements FruitJSONParser.OnDataAvailable, EntriesJSONParser.OnEntryDataAvailable {
-    public static final String TAG = "DataHandler";
-    private FruitsData mFruitsData = new FruitsData();
-    private EntriesData mEntriesData = new EntriesData();
+    private String baseUrl = "https://fruitdiary.test.themobilelife.com/api/";
+    private String mUrl = "https://fruitdiary.test.themobilelife.com/api/entries";
+    private static final String TAG = "DataHandler";
+    private String mDataReceived;
+    private OnPostDataReceivedListener onPostDataReceivedListener;
+    private boolean isNewEntryCalled = false;
+    private String mPostRequest;
+    PostDeleteDataCaller postDeleteDataCaller;
 
 
-    private static String availableFruitsUrl = "https://fruitdiary.test.themobilelife.com/api/fruit";
-    private static String availableEntriesUrl = "https://fruitdiary.test.themobilelife.com/api/entries";
 
     public DataHandler() {
     }
 
-    public void downloadDataForAvailableFruits() {
-        FruitJSONParser getJsonData = new FruitJSONParser(this, availableFruitsUrl);
-        getJsonData.execute();
+    public void buildEditUrl(int entryId, int fruitId, String fruitAmount) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(baseUrl);
+        stringBuilder.append("entry/");
+        stringBuilder.append(entryId);
+        stringBuilder.append("/fruit/");
+        stringBuilder.append(fruitId);
+        stringBuilder.append("?amount=");
+        stringBuilder.append(fruitAmount);
+        mUrl = stringBuilder.toString();
     }
 
-    public void downloadDataForAvailableEntries() {
-        EntriesJSONParser getJsonData = new EntriesJSONParser(this, availableEntriesUrl);
-        getJsonData.execute();
+    public void post(String date) {
+        postDeleteDataCaller = new PostDeleteDataCaller(this, date, mUrl, mPostRequest);
+        postDeleteDataCaller.execute();
     }
+    public void postNewEntry(String date) {
+        mPostRequest = "POST";
+        isNewEntryCalled = true;
+        post(date);
+    }
+
+    public void editEntry(int entryId, int fruitId, String fruitAmount) {
+        mPostRequest = "POST";
+        buildEditUrl(entryId, fruitId, fruitAmount);
+        post("");
+    }
+
+    public void onDeleteEntries() {
+
+    }
+
+    public void onDeleteOneEntry(int entryId) {
+        mPostRequest = "DELETE";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(baseUrl);
+        stringBuilder.append("entry/");
+        stringBuilder.append(entryId);
+        mUrl = stringBuilder.toString();
+        post("");
+    }
+
+    public void setOnPostDataReceivedListener(OnPostDataReceivedListener postDataReceivedListener) {
+        this.onPostDataReceivedListener = postDataReceivedListener;
+    }
+
+    public void removeOnPostDataReceivedListener(OnPostDataReceivedListener postDataReceivedListener) {
+        this.onPostDataReceivedListener = null;
+    }
+
 
     @Override
-    public void onDataAvailable(List<Fruit> data, DownloadStatus status) {
-        if (status == DownloadStatus.OK) {
-            Log.d(TAG, "onDownloadComplete: data is " + data);
-            mFruitsData.setData(data);
-        } else {
-            Log.e(TAG, "onDownloadComplete failed with status " + status);
+    public void onNewPostComplete(String data, PostStatus status) {
+        mDataReceived = data;
+        if(isNewEntryCalled) {
+            onPostDataReceivedListener.onReceived(mDataReceived);
         }
-    }
-
-    /**
-     * Method passes Downloaded Entries Data to Main activity
-     */
-
-    public EntriesData getEntriesData() {
-        return mEntriesData;
-    }
-
-    /**
-     * Method passes Downloaded Fruit Data to Main activity
-     */
-
-    public FruitsData getFruitsData() {
-        return mFruitsData;
-    }
-
-
-    @Override
-    public void onEntryDataAvailable(List<Entry> data, DownloadStatus status) {
-        if (status == DownloadStatus.OK) {
-            Log.d(TAG, "onDownloadComplete: data is " + data);
-            mEntriesData.setData(data);
-        } else {
-            Log.e(TAG, "onDownloadComplete failed with status " + status);
-        }
+        Log.d(TAG, "onNewPostComplete: DONE data " + data);
     }
 }

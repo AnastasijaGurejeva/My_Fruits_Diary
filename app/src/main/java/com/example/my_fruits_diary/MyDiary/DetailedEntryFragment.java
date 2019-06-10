@@ -2,15 +2,15 @@ package com.example.my_fruits_diary.MyDiary;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.R;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,8 +21,9 @@ public class DetailedEntryFragment extends Fragment {
     private int mTotalVitamins;
     private int mTotalFruits;
     private HashMap<Integer, Integer> mFruitEntries;
-    private EntriesData mEntriesData;
-    private int mPosition;
+    private RecyclerViewAdapterForDetailedEntry mAdapterForDetailedEntry;
+    private List<Fruit> mFruits;
+    private static final String TAG = "DetailedEntryFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,36 +31,21 @@ public class DetailedEntryFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_detailed_entry, container, false);
         TextView dateView = view.findViewById(R.id.date_entry_fragment);
-        TextView totalVitaminsView = view.findViewById(R.id.total_vitamins_entryFr);
+        TextView totalVitaminsView = view.findViewById(R.id.total_vitamins_entry_fragment);
         TextView totalFruits = view.findViewById(R.id.total_fruits_entry_fragment);
-        setData();
-        dateView.setText(mDate);
-        totalVitaminsView.setText(mTotalVitamins + "");
-        totalFruits.setText(mTotalFruits + "");
 
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
+        mAdapterForDetailedEntry = new RecyclerViewAdapterForDetailedEntry(mFruitEntries, mFruits, getActivity());
+        recyclerView.setAdapter(mAdapterForDetailedEntry);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return view;
     }
 
-    public void dataPassed(int position, EntriesData entryData) {
-        mPosition = position;
-        mEntriesData = entryData;
-    }
+    public void dataPassed(HashMap<Integer, Integer> fruitEntries, List<Fruit> fruit){
+        mFruitEntries = fruitEntries;
+        mFruits = fruit;
 
-    public void setData() {
-        List<Entry> entries = mEntriesData.getEntriesData();
-        Entry entry = entries.get(mPosition);
-        mFruitEntries = entry.getmEatenFruits();
-        mDate = entry.getDate();
-        mTotalFruits = mFruitEntries.size();
-        if (mFruitEntries.size() != 0) {
-            Collection<Integer> values = mFruitEntries.values();
-            mTotalVitamins = 0;
-            for (Integer value : values) {
-                mTotalVitamins += value;
-            }
-        } else {
-            mTotalVitamins = 0;
-        }
     }
 }

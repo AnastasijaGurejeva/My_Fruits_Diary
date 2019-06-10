@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.my_fruits_diary.DataHandling.DataHandler;
 import com.example.my_fruits_diary.R;
 
 import java.util.Collection;
@@ -26,12 +27,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int mTotalFruitAmount = 0;
     private int mTotalVitaminsAmount = 0;
     private String mDate;
+    private OnEntryClickListener mOnEntryClickListener;
+    private Entry mRecentlyRemovedItem;
+
 
 
     public RecyclerViewAdapter(List<Entry> mEntries,
-                               Context mContext) {
+                               Context mContext, OnEntryClickListener onEntryClickListener) {
 
         this.mContext = mContext;
+        this.mOnEntryClickListener = onEntryClickListener;
 
     }
 
@@ -47,8 +52,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_layout, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view, mOnEntryClickListener);
         return viewHolder;
+    }
+
+    public void deleteItem(int position) {
+        mRecentlyRemovedItem = mEntries.get(position);
+        DataHandler dataHandler = new DataHandler();
+        dataHandler.onDeleteOneEntry(mEntries.get(position).getEntryId());
+        mEntries.remove(position);
+        notifyItemRemoved(position);
     }
 
     /**
@@ -101,29 +114,37 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      * View Holder class initiates elements inside the Entry
      */
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         CardView cardView;
         TextView fruitAmount;
         TextView totalVitamins;
         TextView date;
+        OnEntryClickListener onEntryClickListener;
 
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnEntryClickListener onEntryClickListener) {
             super(itemView);
 
-            cardView =itemView.findViewById(R.id.listItem_view);
+            cardView = itemView.findViewById(R.id.listItem_view);
             fruitAmount = itemView.findViewById(R.id.fruit_amount);
             totalVitamins = itemView.findViewById(R.id.total_vitamins);
             date = itemView.findViewById(R.id.date_entry_fragment);
             itemView.setTag(this);
             itemView.setOnClickListener(mOnEntryListener);
+            this.onEntryClickListener = onEntryClickListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onEntryClickListener.onEntryClickListener(getAdapterPosition());
+
+        }
     }
 
-
-    }
-
-    public void setOnEntryListener (View.OnClickListener itemClickListener) {
-        mOnEntryListener = itemClickListener;
+    public interface OnEntryClickListener {
+        void onEntryClickListener(int position);
     }
 }
