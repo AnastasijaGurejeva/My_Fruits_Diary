@@ -51,11 +51,7 @@ public class PostDeleteData extends AsyncTask<String, Void, String> {
         HttpURLConnection connection = null;
         BufferedReader reader;
         InputStream inputStream = null;
-        if (requestType.equals("postNew")) {
-            mPostRequest = "POST";
-        } else {
-            mPostRequest = "DELETE";
-        }
+        mPostRequest = requestType;
 
         if(url == null) {
           mPostStatus = PostStatus.NOT_INITIALISED;

@@ -1,14 +1,14 @@
 package com.example.my_fruits_diary.MyDiary;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_fruits_diary.R;
 import com.squareup.picasso.Picasso;
@@ -47,9 +47,9 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
      * @return viewholder
      */
 
-    @NonNull
+
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_for_detailed_entry, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -63,7 +63,7 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
      */
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
         if (mFruitEntries != null && mFruitEntries.size() != 0) {
             Set fruitKeys = mFruitEntries.keySet();
             List <Integer> fruitIdList = new ArrayList<>(fruitKeys);
@@ -113,16 +113,12 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
         ImageView fruitImageEntry;
         TextView fruitAmountEntry;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
 
             fruitTypeEntry = itemView.findViewById(R.id.fruit_type_detailed_entry);
             fruitAmountEntry = itemView.findViewById(R.id.fruit_amount_detailed_entry);
             fruitImageEntry = itemView.findViewById(R.id.fruit_image_detaled_entry);
         }
-
-
     }
-
-
 }
