@@ -13,9 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.my_fruits_diary.DataHandling.DataHandler;
 import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
-import com.example.my_fruits_diary.DataHandling.PostCaller;
 import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.R;
 
@@ -39,7 +39,7 @@ public class AddFruitFragment extends Fragment
     private Button mSaveEntry;
     private TextView mSelectFruit;
     private EditText mSelectAmount;
-    private PostCaller postCaller = new PostCaller();
+    private DataHandler dataHandler = new DataHandler();
     private boolean isIdReceived;
 
     public AddFruitFragment() {
@@ -103,7 +103,7 @@ public class AddFruitFragment extends Fragment
                 Log.d(TAG, "onClick: amount is " + mSelectedAmount);
 
                 if (mSelectedEntryID != 0) {
-                        postCaller.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
+                        dataHandler.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
                     }
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);

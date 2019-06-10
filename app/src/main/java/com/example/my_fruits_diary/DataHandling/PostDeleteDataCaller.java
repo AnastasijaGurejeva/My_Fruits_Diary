@@ -3,25 +3,27 @@ package com.example.my_fruits_diary.DataHandling;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class PostHandler extends AsyncTask<String, Void, String> implements PostJSONData.OnPostComplete {
+public class PostDeleteDataCaller extends AsyncTask<String, Void, String> implements PostDeleteData.OnPostComplete {
     private final OnNewPostComplete mCallBack;
-    private static final String TAG = "PostHandler";
+    private static final String TAG = "PostDeleteDataCaller";
     private String mDate;
     private String mUrl;
     private String responseData;
     private PostStatus mPostStatus;
     private String mData;
+    private String mPostRequest;
 
 
     public interface OnNewPostComplete {
         void onNewPostComplete(String data, PostStatus status);
     }
 
-    public PostHandler(OnNewPostComplete CallBack, String date, String url) {
-        Log.d(TAG, "PostHandler: called");
+    public PostDeleteDataCaller(OnNewPostComplete CallBack, String date, String url, String postRequest) {
+        Log.d(TAG, "PostDeleteDataCaller: called");
         mCallBack = CallBack;
         mDate = date;
         mUrl = url;
+        mPostRequest = postRequest;
     }
 
     @Override
@@ -34,8 +36,8 @@ public class PostHandler extends AsyncTask<String, Void, String> implements Post
     @Override
     protected String doInBackground(String... strings) {
         Log.d(TAG, "doInBackground: starts");
-        PostJSONData postJSONData = new PostJSONData(this);
-        postJSONData.postData(mDate, mUrl);
+        PostDeleteData postDeleteData = new PostDeleteData(this);
+        postDeleteData.postData(mDate, mUrl, mPostRequest);
         return mData;
     }
 

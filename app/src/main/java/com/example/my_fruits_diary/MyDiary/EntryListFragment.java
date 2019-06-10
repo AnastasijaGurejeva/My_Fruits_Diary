@@ -9,21 +9,24 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.my_fruits_diary.DataHandling.DataHandler;
 import com.example.my_fruits_diary.DataHandling.DatePickerFragment;
+import com.example.my_fruits_diary.DataHandling.DownloadDataHandler;
 import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
-import com.example.my_fruits_diary.DataHandling.PostCaller;
 import com.example.my_fruits_diary.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -33,7 +36,8 @@ import java.util.Observer;
  * Created 5/06/2019
  * Author: Anastasija Gurejeva
  */
-public class EntryListFragment extends Fragment implements Observer, OnPostDataReceivedListener {
+public class EntryListFragment extends Fragment implements Observer,
+        OnPostDataReceivedListener, OnFruitDataReceivedListener, RecyclerViewAdapter.OnEntryClickListener {
     private static final String TAG = "EntryListFragment";
 
     protected ArrayList<Integer> mEntryId = new ArrayList<>();
@@ -46,29 +50,17 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
     private EntriesData mEntriesData;
     private List<Fruit> mFruits;
     private List<Entry> mEntries;
+    private HashMap<Integer, Integer> mfruitEntries;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public static final int REQUEST_CODE = 1;
     private AddFruitFragment addFruitFragment;
     private String mSelectedDate;
     private int mSelectedEntryID;
-    private boolean flag = false;
-    private PostCaller postCaller = new PostCaller();
-
-    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
-            int position = viewHolder.getAdapterPosition();
-            Log.d(TAG, "onClick: clicked position " + position);
-            DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
-            detailedEntryFragment.dataPassed(position, mEntriesData);
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame_fragment, detailedEntryFragment)
-                    .commit();
-        }
-    };
+    private boolean isFruitDataReceived = false;
+    private DataHandler dataHandler = new DataHandler();
+    private DownloadDataHandler mDownloadDataHandler;
+    private RecyclerView recyclerView;
 
 
     public EntryListFragment() {
@@ -82,22 +74,32 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
         onAddNewEntry = view.findViewById(R.id.add_Entry);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         Log.d(TAG, "onCreateView: setting layout manager");
         recyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new RecyclerViewAdapter(mEntries, getActivity());
+        mAdapter = new RecyclerViewAdapter(mEntries, getActivity(), this);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter.setOnEntryListener(onItemClickListener);
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDelete(mAdapter, getContext()));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
 
         activateOnAddNewEntry();
         return view;
     }
 
-    public void setData(EntriesData entriesData) {
+
+
+
+
+
+    public void setData(EntriesData entriesData, DownloadDataHandler downloadDataHandler) {
         mEntriesData = entriesData;
+        mDownloadDataHandler = downloadDataHandler;
+        mDownloadDataHandler.setOnFruitDataReceivedListener(this);
         mEntriesData.addObserver(this);
         Log.d(TAG, "setData: data " + entriesData.toString());
         Log.d(TAG, "setData: observer added");
@@ -106,10 +108,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
     @Override
     public void update(Observable o, Object data) {
         mAdapter.loadNewData((List<Entry>) data);
-    }
-
-    public void setFruitsData(FruitsData fruitsData) {
-        mFruitsData = fruitsData;
     }
 
     @Override
@@ -121,7 +119,7 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
             addFruitFragment = new AddFruitFragment();
             addFruitFragment.updateFruitsData(mFruitsData, mEntriesData);
             if (mSelectedEntryID != 0) {
-                postCaller.removeOnPostDataReceivedListener(this);
+                dataHandler.removeOnPostDataReceivedListener(this);
                 Log.d(TAG, "onReceived: starting addfruit fragment " + mSelectedEntryID);
                 addFruitFragment.onPassId(mSelectedEntryID);
                 getFragmentManager()
@@ -144,7 +142,7 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
                 DialogFragment datePickerFragment = new DatePickerFragment();
                 datePickerFragment.setTargetFragment(EntryListFragment.this, REQUEST_CODE);
                 datePickerFragment.show(getFragmentManager(), "datePicker");
-                }
+            }
         });
     }
 
@@ -153,11 +151,32 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             mSelectedDate = data.getStringExtra("selectedDate");
             Log.d(TAG, "onActivityResult: selected date " + mSelectedDate);
-            postCaller.setOnPostDataReceivedListener(this);
-            postCaller.postNewEntry(mSelectedDate);
+            dataHandler.setOnPostDataReceivedListener(this);
+            dataHandler.postNewEntry(mSelectedDate);
         }
     }
 
+    @Override
+    public void onEntryClickListener(int position) {
+        Log.d(TAG, "onClick: clicked position " + position);
+        mfruitEntries = mEntriesData.getEntriesData().get(position).getmEatenFruits();
+        DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
+        if (isFruitDataReceived) {
+            detailedEntryFragment.dataPassed(mfruitEntries, mFruits);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_fragment, detailedEntryFragment)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void onReceivedFruitsData(FruitsData fruitsData) {
+        mFruitsData = fruitsData;
+        mFruits = mFruitsData.getFruitData();
+        Log.d(TAG, "onReceivedFruitsData: entryFragment" + mFruits.toString());
+        isFruitDataReceived = true;
+    }
 }
 
 
