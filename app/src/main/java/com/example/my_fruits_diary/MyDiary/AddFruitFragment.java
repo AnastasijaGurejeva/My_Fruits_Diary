@@ -3,12 +3,14 @@ package com.example.my_fruits_diary.MyDiary;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -53,9 +55,9 @@ public class AddFruitFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_add_fruit, container, false);
 
         mSelectFruit = view.findViewById(R.id.select_fruit);
+
         mSelectAmount = view.findViewById(R.id.select_amount);
         mSaveEntry = view.findViewById(R.id.save_entry);
-        mSelectedAmount = mSelectAmount.getText().toString().trim();
 
         RecyclerView recyclerView = view.findViewById(R.id.frame_availavle_fruits);
         mAdapterForFruits = new RecyclerViewAdapterForAvialableFruits(mFruitList, getActivity(), this);
@@ -96,19 +98,24 @@ public class AddFruitFragment extends Fragment
     }
 
     public void onOkClickActivated() {
-        mSaveEntry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onOkClick: activated");
-                mSelectedAmount = mSelectAmount.getText().toString().trim();
-                Log.d(TAG, "onClick: amount is " + mSelectedAmount);
+        mSaveEntry.setOnClickListener(v -> {
+            Log.d(TAG, "onOkClick: activated");
+            mSelectedAmount = mSelectAmount.getText().toString().trim();
+            Log.d(TAG, "onClick: amount is " + mSelectedAmount);
 
-                if (mSelectedEntryID != 0) {
-                        dataHandler.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
-                    }
+            if (mSelectedAmount.isEmpty()) {
+                mSelectAmount.setError("Field must be filled");
+            } else if (Integer.parseInt(mSelectedAmount) <= 0) {
+                mSelectAmount.setError("Amount must be larger than 0");
+            } else if (mSelectFruit.length() == 0) {
+                Toast toast = Toast.makeText(getActivity(),"Please select fruit", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 0, 300);
+                toast.show();
+            } else if (mSelectedEntryID != 0) {
+                    dataHandler.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
-            }
+                }
         });
     }
 }
