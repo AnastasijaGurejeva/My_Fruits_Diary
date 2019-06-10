@@ -34,8 +34,6 @@ public class AddFruitFragment extends Fragment
     private RecyclerViewAdapterForAvialableFruits mAdapterForFruits;
     private FruitsData mFruitsData;
     private EntriesData mEntriesData;
-    private TextView setEntryDate;
-    private String mSelectedDate;
     private int mSelectedEntryID;
     private int mSelectedFruitId;
     private String mSelectedAmount;
@@ -43,7 +41,7 @@ public class AddFruitFragment extends Fragment
     private TextView mSelectFruit;
     private EditText mSelectAmount;
     private DataHandler dataHandler = new DataHandler();
-    private boolean isIdReceived;
+
 
     public AddFruitFragment() {
     }
