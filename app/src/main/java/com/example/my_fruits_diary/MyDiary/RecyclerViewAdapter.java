@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.my_fruits_diary.Model.Entry;
+import com.example.my_fruits_diary.Model.OnEntryDeleteListener;
 import com.example.my_fruits_diary.R;
 
 import java.util.Collection;
@@ -97,8 +99,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         }
 
-        viewHolder.fruitAmount.setText("Total Fruits: " + mTotalFruitAmount);
-        viewHolder.totalVitamins.setText("Total Vitamins: " + mTotalVitaminsAmount);
+        viewHolder.fruitAmount.setText("" + mTotalFruitAmount);
+        viewHolder.totalVitamins.setText(" " + mTotalVitaminsAmount);
         viewHolder.date.setText(mDate);
 
     }

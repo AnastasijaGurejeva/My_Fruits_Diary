@@ -3,7 +3,7 @@ package com.example.my_fruits_diary.DataHandling;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.my_fruits_diary.MyDiary.Fruit;
+import com.example.my_fruits_diary.Model.Fruit;
 
 import org.json.JSONArray;
 import org.json.JSONException;

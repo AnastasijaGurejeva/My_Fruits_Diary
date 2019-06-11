@@ -8,13 +8,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.my_fruits_diary.About.AboutFragment;
 import com.example.my_fruits_diary.DataHandling.DownloadDataHandler;
-import com.example.my_fruits_diary.DataHandling.EntriesData;
-import com.example.my_fruits_diary.DataHandling.FruitsData;
 import com.example.my_fruits_diary.MyDiary.EntryListFragment;
-import com.example.my_fruits_diary.MyDiary.Fruit;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,10 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
     private DownloadDataHandler mDownloadDataHandler = new DownloadDataHandler();
-    private FruitsData mFruitsData;
-    private EntriesData mEntriesData;
-    private List<Fruit> mFruits;
-    EntryListFragment entryListFragment;
+    private EntryListFragment entryListFragment;
 
 
     @Override
@@ -52,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         mDownloadDataHandler.downloadDataForAvailableFruits();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
     private void setViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());

@@ -1,6 +1,6 @@
-package com.example.my_fruits_diary.MyDiary;
+package com.example.my_fruits_diary.Model;
 
-import com.example.my_fruits_diary.DataHandling.FruitsData;
+import com.example.my_fruits_diary.Model.FruitsData;
 
 public interface OnFruitDataReceivedListener {
     void onReceivedFruitsData(FruitsData fruitsData);

@@ -2,7 +2,7 @@ package com.example.my_fruits_diary.DataHandling;
 
 import android.util.Log;
 
-import com.example.my_fruits_diary.MyDiary.OnPostDataReceivedListener;
+import com.example.my_fruits_diary.Model.OnPostDataReceivedListener;
 
 public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
 
@@ -13,7 +13,7 @@ public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
     private OnPostDataReceivedListener onPostDataReceivedListener;
     private boolean isNewEntryCalled = false;
     private String mPostRequest;
-    PostDeleteDataCaller postDeleteDataCaller;
+    private PostDeleteDataCaller postDeleteDataCaller;
 
 
 

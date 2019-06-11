@@ -1,4 +1,4 @@
-package com.example.my_fruits_diary.MyDiary;
+package com.example.my_fruits_diary.Model;
 
 import java.util.HashMap;
 

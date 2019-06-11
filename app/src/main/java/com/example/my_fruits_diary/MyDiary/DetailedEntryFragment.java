@@ -7,15 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_fruits_diary.DataHandling.DataHandler;
-import com.example.my_fruits_diary.DataHandling.EntriesData;
-import com.example.my_fruits_diary.DataHandling.FruitsData;
+import com.example.my_fruits_diary.Model.EntriesData;
+import com.example.my_fruits_diary.Model.Fruit;
+import com.example.my_fruits_diary.Model.FruitsData;
 import com.example.my_fruits_diary.MainActivity;
+import com.example.my_fruits_diary.Model.OnDetailedEntryCnangeListener;
 import com.example.my_fruits_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCnangeListener{
+public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCnangeListener {
 
     private String mDate;
     private String mTotalVitamins;
@@ -75,7 +78,7 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
                      .toString();
              totalFruitsView.setText(mTotalFruits);
          } else {
-             totalFruitsView.setText(0);
+             totalFruitsView.setText("0");
          }
          if (mFruitEntries.size() != 0) {
              mTotalVitamins = mFruitEntries.keySet().stream()
@@ -84,7 +87,7 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
                      .toString();
              totalVitaminsView.setText(mTotalVitamins);
          } else {
-             totalVitaminsView.setText(0);
+             totalVitaminsView.setText("0");
          }
 
      }
@@ -99,6 +102,13 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
         mEntryId = entriesData.getEntriesData().get(position).getEntryId();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
+
     public void activateOnAddNewFruit() {
         onAddNewFruit.setOnClickListener(v -> {
             AddFruitFragment addFruitFragment = new AddFruitFragment();
@@ -106,6 +116,7 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.frame_fragment, addFruitFragment)
+                    .addToBackStack(null)
                     .commit();
         });
     }

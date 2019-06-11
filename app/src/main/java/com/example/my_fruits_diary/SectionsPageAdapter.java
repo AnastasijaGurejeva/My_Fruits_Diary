@@ -1,5 +1,7 @@
 package com.example.my_fruits_diary;
 
+import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -9,7 +11,7 @@ import java.util.List;
 
 public class SectionsPageAdapter extends FragmentPagerAdapter {
 
-    public static final String TAG ="FragmentPageAdapter";
+    public static final String TAG = "FragmentPageAdapter";
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -17,7 +19,7 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-    public void addFragment (Fragment fragment, String title) {
+    public void addFragment(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }
@@ -37,4 +39,10 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return mFragmentList.size();
     }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+
+    }
+
 }

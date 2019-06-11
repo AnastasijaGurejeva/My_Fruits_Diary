@@ -2,9 +2,11 @@ package com.example.my_fruits_diary.DataHandling;
 
 import android.util.Log;
 
-import com.example.my_fruits_diary.MyDiary.Entry;
-import com.example.my_fruits_diary.MyDiary.Fruit;
-import com.example.my_fruits_diary.MyDiary.OnFruitDataReceivedListener;
+import com.example.my_fruits_diary.Model.EntriesData;
+import com.example.my_fruits_diary.Model.FruitsData;
+import com.example.my_fruits_diary.Model.Entry;
+import com.example.my_fruits_diary.Model.Fruit;
+import com.example.my_fruits_diary.Model.OnFruitDataReceivedListener;
 
 import java.util.List;
 

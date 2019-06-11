@@ -6,7 +6,7 @@
         android:id="@+id/mnuDeleteAllEntries"
         android:title="@string/delete_entries" />
     <item
-        android:id="@+id/mnu"
-        android:title="@string/mnu" />
+        android:id="@+id/mnuRefreshData"
+        android:title="@string/refresh_data" />
 
 </menu>

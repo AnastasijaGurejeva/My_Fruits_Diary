@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.my_fruits_diary.Model.Fruit;
 import com.example.my_fruits_diary.R;
 import com.squareup.picasso.Picasso;
 
