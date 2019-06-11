@@ -113,10 +113,10 @@ public class AddFruitFragment extends Fragment
             Log.d(TAG, "onOkClick: activated");
             mSelectedAmount = mSelectAmount.getText().toString().trim();
             Log.d(TAG, "onClick: amount is " + mSelectedAmount);
-            HashMap<Integer,Integer> eatenFruits = mEntriesData.getEntriesData().get(mPosition).getmEatenFruits();
-            if(!eatenFruits.isEmpty()) {
-               Set<Integer> keys = eatenFruits.keySet();
-               List<Integer> fruitsId = new ArrayList<>(keys);
+            if(mEntriesData.getEntriesData().size() > 1) {
+                HashMap<Integer,Integer> eatenFruits = mEntriesData.getEntriesData().get(mPosition).getmEatenFruits();
+                Set<Integer> keys = eatenFruits.keySet();
+                List<Integer> fruitsId = new ArrayList<>(keys);
                for(int i = 0; i < fruitsId.size(); i++) {
                    if(mSelectedFruitId == fruitsId.get(i)) {
                       int newAmount = Integer.parseInt(mSelectedAmount) + eatenFruits.get(mSelectedFruitId);

@@ -61,13 +61,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (mEntries.size() == 1) {
             mOnEntryDeleteListener.onLastEntryRemoved();
             notifyItemRemoved(position);
-        } else {
-            int removedEntryId = mEntries.get(position).getEntryId();
-            mOnEntryDeleteListener.onEntryRemoved(removedEntryId);
-            mEntries.remove(position);
+        } else if (mEntries.size() == 0) {
+            mOnEntryDeleteListener.onLastEntryRemoved();
             notifyItemRemoved(position);
+        } else {
+                int removedEntryId = mEntries.get(position).getEntryId();
+                mOnEntryDeleteListener.onEntryRemoved(removedEntryId);
+                mEntries.remove(position);
+                notifyItemRemoved(position);
+            }
         }
-    }
+
 
     /**
      * Method pass Entry values to the view section
