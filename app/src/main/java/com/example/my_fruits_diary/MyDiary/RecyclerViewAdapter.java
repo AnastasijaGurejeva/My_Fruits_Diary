@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.my_fruits_diary.DataHandling.DataHandler;
 import com.example.my_fruits_diary.R;
 
 import java.util.Collection;
@@ -28,7 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int mTotalVitaminsAmount = 0;
     private String mDate;
     private OnEntryClickListener mOnEntryClickListener;
-    private Entry mRecentlyRemovedItem;
+    private OnEntryDeleteListener mOnEntryDeleteListener;
 
 
 
@@ -54,13 +53,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ViewHolder viewHolder = new ViewHolder(view, mOnEntryClickListener);
         return viewHolder;
     }
+    public void setOnEntryDeleteListener(OnEntryDeleteListener onEntryDeleteListener) {
+        this.mOnEntryDeleteListener = onEntryDeleteListener;
+    }
 
     public void deleteItem(int position) {
-        mRecentlyRemovedItem = mEntries.get(position);
-        DataHandler dataHandler = new DataHandler();
-        dataHandler.onDeleteOneEntry(mEntries.get(position).getEntryId());
-        mEntries.remove(position);
-        notifyItemRemoved(position);
+        if (mEntries.size() == 1) {
+            mOnEntryDeleteListener.onLastEntryRemoved();
+            notifyItemRemoved(position);
+        } else {
+            int removedEntryId = mEntries.get(position).getEntryId();
+            mOnEntryDeleteListener.onEntryRemoved(removedEntryId);
+            mEntries.remove(position);
+            notifyItemRemoved(position);
+        }
     }
 
     /**

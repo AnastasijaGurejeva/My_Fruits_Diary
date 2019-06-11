@@ -33,7 +33,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -43,24 +42,19 @@ import java.util.Observer;
  * Created 5/06/2019
  * Author: Anastasija Gurejeva
  */
-public class EntryListFragment extends Fragment implements Observer,
-        OnPostDataReceivedListener, OnFruitDataReceivedListener, RecyclerViewAdapter.OnEntryClickListener, DatePickerDialog.OnDateSetListener {
+public class EntryListFragment extends Fragment implements Observer, OnPostDataReceivedListener,
+        OnFruitDataReceivedListener, RecyclerViewAdapter.OnEntryClickListener,
+        DatePickerDialog.OnDateSetListener, OnEntryDeleteListener {
     private static final String TAG = "EntryListFragment";
 
-    protected ArrayList<Integer> mEntryId = new ArrayList<>();
-    private ArrayList<Integer> mFruitAmount = new ArrayList<>();
-    private ArrayList<Integer> mTotalVitamins = new ArrayList<>();
-    private ArrayList<String> mDate = new ArrayList<>();
     protected int id;
     private FloatingActionButton onAddNewEntry;
     private FruitsData mFruitsData;
     private EntriesData mEntriesData;
     private List<Entry> mEntries;
     private List<Fruit> mFruits;
-    private HashMap<Integer, Integer> mfruitEntries;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    public static final int REQUEST_CODE = 1;
     private AddFruitFragment addFruitFragment;
     private String mSelectedDate;
     private int mSelectedEntryID;
@@ -87,6 +81,7 @@ public class EntryListFragment extends Fragment implements Observer,
         recyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new RecyclerViewAdapter(mEntries, getActivity(), this);
+        mAdapter.setOnEntryDeleteListener(this);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ItemTouchHelper itemTouchHelper = new
@@ -120,7 +115,7 @@ public class EntryListFragment extends Fragment implements Observer,
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
                 break;
-//            case R.id.mnuPlantInfo:
+  //          case R.id.mnuRefreshData:
 //                intent = new Intent(this, PlantInfoActivity.class);
 //                startActivity(intent);
 //                break;
@@ -230,10 +225,9 @@ public class EntryListFragment extends Fragment implements Observer,
         calendar.set(year, monthOfYear, dayOfMonth);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
         mSelectedDate = dateFormat.format(calendar.getTime());
-
         Log.d(TAG, "onDateSet: " + mSelectedDate);
+
         dataHandler.setOnPostDataReceivedListener(this);
         dataHandler.postNewEntry(mSelectedDate);
     }
@@ -243,10 +237,11 @@ public class EntryListFragment extends Fragment implements Observer,
     @Override
     public void onEntryClickListener(int position) {
         Log.d(TAG, "onClick: clicked position " + position);
-        mfruitEntries = mEntriesData.getEntriesData().get(position).getmEatenFruits();
+        onAddNewEntry.hide();
         DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
         if (isFruitDataReceived) {
-            detailedEntryFragment.dataPassed(mfruitEntries, mFruits);
+            String date = mEntriesData.getEntriesData().get(position).getDate();
+            detailedEntryFragment.dataPassed(mEntriesData, mFruitsData, position);
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.frame_fragment, detailedEntryFragment)
@@ -263,6 +258,18 @@ public class EntryListFragment extends Fragment implements Observer,
         dataHandler.removeOnPostDataReceivedListener(this);
     }
 
+    @Override
+    public void onEntryRemoved(int entryId) {
+        dataHandler.onDeleteOneEntry(entryId);
+    }
+
+    @Override
+    public void onLastEntryRemoved() {
+        dataHandler.onDeleteAllEntries();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+
+    }
 }
 
 
