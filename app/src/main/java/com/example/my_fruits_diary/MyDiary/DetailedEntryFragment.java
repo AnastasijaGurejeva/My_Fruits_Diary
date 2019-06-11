@@ -1,5 +1,6 @@
 package com.example.my_fruits_diary.MyDiary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.my_fruits_diary.DataHandling.DataHandler;
 import com.example.my_fruits_diary.DataHandling.EntriesData;
 import com.example.my_fruits_diary.DataHandling.FruitsData;
+import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -34,8 +37,10 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
     private FruitsData mFruitsData;
     private static final String TAG = "DetailedEntryFragment";
     private FloatingActionButton onAddNewFruit;
-    TextView totalVitaminsView;
-    TextView totalFruitsView;
+    private TextView totalVitaminsView;
+    private TextView totalFruitsView;
+    private DataHandler mDataHandler = new DataHandler();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,10 +111,22 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
     }
 
     @Override
-    public void onEntryRemoved(HashMap<Integer, Integer> fruitEntries) {
+    public void onEntryFruitRemoved(HashMap<Integer, Integer> fruitEntries, int fruitId, String fruitAmount) {
         mFruitEntries = fruitEntries;
+        mDataHandler.editEntry(mEntryId, fruitId, fruitAmount);
         calculateVitaminsAndFruit();
+    }
 
+    public void onEntryRemoved() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        mDataHandler.onDeleteOneEntry(mEntryId);
+    }
 
+    @Override
+    public void onEntryAmountChanged(HashMap<Integer, Integer> fruitEntries, int fruitId, String fruitAmount) {
+        mFruitEntries = fruitEntries;
+        mDataHandler.editEntry(mEntryId, fruitId, fruitAmount);
+        calculateVitaminsAndFruit();
     }
 }

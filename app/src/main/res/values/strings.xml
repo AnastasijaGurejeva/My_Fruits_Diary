@@ -13,4 +13,5 @@
     <string name="mnu">do something</string>
     <string name="total_vitamins_consumed">Total Vitamins Consumed</string>
     <string name="total_number_of_fruits">Total Number of Fruits</string>
+    <string name="amount_detailed_row">Amount:</string>
 </resources>

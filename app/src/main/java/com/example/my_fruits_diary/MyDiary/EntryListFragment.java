@@ -33,7 +33,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -43,24 +42,19 @@ import java.util.Observer;
  * Created 5/06/2019
  * Author: Anastasija Gurejeva
  */
-public class EntryListFragment extends Fragment implements Observer,
-        OnPostDataReceivedListener, OnFruitDataReceivedListener, RecyclerViewAdapter.OnEntryClickListener, DatePickerDialog.OnDateSetListener {
+public class EntryListFragment extends Fragment implements Observer, OnPostDataReceivedListener,
+        OnFruitDataReceivedListener, RecyclerViewAdapter.OnEntryClickListener,
+        DatePickerDialog.OnDateSetListener, OnEntryDeleteListener {
     private static final String TAG = "EntryListFragment";
 
-    protected ArrayList<Integer> mEntryId = new ArrayList<>();
-    private ArrayList<Integer> mFruitAmount = new ArrayList<>();
-    private ArrayList<Integer> mTotalVitamins = new ArrayList<>();
-    private ArrayList<String> mDate = new ArrayList<>();
     protected int id;
     private FloatingActionButton onAddNewEntry;
     private FruitsData mFruitsData;
     private EntriesData mEntriesData;
     private List<Entry> mEntries;
     private List<Fruit> mFruits;
-    private HashMap<Integer, Integer> mFruitEntries;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    public static final int REQUEST_CODE = 1;
     private AddFruitFragment addFruitFragment;
     private String mSelectedDate;
     private int mSelectedEntryID;
@@ -87,6 +81,7 @@ public class EntryListFragment extends Fragment implements Observer,
         recyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new RecyclerViewAdapter(mEntries, getActivity(), this);
+        mAdapter.setOnEntryDeleteListener(this);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ItemTouchHelper itemTouchHelper = new
@@ -230,10 +225,9 @@ public class EntryListFragment extends Fragment implements Observer,
         calendar.set(year, monthOfYear, dayOfMonth);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
         mSelectedDate = dateFormat.format(calendar.getTime());
-
         Log.d(TAG, "onDateSet: " + mSelectedDate);
+
         dataHandler.setOnPostDataReceivedListener(this);
         dataHandler.postNewEntry(mSelectedDate);
     }
@@ -264,6 +258,18 @@ public class EntryListFragment extends Fragment implements Observer,
         dataHandler.removeOnPostDataReceivedListener(this);
     }
 
+    @Override
+    public void onEntryRemoved(int entryId) {
+        dataHandler.onDeleteOneEntry(entryId);
+    }
+
+    @Override
+    public void onLastEntryRemoved() {
+        dataHandler.onDeleteAllEntries();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+
+    }
 }
 
 
