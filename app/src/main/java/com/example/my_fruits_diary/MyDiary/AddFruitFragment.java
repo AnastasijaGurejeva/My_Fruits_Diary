@@ -23,6 +23,7 @@ import com.example.my_fruits_diary.Model.Entry;
 import com.example.my_fruits_diary.Model.Fruit;
 import com.example.my_fruits_diary.Model.FruitsData;
 import com.example.my_fruits_diary.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +50,8 @@ public class AddFruitFragment extends Fragment
     private int mPosition;
     private RecyclerView recyclerView;
     private int mFruitPosition;
+    private FloatingActionButton onBackPressed;
+
 
 
     public AddFruitFragment() {
@@ -69,6 +72,8 @@ public class AddFruitFragment extends Fragment
         mSelectAmount = view.findViewById(R.id.select_amount);
         mSaveEntry = view.findViewById(R.id.save_entry);
         recyclerView = view.findViewById(R.id.frame_availavle_fruits);
+        onBackPressed =view.findViewById(R.id.back_button_add_fruit_fragment);
+
         return view;
     }
 
@@ -89,6 +94,7 @@ public class AddFruitFragment extends Fragment
             }
         }
         onOkClickActivated();
+        activateOnBackPressed();
     }
 
 
@@ -127,6 +133,13 @@ public class AddFruitFragment extends Fragment
         mFruitsData = fruitsData;
         mPosition = position;
     }
+
+    public void activateOnBackPressed() {
+        onBackPressed.setOnClickListener(v -> {
+            getFragmentManager().popBackStack();
+        });
+    }
+
 
 
     @Override

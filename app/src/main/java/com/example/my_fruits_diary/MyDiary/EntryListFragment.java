@@ -6,9 +6,6 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -54,6 +51,8 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
 
     protected int id;
     private FloatingActionButton onAddNewEntry;
+    private FloatingActionButton onDeleteAllEntries;
+    private FloatingActionButton onRefreshData;
     private FruitsData mFruitsData;
     private EntriesData mEntriesData;
     private List<Entry> mEntries;
@@ -75,7 +74,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         super.onCreate(savedInstanceState);
         mAdapter = new RecyclerViewAdapter(mEntries, getActivity(), this);
         mAdapter.setOnEntryDeleteListener(this);
-        setHasOptionsMenu(true);
     }
 
 
@@ -84,6 +82,8 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
         onAddNewEntry = view.findViewById(R.id.add_Entry);
+        onDeleteAllEntries = view.findViewById(R.id.deleteButton);
+        onRefreshData = view.findViewById(R.id.refreshButton);
         recyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
         return view;
     }
@@ -114,45 +114,30 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         activateOnAddNewEntry();
+        activateOnRefreshData();
+        activateOnDeleteAllEntries();
     }
 
 
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.options_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    public void activateOnDeleteAllEntries() {
+        onDeleteAllEntries.setOnClickListener(v -> {
+            DeleteAllEntriesDialog deleteDialog = new DeleteAllEntriesDialog();
+            deleteDialog.show(getActivity().getSupportFragmentManager(), "delete dialog");
+        });
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.mnuDeleteAllEntries:
-                dataHandler.onDeleteAllEntries();
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-
-                break;
-            case R.id.mnuRefreshData:
-                intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
+    public void activateOnRefreshData() {
+        onRefreshData.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-            outState.putInt("selectedPosition", mPosition);
-        }
-
+        outState.putInt("selectedPosition", mPosition);
+    }
 
 
     public void setData(EntriesData entriesData, DownloadDataHandler downloadDataHandler) {
@@ -172,7 +157,7 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
 
     @Override
     public void update(Observable o, Object data) {
-        if(data != null) {
+        if (data != null) {
             mAdapter.loadNewData((List<Entry>) data);
             mEntries = (List<Entry>) data;
             Log.d(TAG, "update: dataEntries loaded" + data.toString());
@@ -192,7 +177,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
                     dataHandler.removeOnPostDataReceivedListener(this);
                     Log.d(TAG, "onReceived: starting addfruit fragment " + mSelectedEntryID);
                     addFruitFragment.onPassId(mSelectedEntryID);
-                    onAddNewEntry.hide();
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame_fragment, addFruitFragment)
@@ -270,7 +254,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         Log.d(TAG, "onClick: clicked position " + position);
         if (mEntries.size() != 0) {
             mPosition = position;
-            onAddNewEntry.hide();
             DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
             if (isFruitDataReceived) {
                 detailedEntryFragment.dataPassed(mEntriesData, mFruitsData, position);

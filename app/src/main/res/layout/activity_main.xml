@@ -6,28 +6,23 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/app_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_tabs"
+        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tabTextColor="@color/colorPrimary"
-        app:tabSelectedTextColor="@color/colorPrimaryDark">
+        app:tabSelectedTextColor="@color/colorPrimaryDark"
+        app:tabTextColor="@color/colorWhite">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/my_diary" />
+            android:text="@string/my_diary"
+            />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -38,25 +33,23 @@
 
     <FrameLayout
         android:id="@+id/frame_new_entry"
-        android:layout_width="0dp"
+        android:layout_width="411dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/container"
+        app:layout_constraintBottom_toTopOf="@+id/container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/container">
+        app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
 
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/container"
-        android:layout_width="0dp"
+        android:layout_width="411dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/tabLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

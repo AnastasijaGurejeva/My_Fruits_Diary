@@ -9,10 +9,6 @@
         <item name="android:colorBackground">#F7F5F5</item>
     </style>
 
-    <style name="MyToolbarTheme"
-        parent="@style/ThemeOverlay.AppCompat.Light">
-        <item name="colorControlNormal">@color/colorWhite</item>
-        <item name="titleTextColor">@color/colorWhite</item>
-    </style>
+
 
 </resources>

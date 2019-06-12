@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,10 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_fruits_diary.DataHandling.DataHandler;
+import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.Model.EntriesData;
 import com.example.my_fruits_diary.Model.Fruit;
 import com.example.my_fruits_diary.Model.FruitsData;
-import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.Model.OnDetailedEntryCnangeListener;
 import com.example.my_fruits_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -46,6 +47,9 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
     private DataHandler mDataHandler = new DataHandler();
     private RecyclerView recyclerView;
     private TextView mDateView;
+    private FloatingActionButton onBackPressed;
+    private Button onSavePressed;
+
 
 
     @Override
@@ -53,20 +57,19 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
         super.onCreate(savedInstanceState);
         mAdapterForDetailedEntry = new RecyclerViewAdapterForDetailedEntry(mFruitEntries, mFruitList, mEntryId, getActivity());
         mAdapterForDetailedEntry.setOnDetailedEntryCnangeListener(this);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_detailed_entry, container, false);
         mDateView = view.findViewById(R.id.date_entry_fragment);
         totalVitaminsView = view.findViewById(R.id.total_vitamins_entry_fragment);
         totalFruitsView = view.findViewById(R.id.total_fruits_entry_fragment);
         onAddNewFruit = view.findViewById(R.id.on_add_new_fruit_detailed_entry);
         recyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
-
+        onBackPressed = view.findViewById(R.id.back_button_detailed_entry_fragment);
+        onSavePressed = view.findViewById(R.id.save_detailed_entry);
         return view;
     }
 
@@ -88,6 +91,8 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         activateOnAddNewFruit();
+        activateOnBackPressed();
+        activateOnSavePressed();
     }
 
 
@@ -121,13 +126,24 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
         mFruitList = fruitsData.getFruitData();
         mFruitsData = fruitsData;
         mPosition = position;
-
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
+    }
+
+    public void activateOnBackPressed() {
+        onBackPressed.setOnClickListener(v -> {
+            getFragmentManager().popBackStack();
+        });
+    }
+
+    public void activateOnSavePressed() {
+        onSavePressed.setOnClickListener(v -> {
+            getFragmentManager().popBackStack();
+        });
     }
 
 
