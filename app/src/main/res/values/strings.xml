@@ -12,7 +12,14 @@
     <string name="delete_entries">Delete All Entries</string>
     <string name="mnu">do something</string>
     <string name="total_vitamins_consumed">Total Vitamins Consumed</string>
-    <string name="total_number_of_fruits">Total Number of Fruits</string>
+    <string name="total_number_of_fruits">Total Count of Fruits</string>
     <string name="amount_detailed_row">Amount:</string>
     <string name="refresh_data">Refresh Data</string>
+    <string name="about_this_app">About This App</string>
+    <string name="text_about">Track the amount of your daily
+        fruit intake.</string>
+    <string name="text_vitamins">Calculate the amount of vitamins you consumed.</string>
+    <string name="text_about_the_app"> This app allows to create your daily records and add the fruits you have ate.
+        Every record has a detailed view with vitamin count.
+        Fruit amount can be edited and fruit can be deleted by swiping to the left.</string>
 </resources>

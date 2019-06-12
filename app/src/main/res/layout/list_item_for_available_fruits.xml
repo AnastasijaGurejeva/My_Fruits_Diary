@@ -59,6 +59,7 @@
         android:fontFamily="sans-serif-medium"
         android:textAlignment="textStart"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/fruit_type_available_fruits"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fruit_type_available_fruits" />

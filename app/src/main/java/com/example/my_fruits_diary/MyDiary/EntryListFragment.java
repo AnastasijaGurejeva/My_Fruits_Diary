@@ -139,6 +139,10 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         outState.putInt("selectedPosition", mPosition);
     }
 
+    /**
+     * Method is called by Main activity to pass instance of EntriesData
+     * Observer is added to monitor changes
+     */
 
     public void setData(EntriesData entriesData, DownloadDataHandler downloadDataHandler) {
         mEntriesData = entriesData;
@@ -163,6 +167,11 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
             Log.d(TAG, "update: dataEntries loaded" + data.toString());
         }
     }
+
+    /**
+     * Callback received when new Entry is added.
+     * Data is extracted and id received to update Entry
+     */
 
     @Override
     public void onReceivedPostIdData(String s) {
@@ -239,11 +248,9 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, monthOfYear, dayOfMonth);
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String mSelectedDate = dateFormat.format(calendar.getTime());
         Log.d(TAG, "onDateSet: " + mSelectedDate);
-
         dataHandler.setOnPostDataReceivedListener(this);
         dataHandler.postNewEntry(mSelectedDate);
     }
@@ -284,7 +291,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         dataHandler.onDeleteAllEntries();
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
-
     }
 }
 

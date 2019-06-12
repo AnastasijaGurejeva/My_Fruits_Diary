@@ -11,18 +11,127 @@
         android:id="@+id/title_about"
         android:layout_width="0dp"
         android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="About My Fruit Diary"
-        app:layout_constraintBottom_toTopOf="@+id/text_about"
+        android:text="@string/about_this_app"
+        android:textAlignment="textStart"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/vitamin_icon"
+        app:layout_constraintEnd_toEndOf="@+id/frame_vitamins"
+        app:layout_constraintStart_toStartOf="@+id/frame_vitamins"
+        app:layout_constraintTop_toBottomOf="@+id/text_about_the_app" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/frame_vitamins"
+        android:layout_width="150dp"
+        android:layout_height="78dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="?attr/colorAccent"
+        android:elevation="0dp"
+        app:cardCornerRadius="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frame_fruit_detailed_entry">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="142dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:elevation="0dp"
+            app:cardCornerRadius="18dp">
+
+            <TextView
+                android:id="@+id/text_about_vitamins"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="@string/text_vitamins"
+                android:textAlignment="center"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/frame_fruit_detailed_entry"
+        android:layout_width="150dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="?attr/colorAccent"
+        android:elevation="0dp"
+        app:cardCornerRadius="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="142dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:elevation="0dp"
+            app:cardCornerRadius="18dp">
+
+            <TextView
+                android:id="@+id/text_about"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="@string/text_about"
+                android:textAlignment="center"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/fruit_icon"
+        app:layout_constraintStart_toStartOf="@+id/frame_fruit_detailed_entry"
+        app:layout_constraintTop_toBottomOf="@+id/text_about_the_app" />
+
     <TextView
-        android:id="@+id/text_about"
+        android:id="@+id/text_about_the_app"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/text_about_the_app"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_about" />
