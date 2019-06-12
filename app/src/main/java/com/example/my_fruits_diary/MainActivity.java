@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private DownloadDataHandler mDownloadDataHandler = new DownloadDataHandler();
     private EntryListFragment entryListFragment;
+    private androidx.appcompat.widget.Toolbar toolbar;
 
 
     @Override
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: Starting app");
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("My Fruit Diary");
 
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.container);

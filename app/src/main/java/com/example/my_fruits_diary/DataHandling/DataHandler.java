@@ -76,7 +76,7 @@ public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
     @Override
     public void onNewPostComplete(String data, PostStatus status) {
         mDataReceived = data;
-        if(isNewEntryCalled) {
+        if(isNewEntryCalled ) {
             onPostDataReceivedListener.onReceivedPostIdData(mDataReceived);
         }
         Log.d(TAG, "onNewPostComplete: DONE data " + data);

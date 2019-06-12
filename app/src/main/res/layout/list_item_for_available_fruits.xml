@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@android:color/white"
     android:layout_height="wrap_content">
@@ -19,12 +20,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
             android:elevation="12dp"
-            app:cardCornerRadius="28dp">
+            app:cardCornerRadius="27dp">
 
             <ImageView
                 android:id="@+id/fruit_image_available_fruit"
@@ -40,10 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:fontFamily="sans-serif-medium"
         android:textAlignment="textStart"
         android:textAllCaps="true"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/frame_available_fruit"
         app:layout_constraintEnd_toStartOf="@+id/vitamins_available_fruits"
         app:layout_constraintHorizontal_bias="0"
@@ -55,9 +56,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
+        android:fontFamily="sans-serif-medium"
         android:textAlignment="textStart"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/fruit_type_available_fruits"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fruit_type_available_fruits" />
+
+    <TextView
+        android:id="@+id/textVitamins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:text="Vitamins:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

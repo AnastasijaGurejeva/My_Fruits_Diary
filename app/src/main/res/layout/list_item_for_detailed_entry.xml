@@ -18,12 +18,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
             android:elevation="12dp"
-            app:cardCornerRadius="28dp">
+            app:cardCornerRadius="27dp">
 
             <ImageView
                 android:id="@+id/fruit_image_detaled_entry"

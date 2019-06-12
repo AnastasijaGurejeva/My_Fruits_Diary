@@ -63,7 +63,7 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         if (mFruitList != null && mFruitList.size() != 0) {
             viewHolder.fruitType.setText(mFruitList.get(i).getType());
-            viewHolder.vitamins.setText("Vitamins: " + mFruitList.get(i).getVitamins());
+            viewHolder.vitamins.setText("" + mFruitList.get(i).getVitamins());
 
             // Picasso Third party library which helps to download images from web
             Log.d(TAG, "onBindViewHolder: Link for picasso: " + mFruitList.get(i).getImage());

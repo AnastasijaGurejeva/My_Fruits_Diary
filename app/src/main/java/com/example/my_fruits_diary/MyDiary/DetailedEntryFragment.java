@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,63 +44,84 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
     private TextView totalVitaminsView;
     private TextView totalFruitsView;
     private DataHandler mDataHandler = new DataHandler();
+    private RecyclerView recyclerView;
+    private TextView mDateView;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAdapterForDetailedEntry = new RecyclerViewAdapterForDetailedEntry(mFruitEntries, mFruitList, mEntryId, getActivity());
+        mAdapterForDetailedEntry.setOnDetailedEntryCnangeListener(this);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detailed_entry, container, false);
-        TextView dateView = view.findViewById(R.id.date_entry_fragment);
+        mDateView = view.findViewById(R.id.date_entry_fragment);
         totalVitaminsView = view.findViewById(R.id.total_vitamins_entry_fragment);
         totalFruitsView = view.findViewById(R.id.total_fruits_entry_fragment);
         onAddNewFruit = view.findViewById(R.id.on_add_new_fruit_detailed_entry);
-
-        dateView.setText(mDate);
-        calculateVitaminsAndFruit();
-
-
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
-        mAdapterForDetailedEntry = new RecyclerViewAdapterForDetailedEntry(mFruitEntries, mFruitList, mEntryId, getActivity());
-        mAdapterForDetailedEntry.setOnDetailedEntryCnangeListener(this);
-        recyclerView.setAdapter(mAdapterForDetailedEntry);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new SwipeToDeleteForDetailedEntry(mAdapterForDetailedEntry, getContext()));
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-        activateOnAddNewFruit();
+        recyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
 
         return view;
     }
-     public void calculateVitaminsAndFruit() {
-         if (mFruitEntries.size() != 0) {
-             mTotalFruits = mFruitEntries.values().stream()
-                     .reduce(0, Integer::sum)
-                     .toString();
-             totalFruitsView.setText(mTotalFruits);
-         } else {
-             totalFruitsView.setText("0");
-         }
-         if (mFruitEntries.size() != 0) {
-             mTotalVitamins = mFruitEntries.keySet().stream()
-                     .map(x -> (mFruitList.get(x).getVitamins()) * mFruitEntries.get(x))
-                     .reduce(0, Integer::sum)
-                     .toString();
-             totalVitaminsView.setText(mTotalVitamins);
-         } else {
-             totalVitaminsView.setText("0");
-         }
 
-     }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mDateView.setText(mDate);
+        calculateVitaminsAndFruit();
+        recyclerView.setAdapter(mAdapterForDetailedEntry);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        SwipeToDelete swipeHandler = new SwipeToDelete(getContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                mAdapterForDetailedEntry.deleteItem(position);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHandler);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        activateOnAddNewFruit();
+    }
+
+
+    public void calculateVitaminsAndFruit() {
+        if (mFruitEntries.size() != 0) {
+            mTotalFruits = mFruitEntries.values().stream()
+                    .reduce(0, Integer::sum)
+                    .toString();
+            totalFruitsView.setText(mTotalFruits);
+        } else {
+            totalFruitsView.setText("0");
+        }
+        if (mFruitEntries.size() != 0) {
+            mTotalVitamins = mFruitEntries.keySet().stream()
+                    .map(x -> (mFruitList.get(x).getVitamins()) * mFruitEntries.get(x))
+                    .reduce(0, Integer::sum)
+                    .toString();
+            totalVitaminsView.setText(mTotalVitamins);
+        } else {
+            totalVitaminsView.setText("0");
+        }
+
+    }
 
     public void dataPassed(EntriesData entriesData, FruitsData fruitsData, int position) {
         mFruitEntries = entriesData.getEntriesData().get(position).getmEatenFruits();
-        mFruitList = fruitsData.getFruitData();
         mDate = entriesData.getEntriesData().get(position).getDate();
         mEntriesData = entriesData;
+        mEntryId = entriesData.getEntriesData().get(position).getEntryId();
+        mPosition = position;
+        mFruitList = fruitsData.getFruitData();
         mFruitsData = fruitsData;
         mPosition = position;
-        mEntryId = entriesData.getEntriesData().get(position).getEntryId();
+
     }
 
     @Override
@@ -119,13 +141,6 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
                     .addToBackStack(null)
                     .commit();
         });
-    }
-
-    @Override
-    public void onEntryFruitRemoved(HashMap<Integer, Integer> fruitEntries, int fruitId, String fruitAmount) {
-        mFruitEntries = fruitEntries;
-        mDataHandler.editEntry(mEntryId, fruitId, fruitAmount);
-        calculateVitaminsAndFruit();
     }
 
     public void onEntryRemoved() {

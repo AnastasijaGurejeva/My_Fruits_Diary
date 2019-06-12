@@ -72,7 +72,7 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
             notifyItemRemoved(position);
         } else {
             mFruitEntries.remove(fruitId);
-            onDetailedEntryCnangeListener.onEntryFruitRemoved(mFruitEntries, fruitId, amount);
+            onDetailedEntryCnangeListener.onEntryAmountChanged(mFruitEntries, fruitId, amount);
             notifyItemRemoved(position);
         }
     }

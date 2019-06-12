@@ -13,26 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_fruits_diary.R;
 
-public class SwipeToDelete extends ItemTouchHelper.SimpleCallback {
-        private RecyclerViewAdapter mAdapter;
+abstract class SwipeToDelete extends ItemTouchHelper.SimpleCallback {
         private Drawable icon;
         private ColorDrawable background;
         private Context mContext;
 
-    public SwipeToDelete(RecyclerViewAdapter adapter, Context context) {
+    public SwipeToDelete( Context context) {
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        mAdapter = adapter;
         background = new ColorDrawable(Color.RED);
         mContext = context;
         icon = ContextCompat.getDrawable(mContext, R.drawable.ic_baseline_delete_24px);
     }
 
 
-    @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        int position = viewHolder.getAdapterPosition();
-        mAdapter.deleteItem(position);
-    }
+//    @Override
+//    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+//        int position = viewHolder.getAdapterPosition();
+//        mAdapter.deleteItem(position);
+//    }
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder1) {

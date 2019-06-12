@@ -63,6 +63,7 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
     private DownloadDataHandler mDownloadDataHandler;
     private RecyclerView recyclerView;
     private int mPosition;
+    private int mSelectedEntryID;
 
 
     public EntryListFragment() {
@@ -72,7 +73,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mAdapter = new RecyclerViewAdapter(mEntries, getActivity(), this);
         mAdapter.setOnEntryDeleteListener(this);
         setHasOptionsMenu(true);
@@ -85,7 +85,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
         onAddNewEntry = view.findViewById(R.id.add_Entry);
         recyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
-
         return view;
     }
 
@@ -103,12 +102,21 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
 
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new SwipeToDelete(mAdapter, getContext()));
+
+        SwipeToDelete swipeHandler = new SwipeToDelete(getContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                mAdapter.deleteItem(position);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHandler);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         activateOnAddNewEntry();
     }
+
+
 
 
     @Override
@@ -127,6 +135,7 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
                 dataHandler.onDeleteAllEntries();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
+
                 break;
             case R.id.mnuRefreshData:
                 intent = new Intent(getActivity(), MainActivity.class);
@@ -163,30 +172,36 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
 
     @Override
     public void update(Observable o, Object data) {
-        mAdapter.loadNewData((List<Entry>) data);
-        Log.d(TAG, "update: dataEntries loaded" + data.toString());
+        if(data != null) {
+            mAdapter.loadNewData((List<Entry>) data);
+            mEntries = (List<Entry>) data;
+            Log.d(TAG, "update: dataEntries loaded" + data.toString());
+        }
     }
 
     @Override
     public void onReceivedPostIdData(String s) {
-        try {
-            JSONObject jsonObject = new JSONObject(s);
-            int mSelectedEntryID = (Integer) jsonObject.get("id");
-            Log.d(TAG, "onReceived: id " + mSelectedEntryID);
-            AddFruitFragment addFruitFragment = new AddFruitFragment();
-            addFruitFragment.updateFruitsData(mFruitsData, mEntriesData);
-            if (mSelectedEntryID != 0) {
-                dataHandler.removeOnPostDataReceivedListener(this);
-                Log.d(TAG, "onReceived: starting addfruit fragment " + mSelectedEntryID);
-                addFruitFragment.onPassId(mSelectedEntryID);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame_fragment, addFruitFragment)
-                        .addToBackStack(null)
-                        .commit();
+        if (s != null) {
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                mSelectedEntryID = (Integer) jsonObject.get("id");
+                Log.d(TAG, "onReceived: id " + mSelectedEntryID);
+                AddFruitFragment addFruitFragment = new AddFruitFragment();
+                addFruitFragment.updateFruitsData(mFruitsData, mEntriesData);
+                if (mSelectedEntryID != 0) {
+                    dataHandler.removeOnPostDataReceivedListener(this);
+                    Log.d(TAG, "onReceived: starting addfruit fragment " + mSelectedEntryID);
+                    addFruitFragment.onPassId(mSelectedEntryID);
+                    onAddNewEntry.hide();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame_fragment, addFruitFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, "onReceived: id is" + e.getMessage());
             }
-        } catch (JSONException e) {
-            Log.e(TAG, "onReceived: id is" + e.getMessage());
         }
     }
 
@@ -253,16 +268,18 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
     @Override
     public void onEntryClickListener(int position) {
         Log.d(TAG, "onClick: clicked position " + position);
-        mPosition = position;
-        onAddNewEntry.hide();
-        DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
-        if (isFruitDataReceived) {
-            detailedEntryFragment.dataPassed(mEntriesData, mFruitsData, position);
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame_fragment, detailedEntryFragment)
-                    .addToBackStack(null)
-                    .commit();
+        if (mEntries.size() != 0) {
+            mPosition = position;
+            onAddNewEntry.hide();
+            DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
+            if (isFruitDataReceived) {
+                detailedEntryFragment.dataPassed(mEntriesData, mFruitsData, position);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_fragment, detailedEntryFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
         }
     }
 
