@@ -8,9 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,16 +69,13 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
     private RecyclerView mRecyclerView;
     private int mPosition;
     private int mSelectedEntryID;
-    private ProgressBar mCircularProgressBar;
     private TextView mTodayFruitCount;
     private TextView mTodayVitaminCount;
-    private TextView mProgress;
-    private EditText mSetYourGoal;
+
 
 
     public EntryListFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,7 +83,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         mAdapter = new RecyclerViewAdapter(mEntries, mFruits, getActivity(), this);
         mAdapter.setOnEntryDeleteListener(this);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,11 +92,8 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         onDeleteAllEntries = view.findViewById(R.id.delete_button);
         onRefreshData = view.findViewById(R.id.refresh_button);
         mRecyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
-        mCircularProgressBar = view.findViewById(R.id.progress_bar);
         mTodayFruitCount = view.findViewById(R.id.today_fruit_count);
         mTodayVitaminCount =view.findViewById(R.id.today_vitamin_count);
-        mProgress = view.findViewById(R.id._progress_percentage);
-
         return view;
     }
 
@@ -117,7 +108,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());
         Log.d(TAG, "onCreateView: setting layout manager");
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -133,15 +123,11 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
 
         mTodayVitaminCount.setText("0");
         mTodayFruitCount.setText("0");
-        mCircularProgressBar.setProgress(0);
-        mProgress.setText(0 + "%");
 
         activateOnAddNewEntry();
         activateOnRefreshData();
         activateOnDeleteAllEntries();
-        //activateSetYourGoal();
     }
-
 
     public void activateOnDeleteAllEntries() {
         onDeleteAllEntries.setOnClickListener(v -> {
@@ -222,7 +208,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         }
     }
 
-
     public void activateOnAddNewEntry() {
         onAddNewEntry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,7 +263,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         dataHandler.setOnPostDataReceivedListener(this);
         dataHandler.postNewEntry(mSelectedDate);
     }
-
 
     @Override
     public void onEntryClickListener(int position) {
@@ -353,18 +337,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
             }
         }
     }
-
-
-
-//    public void activateSetYourGoal() {
-//        mSetYourGoal.setOnClickListener(v -> {
-//            int goal = Integer.valueOf(mSetYourGoal.getText().toString().trim());
-//            int todaysVitaminCount = Integer.valueOf(mTodayVitaminCount.getText().toString().trim());
-//            int progress = todaysVitaminCount / goal * 100;
-//            mCircularProgressBar.setProgress(progress);
-//            mProgress.setText(50 + "%");
-//        });
-//    }
 
     @Override
     public void onEntryRemoved(int entryId) {
