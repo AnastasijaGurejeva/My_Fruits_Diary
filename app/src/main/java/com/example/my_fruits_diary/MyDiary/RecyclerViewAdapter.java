@@ -11,12 +11,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_fruits_diary.Model.Entry;
+import com.example.my_fruits_diary.Model.Fruit;
 import com.example.my_fruits_diary.Model.OnEntryDeleteListener;
 import com.example.my_fruits_diary.R;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -27,22 +29,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private View.OnClickListener mOnEntryListener;
     private int mTotalFruitAmount = 0;
     private int mTotalVitaminsAmount = 0;
+    private List<Fruit> mFruits;
     private String mDate;
     private OnEntryClickListener mOnEntryClickListener;
     private OnEntryDeleteListener mOnEntryDeleteListener;
 
 
-
-    public RecyclerViewAdapter(List<Entry> mEntries,
+    public RecyclerViewAdapter(List<Entry> mEntries, List<Fruit> mFruits,
                                Context mContext, OnEntryClickListener onEntryClickListener) {
 
         this.mContext = mContext;
         this.mOnEntryClickListener = onEntryClickListener;
+        this.mFruits = mFruits;
 
     }
 
     /**
      * Method creates a Layout view for the Entry List
+     *
      * @param viewGroup
      * @param i
      * @return viewholder
@@ -55,6 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ViewHolder viewHolder = new ViewHolder(view, mOnEntryClickListener);
         return viewHolder;
     }
+
     public void setOnEntryDeleteListener(OnEntryDeleteListener onEntryDeleteListener) {
         this.mOnEntryDeleteListener = onEntryDeleteListener;
     }
@@ -67,33 +72,50 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mOnEntryDeleteListener.onLastEntryRemoved();
             notifyItemRemoved(position);
         } else {
-                int removedEntryId = mEntries.get(position).getEntryId();
-                mOnEntryDeleteListener.onEntryRemoved(removedEntryId);
-                mEntries.remove(position);
-                notifyItemRemoved(position);
-            }
+            int removedEntryId = mEntries.get(position).getEntryId();
+            mOnEntryDeleteListener.onEntryRemoved(removedEntryId);
+            mEntries.remove(position);
+            notifyItemRemoved(position);
         }
+    }
 
 
     /**
      * Method pass Entry values to the view section
      * Checks if data is uploaded, if not sets 0 values
+     *
      * @param viewHolder
      * @param i
      */
 
     @Override
-    public void onBindViewHolder( ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
         if (mEntries != null && mEntries.size() != 0) {
+            int totalVitaminsAmount = 0;
             mDate = mEntries.get(i).getDate();
             HashMap<Integer, Integer> eatenFruits = mEntries.get(i).getmEatenFruits();
-            mTotalFruitAmount = eatenFruits.size();
-            if (eatenFruits.size() != 0) {
-                Collection<Integer> values = eatenFruits.values();
-                for (Integer value : values) {
-                    mTotalVitaminsAmount += value;
+            String fruitAmount = eatenFruits.values().stream()
+                    .reduce(0, Integer::sum)
+                    .toString();
+            mTotalFruitAmount = Integer.valueOf(fruitAmount);
+
+            if (eatenFruits.size() != 0 && mFruits != null) {
+                for (int k = 0; k < eatenFruits.size(); k++) {
+                    Set<Integer> keys = eatenFruits.keySet();
+                    List<Integer> fruitIdList = new ArrayList(keys);
+                    int fruitId = fruitIdList.get(k);
+                    int vitamins = 0;
+                    for (int j = 0; j < mFruits.size(); j++) {
+                        if (mFruits.get(j).getID() == fruitId) {
+                            vitamins = mFruits.get(j).getVitamins();
+                            break;
+                        }
+                    }
+                    totalVitaminsAmount = totalVitaminsAmount + vitamins * eatenFruits.get(fruitId);
                 }
+                mTotalVitaminsAmount = totalVitaminsAmount;
+
             } else {
                 mTotalVitaminsAmount = 0;
             }
@@ -111,13 +133,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyDataSetChanged();
     }
 
+    void loadNewDataFruits(List<Fruit> fruits) {
+        mFruits = fruits;
+        Log.d(TAG, "loadNewDataFruits: " + mFruits);
+        notifyDataSetChanged();
+    }
+
     /**
      * Method returns size of the entryList, returns 1 if data is null or 0;
      */
 
     @Override
     public int getItemCount() {
-        return ((mEntries != null) && (mEntries.size() !=0) ? mEntries.size() : 1);
+        return ((mEntries != null) && (mEntries.size() != 0) ? mEntries.size() : 1);
     }
 
 
@@ -134,7 +162,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         OnEntryClickListener onEntryClickListener;
 
 
-        public ViewHolder( View itemView, OnEntryClickListener onEntryClickListener) {
+        public ViewHolder(View itemView, OnEntryClickListener onEntryClickListener) {
             super(itemView);
 
             cardView = itemView.findViewById(R.id.listItem_view);

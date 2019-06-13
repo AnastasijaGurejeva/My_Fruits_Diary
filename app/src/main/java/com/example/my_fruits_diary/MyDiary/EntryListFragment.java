@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,6 +24,7 @@ import com.example.my_fruits_diary.DataHandling.DownloadDataHandler;
 import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.Model.EntriesData;
 import com.example.my_fruits_diary.Model.Entry;
+import com.example.my_fruits_diary.Model.Fruit;
 import com.example.my_fruits_diary.Model.FruitsData;
 import com.example.my_fruits_diary.Model.OnEntryDeleteListener;
 import com.example.my_fruits_diary.Model.OnFruitDataReceivedListener;
@@ -35,6 +40,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -51,18 +57,24 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
 
     protected int id;
     private FloatingActionButton onAddNewEntry;
-    private FloatingActionButton onDeleteAllEntries;
-    private FloatingActionButton onRefreshData;
+    private ImageButton onDeleteAllEntries;
+    private ImageButton onRefreshData;
     private FruitsData mFruitsData;
     private EntriesData mEntriesData;
     private List<Entry> mEntries;
+    private List<Fruit> mFruits;
     private RecyclerViewAdapter mAdapter;
     private boolean isFruitDataReceived = false;
     private DataHandler dataHandler = new DataHandler();
     private DownloadDataHandler mDownloadDataHandler;
-    private RecyclerView recyclerView;
+    private RecyclerView mRecyclerView;
     private int mPosition;
     private int mSelectedEntryID;
+    private ProgressBar mCircularProgressBar;
+    private TextView mTodayFruitCount;
+    private TextView mTodayVitaminCount;
+    private TextView mProgress;
+    private EditText mSetYourGoal;
 
 
     public EntryListFragment() {
@@ -72,7 +84,7 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new RecyclerViewAdapter(mEntries, getActivity(), this);
+        mAdapter = new RecyclerViewAdapter(mEntries, mFruits, getActivity(), this);
         mAdapter.setOnEntryDeleteListener(this);
     }
 
@@ -82,9 +94,15 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
         onAddNewEntry = view.findViewById(R.id.add_Entry);
-        onDeleteAllEntries = view.findViewById(R.id.deleteButton);
-        onRefreshData = view.findViewById(R.id.refreshButton);
-        recyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
+        onDeleteAllEntries = view.findViewById(R.id.delete_button);
+        onRefreshData = view.findViewById(R.id.refresh_button);
+        mRecyclerView = view.findViewById(R.id.recycler_view_detailed_fragment);
+        mCircularProgressBar = view.findViewById(R.id.progress_bar);
+        mTodayFruitCount = view.findViewById(R.id.today_fruit_count);
+        mTodayVitaminCount =view.findViewById(R.id.today_vitamin_count);
+        mSetYourGoal = view.findViewById(R.id.set_your_goal);
+        mProgress = view.findViewById(R.id._progress_percentage);
+
         return view;
     }
 
@@ -98,10 +116,10 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());
         Log.d(TAG, "onCreateView: setting layout manager");
-        recyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         SwipeToDelete swipeHandler = new SwipeToDelete(getContext()) {
             @Override
@@ -111,11 +129,12 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHandler);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         activateOnAddNewEntry();
         activateOnRefreshData();
         activateOnDeleteAllEntries();
+        activateSetYourGoal();
     }
 
 
@@ -156,7 +175,7 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
 
     /**
      * Method receives callback when Entry List if fully loaded
-     * And calls method to update recyclerView
+     * And calls method to update mRecyclerView
      */
 
     @Override
@@ -276,9 +295,63 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
     @Override
     public void onReceivedFruitsData(FruitsData fruitsData) {
         mFruitsData = fruitsData;
+        mFruits = mFruitsData.getFruitData();
+        mAdapter.loadNewDataFruits((List<Fruit>) mFruits);
         Log.d(TAG, "onReceivedFruitsData: entryFragment" + mFruitsData.getFruitData().toString());
         isFruitDataReceived = true;
+        calculateTodaysProgress();
         dataHandler.removeOnPostDataReceivedListener(this);
+    }
+
+    public void calculateTodaysProgress() {
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String todaysDate = simpleDateFormat.format(date);
+        Entry todaysEntry = null;
+        if (mEntries != null) {
+            for (int i = 0; i < mEntries.size(); i++) {
+                if (mEntries.get(i).getDate().equals(todaysDate)) {
+                    todaysEntry = mEntries.get(i);
+                    break;
+                }
+            }
+            if (mFruitsData != null && todaysEntry != null) {
+                HashMap<Integer, Integer> fruitEntries = todaysEntry.getmEatenFruits();
+                if (fruitEntries.size() != 0) {
+
+                    String todayFruitCount = fruitEntries.values().stream()
+                            .reduce(0, Integer::sum)
+                            .toString();
+                    mTodayFruitCount.setText(todayFruitCount);
+                } else {
+                    mTodayFruitCount.setText("0");
+                }
+
+                List<Fruit> fruitList = mFruitsData.getFruitData();
+                if (fruitEntries.size() != 0) {
+                    String totalVitamins = fruitEntries.keySet().stream()
+                            .map(x -> (fruitList.get(x).getVitamins()) * fruitEntries.get(x))
+                            .reduce(0, Integer::sum)
+                            .toString();
+                    mTodayVitaminCount.setText(totalVitamins);
+                } else {
+                    mTodayVitaminCount.setText("0");
+                }
+
+            }
+        }
+    }
+
+
+
+    public void activateSetYourGoal() {
+        mSetYourGoal.setOnClickListener(v -> {
+            int goal = Integer.valueOf(mSetYourGoal.getText().toString().trim());
+            int todaysVitaminCount = Integer.valueOf(mTodayVitaminCount.getText().toString().trim());
+            int progress = todaysVitaminCount / goal * 100;
+            mCircularProgressBar.setProgress(progress);
+            mProgress.setText(progress + "%");
+        });
     }
 
     @Override

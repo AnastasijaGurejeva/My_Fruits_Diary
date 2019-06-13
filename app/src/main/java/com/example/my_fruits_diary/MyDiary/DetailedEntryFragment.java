@@ -24,8 +24,10 @@ import com.example.my_fruits_diary.Model.OnDetailedEntryCnangeListener;
 import com.example.my_fruits_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 
 public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCnangeListener {
@@ -105,16 +107,26 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
         } else {
             totalFruitsView.setText("0");
         }
+
         if (mFruitEntries.size() != 0) {
-            mTotalVitamins = mFruitEntries.keySet().stream()
-                    .map(x -> (mFruitList.get(x).getVitamins()) * mFruitEntries.get(x))
-                    .reduce(0, Integer::sum)
-                    .toString();
-            totalVitaminsView.setText(mTotalVitamins);
+            int totalVitaminsAmount = 0;
+            for (int k = 0; k < mFruitEntries.size(); k++) {
+                Set<Integer> keys = mFruitEntries.keySet();
+                List<Integer> fruitIdList = new ArrayList(keys);
+                int fruitId = fruitIdList.get(k);
+                int vitamins = 0;
+                for (int j = 0; j < mFruitList.size(); j++) {
+                    if (mFruitList.get(j).getID() == fruitId) {
+                        vitamins = mFruitList.get(j).getVitamins();
+                        break;
+                    }
+                }
+                totalVitaminsAmount = totalVitaminsAmount + vitamins * mFruitEntries.get(fruitId);
+            }
+            totalVitaminsView.setText(totalVitaminsAmount + "");
         } else {
             totalVitaminsView.setText("0");
         }
-
     }
 
     public void dataPassed(EntriesData entriesData, FruitsData fruitsData, int position) {
@@ -136,13 +148,15 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
 
     public void activateOnBackPressed() {
         onBackPressed.setOnClickListener(v -> {
-            getFragmentManager().popBackStack();
+           Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         });
     }
 
     public void activateOnSavePressed() {
         onSavePressed.setOnClickListener(v -> {
-            getFragmentManager().popBackStack();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         });
     }
 
