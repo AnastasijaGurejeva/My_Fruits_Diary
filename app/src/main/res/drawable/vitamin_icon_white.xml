@@ -2,10 +2,10 @@
     android:viewportWidth="187" android:width="187dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#fff" android:pathData="M53.76,28h-0.18c-0.9,3.58 -1.88,7.26 -3,10.93L44.62,56.44H62.81L56.89,39.06C55.55,35.11 54.65,31.53 53.76,28Z"/>
     <path android:fillColor="#fff" android:pathData="M54.35,0a54.35,54.35 0,1 0,54.35 54.35A54.35,54.35 0,0 0,54.35 0ZM70.87,81.53l-6.45,-19H43l-6.27,19H28.67L49.19,21.14h9.41L79.2,81.53Z"/>
-    <path android:fillColor="#00000000"
+    <path android:fillColor="?attr/colorPrimaryDark"
         android:pathData="M136.68,70.67m-47.49,0a47.49,47.49 0,1 1,94.98 0a47.49,47.49 0,1 1,-94.98 0"
         android:strokeColor="#fff" android:strokeWidth="5.67"/>
-    <path android:fillColor="#00000000"
+    <path android:fillColor="?attr/colorPrimaryDark"
         android:pathData="M80.09,109.19m-38.52,0a38.52,38.52 0,1 1,77.04 0a38.52,38.52 0,1 1,-77.04 0"
         android:strokeColor="#fff" android:strokeWidth="4.25"/>
     <path android:fillColor="#fff"

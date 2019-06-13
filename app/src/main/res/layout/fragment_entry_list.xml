@@ -122,10 +122,10 @@
         android:id="@+id/_progress_percentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:textColor="@color/colorWhite"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/set_your_goal"
+        app:layout_constraintBottom_toBottomOf="@+id/progress_bar"
         app:layout_constraintEnd_toEndOf="@+id/progress_bar"
         app:layout_constraintStart_toStartOf="@+id/progress_bar"
         app:layout_constraintTop_toTopOf="@+id/progress_bar" />
@@ -135,36 +135,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/today_vitamin_count_text"
         app:layout_constraintStart_toStartOf="@+id/today_vitamin_count_text"
         app:layout_constraintTop_toBottomOf="@+id/today_vitamin_count_text" />
-
-    <EditText
-        android:id="@+id/set_your_goal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:ems="6"
-        android:hint="@string/set_your_goal"
-        android:inputType="number"
-        android:textColor="@color/colorAccent"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/progress_bar"
-        app:layout_constraintEnd_toEndOf="@+id/progress_bar"
-        app:layout_constraintStart_toStartOf="@+id/progress_bar"
-        app:layout_constraintTop_toBottomOf="@+id/_progress_percentage" />
 
     <TextView
         android:id="@+id/today_fruit_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/fruit_icon_today"
         app:layout_constraintStart_toStartOf="@+id/fruit_icon_today"
@@ -207,6 +191,21 @@
         app:layout_constraintEnd_toStartOf="@+id/delete_button"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_autorenew_24px" />
+
+    <Button
+        android:id="@+id/button_set_your_goal"
+        android:layout_width="125dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_corners"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/set_your_goal_button"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/delete_button"

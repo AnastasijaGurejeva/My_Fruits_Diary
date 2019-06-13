@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 /**
  * Tab fragment for entering eaten fruits on selected day
@@ -100,7 +101,6 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         mCircularProgressBar = view.findViewById(R.id.progress_bar);
         mTodayFruitCount = view.findViewById(R.id.today_fruit_count);
         mTodayVitaminCount =view.findViewById(R.id.today_vitamin_count);
-        mSetYourGoal = view.findViewById(R.id.set_your_goal);
         mProgress = view.findViewById(R.id._progress_percentage);
 
         return view;
@@ -131,10 +131,15 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHandler);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        mTodayVitaminCount.setText("0");
+        mTodayFruitCount.setText("0");
+        mCircularProgressBar.setProgress(0);
+        mProgress.setText(0 + "%");
+
         activateOnAddNewEntry();
         activateOnRefreshData();
         activateOnDeleteAllEntries();
-        activateSetYourGoal();
+        //activateSetYourGoal();
     }
 
 
@@ -326,38 +331,49 @@ public class EntryListFragment extends Fragment implements Observer, OnPostDataR
                 } else {
                     mTodayFruitCount.setText("0");
                 }
-
-                List<Fruit> fruitList = mFruitsData.getFruitData();
                 if (fruitEntries.size() != 0) {
-                    String totalVitamins = fruitEntries.keySet().stream()
-                            .map(x -> (fruitList.get(x).getVitamins()) * fruitEntries.get(x))
-                            .reduce(0, Integer::sum)
-                            .toString();
-                    mTodayVitaminCount.setText(totalVitamins);
+                    int totalVitaminsAmount = 0;
+                    for (int k = 0; k < fruitEntries.size(); k++) {
+                        Set<Integer> keys = fruitEntries.keySet();
+                        List<Integer> fruitIdList = new ArrayList(keys);
+                        int fruitId = fruitIdList.get(k);
+                        int vitamins = 0;
+                        for (int j = 0; j < mFruits.size(); j++) {
+                            if (mFruits.get(j).getID() == fruitId) {
+                                vitamins = mFruits.get(j).getVitamins();
+                                break;
+                            }
+                        }
+                        totalVitaminsAmount = totalVitaminsAmount + vitamins * fruitEntries.get(fruitId);
+                    }
+                    mTodayVitaminCount.setText(totalVitaminsAmount + "");
                 } else {
                     mTodayVitaminCount.setText("0");
                 }
-
             }
         }
     }
 
 
 
-    public void activateSetYourGoal() {
-        mSetYourGoal.setOnClickListener(v -> {
-            int goal = Integer.valueOf(mSetYourGoal.getText().toString().trim());
-            int todaysVitaminCount = Integer.valueOf(mTodayVitaminCount.getText().toString().trim());
-            int progress = todaysVitaminCount / goal * 100;
-            mCircularProgressBar.setProgress(progress);
-            mProgress.setText(progress + "%");
-        });
-    }
+//    public void activateSetYourGoal() {
+//        mSetYourGoal.setOnClickListener(v -> {
+//            int goal = Integer.valueOf(mSetYourGoal.getText().toString().trim());
+//            int todaysVitaminCount = Integer.valueOf(mTodayVitaminCount.getText().toString().trim());
+//            int progress = todaysVitaminCount / goal * 100;
+//            mCircularProgressBar.setProgress(progress);
+//            mProgress.setText(50 + "%");
+//        });
+//    }
 
     @Override
     public void onEntryRemoved(int entryId) {
         dataHandler.onDeleteOneEntry(entryId);
-    }
+        Log.d(TAG, "onEntryRemoved: entry ID is" + entryId);
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        }
+
 
     @Override
     public void onLastEntryRemoved() {

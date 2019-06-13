@@ -51,6 +51,7 @@ public class AddFruitFragment extends Fragment
     private RecyclerView recyclerView;
     private int mFruitPosition;
     private FloatingActionButton onBackPressed;
+    private boolean isDetailedEntry = false;
 
 
 
@@ -126,12 +127,13 @@ public class AddFruitFragment extends Fragment
         mSelectedEntryID = id;
     }
 
-    public void onPassedDataFromDetailedFragment(EntriesData entriesData, FruitsData fruitsData, int position) {
+    public void onPassedDataFromDetailedFragment(EntriesData entriesData, FruitsData fruitsData, int position, boolean isDetailedEntry) {
         mSelectedEntryID = entriesData.getEntriesData().get(position).getEntryId();
         mEntriesData = entriesData;
         mFruitList = fruitsData.getFruitData();
         mFruitsData = fruitsData;
         mPosition = position;
+        this.isDetailedEntry = isDetailedEntry;
     }
 
     public void activateOnBackPressed() {
@@ -178,8 +180,20 @@ public class AddFruitFragment extends Fragment
                 toast.show();
             } else if (mSelectedEntryID != 0) {
                 dataHandler.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
+                if (!isDetailedEntry) {
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    mEntriesData.getEntriesData().get(mPosition).getmEatenFruits()
+                            .put(mSelectedFruitId, Integer.parseInt(mSelectedAmount));
+                DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
+                detailedEntryFragment.dataPassed(mEntriesData, mFruitsData, mPosition);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_fragment, detailedEntryFragment)
+                        .addToBackStack(null)
+                        .commit();
+                }
             }
         });
     }

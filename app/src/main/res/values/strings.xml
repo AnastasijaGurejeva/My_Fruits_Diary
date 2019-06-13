@@ -23,4 +23,5 @@
         Every record has a detailed view with vitamin count.
         Fruit amount can be edited and fruit can be deleted by swiping to the left.</string>
     <string name="set_your_goal">Set your goal</string>
+    <string name="set_your_goal_button">Set Your Goal</string>
 </resources>

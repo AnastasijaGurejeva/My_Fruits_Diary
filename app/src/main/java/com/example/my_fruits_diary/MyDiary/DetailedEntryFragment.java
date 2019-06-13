@@ -51,6 +51,7 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
     private TextView mDateView;
     private FloatingActionButton onBackPressed;
     private Button onSavePressed;
+    private boolean isDetailedEntry = true;
 
 
 
@@ -107,7 +108,6 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
         } else {
             totalFruitsView.setText("0");
         }
-
         if (mFruitEntries.size() != 0) {
             int totalVitaminsAmount = 0;
             for (int k = 0; k < mFruitEntries.size(); k++) {
@@ -140,11 +140,6 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
         mPosition = position;
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-    }
 
     public void activateOnBackPressed() {
         onBackPressed.setOnClickListener(v -> {
@@ -164,7 +159,7 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
     public void activateOnAddNewFruit() {
         onAddNewFruit.setOnClickListener(v -> {
             AddFruitFragment addFruitFragment = new AddFruitFragment();
-            addFruitFragment.onPassedDataFromDetailedFragment(mEntriesData, mFruitsData, mPosition);
+            addFruitFragment.onPassedDataFromDetailedFragment(mEntriesData, mFruitsData, mPosition, isDetailedEntry);
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.frame_fragment, addFruitFragment)
