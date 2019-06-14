@@ -47,7 +47,6 @@ public class Fruit {
     }
 
 
-
     @Override
     public String toString() {
         return "Fruit{" +
@@ -57,5 +56,4 @@ public class Fruit {
                 ", mImage'" + mImage + '\'' +
                 '}';
     }
-
 }

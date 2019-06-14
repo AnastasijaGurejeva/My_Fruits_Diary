@@ -20,7 +20,7 @@ import com.example.my_fruits_diary.MainActivity;
 import com.example.my_fruits_diary.Model.EntriesData;
 import com.example.my_fruits_diary.Model.Fruit;
 import com.example.my_fruits_diary.Model.FruitsData;
-import com.example.my_fruits_diary.Model.OnDetailedEntryCnangeListener;
+import com.example.my_fruits_diary.Model.OnDetailedEntryChangeListener;
 import com.example.my_fruits_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,12 +30,11 @@ import java.util.List;
 import java.util.Set;
 
 
-public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCnangeListener {
+public class DetailedEntryFragment extends Fragment implements OnDetailedEntryChangeListener {
 
     private String mDate;
-    private String mTotalVitamins;
     private String mTotalFruits;
-    private HashMap<Integer, Integer> mFruitEntries;
+    private HashMap<Integer, Integer> mEatenFruits;
     private RecyclerViewAdapterForDetailedEntry mAdapterForDetailedEntry;
     private List<Fruit> mFruitList;
     private int mPosition;
@@ -54,12 +53,12 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
     private boolean isDetailedEntry = true;
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapterForDetailedEntry = new RecyclerViewAdapterForDetailedEntry(mFruitEntries, mFruitList, mEntryId, getActivity());
-        mAdapterForDetailedEntry.setOnDetailedEntryCnangeListener(this);
+        mAdapterForDetailedEntry = new RecyclerViewAdapterForDetailedEntry(mEatenFruits, mFruitList, mEntryId, getActivity());
+        mAdapterForDetailedEntry.setOnDetailedEntryChangeListener(this);
+
     }
 
     @Override
@@ -100,18 +99,18 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
 
 
     public void calculateVitaminsAndFruit() {
-        if (mFruitEntries.size() != 0) {
-            mTotalFruits = mFruitEntries.values().stream()
+        if (mEatenFruits.size() != 0) {
+            mTotalFruits = mEatenFruits.values().stream()
                     .reduce(0, Integer::sum)
                     .toString();
             totalFruitsView.setText(mTotalFruits);
         } else {
             totalFruitsView.setText("0");
         }
-        if (mFruitEntries.size() != 0) {
+        if (mEatenFruits.size() != 0) {
             int totalVitaminsAmount = 0;
-            for (int k = 0; k < mFruitEntries.size(); k++) {
-                Set<Integer> keys = mFruitEntries.keySet();
+            for (int k = 0; k < mEatenFruits.size(); k++) {
+                Set<Integer> keys = mEatenFruits.keySet();
                 List<Integer> fruitIdList = new ArrayList(keys);
                 int fruitId = fruitIdList.get(k);
                 int vitamins = 0;
@@ -121,7 +120,7 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
                         break;
                     }
                 }
-                totalVitaminsAmount = totalVitaminsAmount + vitamins * mFruitEntries.get(fruitId);
+                totalVitaminsAmount = totalVitaminsAmount + vitamins * mEatenFruits.get(fruitId);
             }
             totalVitaminsView.setText(totalVitaminsAmount + "");
         } else {
@@ -130,7 +129,7 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
     }
 
     public void dataPassed(EntriesData entriesData, FruitsData fruitsData, int position) {
-        mFruitEntries = entriesData.getEntriesData().get(position).getmEatenFruits();
+        mEatenFruits = entriesData.getEntriesData().get(position).getmEatenFruits();
         mDate = entriesData.getEntriesData().get(position).getDate();
         mEntriesData = entriesData;
         mEntryId = entriesData.getEntriesData().get(position).getEntryId();
@@ -143,7 +142,7 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
 
     public void activateOnBackPressed() {
         onBackPressed.setOnClickListener(v -> {
-           Intent intent = new Intent(getActivity(), MainActivity.class);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
         });
     }
@@ -176,7 +175,7 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCn
 
     @Override
     public void onEntryAmountChanged(HashMap<Integer, Integer> fruitEntries, int fruitId, String fruitAmount) {
-        mFruitEntries = fruitEntries;
+        mEatenFruits = fruitEntries;
         mDataHandler.editEntry(mEntryId, fruitId, fruitAmount);
         calculateVitaminsAndFruit();
     }

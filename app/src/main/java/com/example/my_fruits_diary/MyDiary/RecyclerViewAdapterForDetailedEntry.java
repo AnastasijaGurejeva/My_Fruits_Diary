@@ -6,15 +6,18 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_fruits_diary.Model.Fruit;
-import com.example.my_fruits_diary.Model.OnDetailedEntryCnangeListener;
+import com.example.my_fruits_diary.Model.OnDetailedEntryChangeListener;
 import com.example.my_fruits_diary.R;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,19 +27,19 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private HashMap<Integer, Integer> mFruitEntries;
+    private HashMap<Integer, Integer> mEatenFruits;
     private Context mContext;
     private List<Fruit> mFruitList;
     private String mFruitType;
     private int mFruitAmount;
     private int mEntryId;
-    private OnDetailedEntryCnangeListener onDetailedEntryCnangeListener;
+    private OnDetailedEntryChangeListener onDetailedEntryChangeListener;
 
 
-    public RecyclerViewAdapterForDetailedEntry(HashMap<Integer, Integer> fruitEntries,
+    public RecyclerViewAdapterForDetailedEntry(HashMap<Integer, Integer> eatenFruits,
                                                List<Fruit> fruitList, int entryId, Context mContext) {
 
-        this.mFruitEntries = fruitEntries;
+        this.mEatenFruits = eatenFruits;
         this.mContext = mContext;
         this.mFruitList = fruitList;
         this.mEntryId = entryId;
@@ -45,9 +48,6 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
 
     /**
      * Method creates a Layout view for the Detailed entry Fruit List
-     *
-     * @param viewGroup
-     * @param i
      * @return viewholder
      */
 
@@ -62,23 +62,23 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
     }
 
     public void deleteItem(int position) {
-        Set fruitKeys = mFruitEntries.keySet();
+        Set fruitKeys = mEatenFruits.keySet();
         List<Integer> fruitsId = new ArrayList<>(fruitKeys);
         int fruitId = fruitsId.get(position);
-        int amountInt = mFruitEntries.get(fruitId);
+        int amountInt = mEatenFruits.get(fruitId);
         String amount = Integer.toString(amountInt);
-        if (mFruitEntries.size() == 1) {
-            onDetailedEntryCnangeListener.onEntryRemoved();
+        if (mEatenFruits.size() == 1) {
+            onDetailedEntryChangeListener.onEntryRemoved();
             notifyItemRemoved(position);
         } else {
-            mFruitEntries.remove(fruitId);
-            onDetailedEntryCnangeListener.onEntryAmountChanged(mFruitEntries, fruitId, amount);
+            mEatenFruits.remove(fruitId);
+            onDetailedEntryChangeListener.onEntryAmountChanged(mEatenFruits, fruitId, amount);
             notifyItemRemoved(position);
         }
     }
 
-    public void setOnDetailedEntryCnangeListener(OnDetailedEntryCnangeListener onDetailedEntryCnangeListener) {
-        this.onDetailedEntryCnangeListener = onDetailedEntryCnangeListener;
+    public void setOnDetailedEntryChangeListener(OnDetailedEntryChangeListener onDetailedEntryChangeListener) {
+        this.onDetailedEntryChangeListener = onDetailedEntryChangeListener;
     }
 
 
@@ -91,8 +91,8 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        if (mFruitEntries != null && mFruitEntries.size() != 0) {
-            Set fruitKeys = mFruitEntries.keySet();
+        if (mEatenFruits != null && mEatenFruits.size() != 0) {
+            Set fruitKeys = mEatenFruits.keySet();
             List<Integer> fruitIdList = new ArrayList<Integer>(fruitKeys);
             int fruitId = fruitIdList.get(i);
             Log.d(TAG, "onBindViewHolder: fruit id" + fruitId);
@@ -103,7 +103,7 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
                 }
             }
             viewHolder.fruitTypeEntry.setText(mFruitType);
-            viewHolder.fruitAmountEntry.setText(mFruitEntries.get(fruitId).toString());
+            viewHolder.fruitAmountEntry.setText(mEatenFruits.get(fruitId).toString());
             viewHolder.fruitAmountEntry.setOnKeyListener((view, i1, keyEvent) -> {
                 if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
@@ -112,14 +112,18 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
                     if (newAmount <= 0) {
                         viewHolder.fruitAmountEntry.setError("Amount must be larger than 0");
                     } else {
-                        mFruitEntries.remove(fruitId);
-                        mFruitEntries.put(fruitId, newAmount);
-                        onDetailedEntryCnangeListener.onEntryAmountChanged(mFruitEntries, fruitId, newAmountText);
+                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(viewHolder.fruitAmountEntry.getWindowToken(), 0);
+                        viewHolder.fruitAmountEntry.clearFocus();
+                        mEatenFruits.remove(fruitId);
+                        mEatenFruits.put(fruitId, newAmount);
+                        onDetailedEntryChangeListener.onEntryAmountChanged(mEatenFruits, fruitId, newAmountText);
                         return true;
                     }
                 }
                 return false;
             });
+
 
             for (int j = 0; j < mFruitList.size(); j++) {
                 if (fruitId == mFruitList.get(j).getID()) {
@@ -145,7 +149,7 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
 
     @Override
     public int getItemCount() {
-        return ((mFruitEntries != null) && (mFruitEntries.size() != 0) ? mFruitEntries.size() : 1);
+        return ((mEatenFruits != null) && (mEatenFruits.size() != 0) ? mEatenFruits.size() : 1);
     }
 
     /**

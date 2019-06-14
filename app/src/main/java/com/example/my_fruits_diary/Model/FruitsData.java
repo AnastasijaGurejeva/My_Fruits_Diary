@@ -7,7 +7,7 @@ public class FruitsData extends Observable {
 
     private List<Fruit> mFruitsData;
 
-    public FruitsData () {
+    public FruitsData() {
     }
 
     public void setData(List<Fruit> fruitData) {

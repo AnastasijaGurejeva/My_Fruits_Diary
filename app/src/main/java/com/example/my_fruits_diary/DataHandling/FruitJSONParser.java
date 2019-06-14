@@ -18,11 +18,11 @@ public class FruitJSONParser extends AsyncTask<String, Void, List<Fruit>> implem
     private List<Fruit> mFruitsList = null;
     private final OnDataAvailable mCallBack;
     private String mUrl;
-    private String baseUrl;
+    private String mBaseUrl;
 
 
     interface OnDataAvailable {
-        void onDataAvailable (List<Fruit> data, DownloadStatus status);
+        void onDataAvailable(List<Fruit> data, DownloadStatus status);
     }
 
     public FruitJSONParser(OnDataAvailable CallBack, String url) {
@@ -34,7 +34,7 @@ public class FruitJSONParser extends AsyncTask<String, Void, List<Fruit>> implem
     @Override
     protected void onPostExecute(List<Fruit> fruits) {
         Log.d(TAG, "onPostExecute: starts");
-        if(mCallBack != null) {
+        if (mCallBack != null) {
             mCallBack.onDataAvailable(mFruitsList, DownloadStatus.OK);
         }
         Log.d(TAG, "onPostExecute: ends");
@@ -43,7 +43,6 @@ public class FruitJSONParser extends AsyncTask<String, Void, List<Fruit>> implem
     @Override
     protected List<Fruit> doInBackground(String... params) {
         Log.d(TAG, "doInBackground: starts");
-
         RawData rawData = new RawData(this);
         rawData.fetchRawData(mUrl);
         return mFruitsList;
@@ -57,14 +56,14 @@ public class FruitJSONParser extends AsyncTask<String, Void, List<Fruit>> implem
 
             try {
                 JSONArray itemsArray = new JSONArray(data);
-                baseUrl = "https://fruitdiary.test.themobilelife.com/";
+                mBaseUrl = "https://fruitdiary.test.themobilelife.com/";
 
                 for (int i = 0; i < itemsArray.length(); i++) {
                     JSONObject jsonFruit = itemsArray.getJSONObject(i);
                     int id = jsonFruit.getInt("id");
                     String type = jsonFruit.getString("type");
                     int vitamins = jsonFruit.getInt("vitamins");
-                    String image = baseUrl.concat(jsonFruit.getString("image"));
+                    String image = mBaseUrl.concat(jsonFruit.getString("image"));
 
                     Fruit fruitObject = new Fruit(id, type, vitamins, image);
                     mFruitsList.add(fruitObject);

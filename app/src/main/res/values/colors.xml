@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFAA00</color>
+    <color name="colorPrimary">#FA3D3D</color>
     <color name="colorPrimaryDark">#FA3D3D</color>
     <color name="colorAccent">#FFAA00</color>
     <color name="colorWhite">#FFFFFF</color>

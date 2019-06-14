@@ -46,7 +46,9 @@ public class DownloadDataHandler implements FruitJSONParser.OnDataAvailable, Ent
         if (status == DownloadStatus.OK) {
             Log.d(TAG, "onDownloadComplete: data is " + data);
             mFruitsData.setData(data);
-            onFruitDataReceivedListener.onReceivedFruitsData(mFruitsData);
+            if(onFruitDataReceivedListener != null) {
+                onFruitDataReceivedListener.onReceivedFruitsData(mFruitsData);
+            }
         } else {
             Log.e(TAG, "onDownloadComplete failed with status " + status);
         }

@@ -9,7 +9,7 @@
     android:layout_marginRight="10dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="?attr/colorPrimary"
+    app:cardBackgroundColor="?attr/colorAccent"
     app:cardCornerRadius="32dp">
 
     <androidx.cardview.widget.CardView

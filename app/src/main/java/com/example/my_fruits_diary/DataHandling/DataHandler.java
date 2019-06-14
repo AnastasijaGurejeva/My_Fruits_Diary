@@ -4,16 +4,16 @@ import android.util.Log;
 
 import com.example.my_fruits_diary.Model.OnPostDataReceivedListener;
 
-public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
+public class DataHandler implements PostingAndDeletingDataCaller.OnNewPostComplete {
 
-    private String baseUrl = "https://fruitdiary.test.themobilelife.com/api/";
-    private String mUrl = "https://fruitdiary.test.themobilelife.com/api/entries";
+    private String mBaseUrl = "https://fruitdiary.test.themobilelife.com/api/";
     private static final String TAG = "DataHandler";
+    private String mUrl;
     private String mDataReceived;
     private OnPostDataReceivedListener onPostDataReceivedListener;
     private boolean isNewEntryCalled = false;
     private String mPostRequest;
-    private PostDeleteDataCaller postDeleteDataCaller;
+    private PostingAndDeletingDataCaller postingAndDeletingDataCaller;
 
 
 
@@ -22,7 +22,7 @@ public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
 
     public void buildEditUrl(int entryId, int fruitId, String fruitAmount) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(baseUrl);
+        stringBuilder.append(mBaseUrl);
         stringBuilder.append("entry/");
         stringBuilder.append(entryId);
         stringBuilder.append("/fruit/");
@@ -33,11 +33,12 @@ public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
     }
 
     public void post(String date) {
-        postDeleteDataCaller = new PostDeleteDataCaller(this, date, mUrl, mPostRequest);
-        postDeleteDataCaller.execute();
+        postingAndDeletingDataCaller = new PostingAndDeletingDataCaller(this, date, mUrl, mPostRequest);
+        postingAndDeletingDataCaller.execute();
     }
     public void postNewEntry(String date) {
         mPostRequest = "POST";
+        mUrl = mBaseUrl + "entries";
         isNewEntryCalled = true;
         post(date);
     }
@@ -50,6 +51,7 @@ public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
 
     public void onDeleteAllEntries() {
         mPostRequest = "DELETE";
+        mUrl = mBaseUrl + "entries";
         post("");
 
     }
@@ -57,7 +59,7 @@ public class DataHandler implements PostDeleteDataCaller.OnNewPostComplete {
     public void onDeleteOneEntry(int entryId) {
         mPostRequest = "DELETE";
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(baseUrl);
+        stringBuilder.append(mBaseUrl);
         stringBuilder.append("entry/");
         stringBuilder.append(entryId);
         mUrl = stringBuilder.toString();

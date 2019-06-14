@@ -30,6 +30,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        android:focusable="true"
         android:elevation="0dp"
         android:src="@drawable/ic_baseline_add_24px"
         app:backgroundTint="@color/colorPrimaryDark"
@@ -44,7 +45,7 @@
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="205dp"
+        android:layout_height="180dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/frame_fragment">
@@ -64,15 +65,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:text="Today"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/frameLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/frame_fragment" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/today_vitamin_count_text"
@@ -116,11 +117,11 @@
         android:id="@+id/vitamin_icon_today"
         android:layout_width="73dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="@+id/frameLayout"
         app:layout_constraintStart_toEndOf="@+id/fruit_icon_today"
-        app:layout_constraintTop_toBottomOf="@+id/image_calendar"
+        app:layout_constraintTop_toTopOf="@+id/frame_fragment"
         app:srcCompat="@drawable/vitamin_icon_white" />
 
     <TextView
@@ -150,34 +151,13 @@
         android:id="@+id/fruit_icon_today"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toStartOf="@+id/vitamin_icon_today"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_calendar"
+        app:layout_constraintTop_toTopOf="@+id/frame_fragment"
         app:srcCompat="@drawable/fruit_icon_white" />
-
-    <ImageButton
-        android:id="@+id/refresh_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:clickable="true"
-        app:layout_constraintEnd_toStartOf="@+id/delete_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_autorenew_24px" />
-
-    <ImageButton
-        android:id="@+id/delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_delete_24px_white" />
-
 
     <FrameLayout
         android:id="@+id/frame_fragment"
@@ -186,10 +166,10 @@
         android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"></FrameLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

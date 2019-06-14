@@ -24,31 +24,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private List<Entry> mEntries;
+    private List<Entry> mEntryList;
     private Context mContext;
     private View.OnClickListener mOnEntryListener;
     private int mTotalFruitAmount = 0;
     private int mTotalVitaminsAmount = 0;
-    private List<Fruit> mFruits;
+    private List<Fruit> mFruitList;
     private String mDate;
     private OnEntryClickListener mOnEntryClickListener;
     private OnEntryDeleteListener mOnEntryDeleteListener;
 
 
-    public RecyclerViewAdapter(List<Entry> mEntries, List<Fruit> mFruits,
+    public RecyclerViewAdapter(List<Entry> entryList, List<Fruit> fruitList,
                                Context mContext, OnEntryClickListener onEntryClickListener) {
 
         this.mContext = mContext;
         this.mOnEntryClickListener = onEntryClickListener;
-        this.mFruits = mFruits;
+        this.mFruitList = fruitList;
+        this.mEntryList = entryList;
 
     }
 
     /**
      * Method creates a Layout view for the Entry List
-     *
-     * @param viewGroup
-     * @param i
      * @return viewholder
      */
 
@@ -65,16 +63,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void deleteItem(int position) {
-        if (mEntries.size() == 1) {
+        if (mEntryList.size() == 1) {
             mOnEntryDeleteListener.onLastEntryRemoved();
             notifyItemRemoved(position);
-        } else if (mEntries.size() == 0) {
+        } else if (mEntryList.size() == 0) {
             mOnEntryDeleteListener.onLastEntryRemoved();
             notifyItemRemoved(position);
         } else {
-            int removedEntryId = mEntries.get(position).getEntryId();
+            int removedEntryId = mEntryList.get(position).getEntryId();
             mOnEntryDeleteListener.onEntryRemoved(removedEntryId);
-            mEntries.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -91,31 +88,30 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        if (mEntries != null && mEntries.size() != 0) {
+        if (mEntryList != null && mEntryList.size() != 0) {
             int totalVitaminsAmount = 0;
-            mDate = mEntries.get(i).getDate();
-            HashMap<Integer, Integer> eatenFruits = mEntries.get(i).getmEatenFruits();
+            mDate = mEntryList.get(i).getDate();
+            HashMap<Integer, Integer> eatenFruits = mEntryList.get(i).getmEatenFruits();
             String fruitAmount = eatenFruits.values().stream()
                     .reduce(0, Integer::sum)
                     .toString();
             mTotalFruitAmount = Integer.valueOf(fruitAmount);
 
-            if (eatenFruits.size() != 0 && mFruits != null) {
+            if (eatenFruits.size() != 0 && mFruitList != null) {
                 for (int k = 0; k < eatenFruits.size(); k++) {
                     Set<Integer> keys = eatenFruits.keySet();
                     List<Integer> fruitIdList = new ArrayList(keys);
                     int fruitId = fruitIdList.get(k);
                     int vitamins = 0;
-                    for (int j = 0; j < mFruits.size(); j++) {
-                        if (mFruits.get(j).getID() == fruitId) {
-                            vitamins = mFruits.get(j).getVitamins();
+                    for (int j = 0; j < mFruitList.size(); j++) {
+                        if (mFruitList.get(j).getID() == fruitId) {
+                            vitamins = mFruitList.get(j).getVitamins();
                             break;
                         }
                     }
                     totalVitaminsAmount = totalVitaminsAmount + vitamins * eatenFruits.get(fruitId);
                 }
                 mTotalVitaminsAmount = totalVitaminsAmount;
-
             } else {
                 mTotalVitaminsAmount = 0;
             }
@@ -128,14 +124,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     void loadNewData(List<Entry> newEntries) {
-        mEntries = newEntries;
-        Log.d(TAG, "loadNewData: " + mEntries);
+        mEntryList = newEntries;
+        Log.d(TAG, "loadNewData: " + mEntryList);
         notifyDataSetChanged();
     }
 
     void loadNewDataFruits(List<Fruit> fruits) {
-        mFruits = fruits;
-        Log.d(TAG, "loadNewDataFruits: " + mFruits);
+        mFruitList = fruits;
+        Log.d(TAG, "loadNewDataFruits: " + mFruitList);
         notifyDataSetChanged();
     }
 
@@ -145,7 +141,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return ((mEntries != null) && (mEntries.size() != 0) ? mEntries.size() : 1);
+        return ((mEntryList != null) && (mEntryList.size() != 0) ? mEntryList.size() : 1);
     }
 
 
@@ -179,7 +175,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View v) {
             onEntryClickListener.onEntryClickListener(getAdapterPosition());
-
         }
     }
 

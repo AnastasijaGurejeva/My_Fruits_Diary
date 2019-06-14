@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<RecyclerViewAdapterForAvialableFruits.ViewHolder> {
+public class RecyclerViewAdapterForAvailableFruits extends RecyclerView.Adapter<RecyclerViewAdapterForAvailableFruits.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
@@ -27,7 +27,7 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
     private String mFruitVitamins;
 
 
-    public RecyclerViewAdapterForAvialableFruits(List<Fruit> mFruitList, Context mContext,
+    public RecyclerViewAdapterForAvailableFruits(List<Fruit> mFruitList, Context mContext,
                                                  OnEntryListener onEntryListener) {
 
         this.mFruitList = mFruitList;
@@ -46,7 +46,7 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
 
 
     @Override
-    public ViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_for_available_fruits, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view, mOnEntryListener);
@@ -55,6 +55,7 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
 
     /**
      * Method pass Fruit attributes to the view section
+     *
      * @param viewHolder
      * @param i
      */
@@ -90,15 +91,14 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
     /**
      * Method returns size of the entryList; returns 1 if data is 0 or null
      */
-
     @Override
     public int getItemCount() {
-        return ((mFruitList != null) && (mFruitList.size() !=0) ? mFruitList.size() : 1);
+        return ((mFruitList != null) && (mFruitList.size() != 0) ? mFruitList.size() : 1);
     }
+
     /**
      * View Holder class initiates elements inside the Entry
      */
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView fruitType;
@@ -109,7 +109,7 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
         public ViewHolder(View itemView, OnEntryListener onEntryListener) {
             super(itemView);
 
-            fruitType= itemView.findViewById(R.id.fruit_type_available_fruits);
+            fruitType = itemView.findViewById(R.id.fruit_type_available_fruits);
             vitamins = itemView.findViewById(R.id.vitamins_available_fruits);
             fruitImage = itemView.findViewById(R.id.fruit_image_available_fruit);
             this.onEntryListener = onEntryListener;
@@ -120,7 +120,6 @@ public class RecyclerViewAdapterForAvialableFruits extends RecyclerView.Adapter<
         @Override
         public void onClick(View v) {
             onEntryListener.onEntryClick(getAdapterPosition());
-
         }
     }
 

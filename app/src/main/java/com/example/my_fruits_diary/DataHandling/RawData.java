@@ -13,9 +13,9 @@ import java.net.URL;
 
 /**
  * Class to download raw data from the web on separate thread
- * author: Anastasij Gurejeva
+ * author: Anastasija Gurejeva
  */
-enum DownloadStatus { IDLE, PROCESSING, NOT_INITIALISED, FAILED_OR_EMPTY, OK }
+enum DownloadStatus {IDLE, PROCESSING, NOT_INITIALISED, FAILED_OR_EMPTY, OK}
 
 class RawData extends AsyncTask<String, Void, String> {
     private static final String TAG = "RawDataForEntries";
@@ -41,7 +41,7 @@ class RawData extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        if(mCallBack != null) {
+        if (mCallBack != null) {
             mCallBack.onDownloadComplete(s, mDownloadStatus);
         }
     }
@@ -50,7 +50,7 @@ class RawData extends AsyncTask<String, Void, String> {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
 
-        if(url == null) {
+        if (url == null) {
             mDownloadStatus = DownloadStatus.NOT_INITIALISED;
             return null;
         }

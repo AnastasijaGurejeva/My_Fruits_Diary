@@ -2,6 +2,7 @@ package com.example.my_fruits_diary;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: Starting app");
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(mViewPager);
+
     }
 
     @Override
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mDownloadDataHandler.downloadDataForAvailableEntries();
         mDownloadDataHandler.downloadDataForAvailableFruits();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
     }
 
     @Override
