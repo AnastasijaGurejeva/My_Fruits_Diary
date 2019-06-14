@@ -61,21 +61,6 @@ public class RecyclerViewAdapterForDetailedEntry extends RecyclerView.Adapter<Re
         return viewHolder;
     }
 
-    public void deleteItem(int position) {
-        Set fruitKeys = mEatenFruits.keySet();
-        List<Integer> fruitsId = new ArrayList<>(fruitKeys);
-        int fruitId = fruitsId.get(position);
-        int amountInt = mEatenFruits.get(fruitId);
-        String amount = Integer.toString(amountInt);
-        if (mEatenFruits.size() == 1) {
-            onDetailedEntryChangeListener.onEntryRemoved();
-            notifyItemRemoved(position);
-        } else {
-            mEatenFruits.remove(fruitId);
-            onDetailedEntryChangeListener.onEntryAmountChanged(mEatenFruits, fruitId, amount);
-            notifyItemRemoved(position);
-        }
-    }
 
     public void setOnDetailedEntryChangeListener(OnDetailedEntryChangeListener onDetailedEntryChangeListener) {
         this.onDetailedEntryChangeListener = onDetailedEntryChangeListener;

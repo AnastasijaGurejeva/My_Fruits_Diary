@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -82,16 +81,6 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCh
         calculateVitaminsAndFruit();
         recyclerView.setAdapter(mAdapterForDetailedEntry);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        SwipeToDelete swipeHandler = new SwipeToDelete(getContext()) {
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                mAdapterForDetailedEntry.deleteItem(position);
-            }
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHandler);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
         activateOnAddNewFruit();
         activateOnBackPressed();
         activateOnSavePressed();
@@ -167,11 +156,6 @@ public class DetailedEntryFragment extends Fragment implements OnDetailedEntryCh
         });
     }
 
-    public void onEntryRemoved() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-        mDataHandler.onDeleteOneEntry(mEntryId);
-    }
 
     @Override
     public void onEntryAmountChanged(HashMap<Integer, Integer> fruitEntries, int fruitId, String fruitAmount) {

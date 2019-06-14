@@ -4,5 +4,4 @@ import java.util.HashMap;
 
 public interface OnDetailedEntryChangeListener {
     void onEntryAmountChanged(HashMap<Integer, Integer> fruitEntries, int fruitId, String fruitAmount);
-    void onEntryRemoved();
 }
