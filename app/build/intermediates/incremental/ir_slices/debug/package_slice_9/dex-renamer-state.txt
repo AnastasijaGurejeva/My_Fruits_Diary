@@ -1,0 +1,4 @@
+#Fri Jun 14 09:28:05 CEST 2019
+base.0=/Users/anastasija/Desktop/Android/My_Fruits_Diary/app/build/intermediates/transforms/dexMerger/debug/9
+path.0=classes.dex
+renamed.0=classes.dex

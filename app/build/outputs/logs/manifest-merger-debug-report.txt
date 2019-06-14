@@ -1,0 +1,209 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:1-27:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.0-beta1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/0f722d400d72bbdd8ff28baef7e3ffd3/AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.material:material:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/48925f3b8e9ecfbc5538ec0ae5f11e6e/AndroidManifest.xml:17:1-24:12
+MERGED from [com.wdullaer:materialdatetimepicker:4.2.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/aa6703d0e383d029ac73cb01742c6395/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.appcompat:appcompat:1.0.2] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/11b4a17cab5825258da6a08436bebc20/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/db100de412022a802a11aaa031ecac47/AndroidManifest.xml:17:1-22:12
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/169d17a22539d26e36e2ea5bebe6ce4f/AndroidManifest.xml:2:1-14:12
+MERGED from [androidx.media:media:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/0090b952378817c2fe59bf095af7b5ba/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/809453f3ba34b4cc0f9edf3e4b859d42/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/fab5409bef549614c46de6de888c2df2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/f9eb0765c3ac7dd6bddbf23137fdb6d8/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/2d22817c7feeb8f25946ee64a3611089/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/c55b3826a954b44b8ba204f95d95ac81/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.transition:transition:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/bd69254e183c62494be2427e00f75953/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/2df4ff4c51510bb4000a20b3de3cbbc0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/81ee4b20143a04d89531272ff4807c1b/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/6e573835a4cdbcfc9bdf86864bbd6aa9/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/1db1df1abf7c433af2e57db66b6bebcc/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/87e2eee6151d69475d513ae86f991c69/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/bdb9bd37a70d00dabaeaa9faefa19f7d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/6856f18415771c074c951e38b636aa75/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/af6e11158a43c5864cbc0d4e43cdee86/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/a87d51de4b51cc1123ad7cae7d8f7de6/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.0.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3dd6af6046e0987fc59567247ea7d535/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/c617efa1fa646f4f00022b41ce97d428/AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/8eb045b1384b2c8d7720fc9cc71ef45e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/8639a0465ba2b6a8dfd0110f52688d1a/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/a1edae776abf96c9bfac1d959849b0a0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/f362d79081a132ea1a045722d20c4ccf/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3ca9b0c7960aa27e4f3dd8149731f75c/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/1641126cb73daedd7bb7c54bda8ed94e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/009b21e8ca0b5ad053065e13af1c434b/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3547a96bbbd93993964d5d93796a1f3e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/f2e82d2e59c880610506f88a8d6e95b9/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/74be19d4163d379d997c63e6d0b1b1d3/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/a48c30511f7305abd56a065a93ee264f/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/7961656602ea937ddcdc532a9177eca9/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:1-27:12
+	package
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:4:5-42
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:1-27:12
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:1-27:12
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:6:5-8:23
+	android:name
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:6:22-64
+application
+ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:10:5-25:19
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.0-beta1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/0f722d400d72bbdd8ff28baef7e3ffd3/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.0-beta1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/0f722d400d72bbdd8ff28baef7e3ffd3/AndroidManifest.xml:9:5-20
+MERGED from [com.google.android.material:material:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/48925f3b8e9ecfbc5538ec0ae5f11e6e/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/48925f3b8e9ecfbc5538ec0ae5f11e6e/AndroidManifest.xml:22:5-20
+MERGED from [com.wdullaer:materialdatetimepicker:4.2.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/aa6703d0e383d029ac73cb01742c6395/AndroidManifest.xml:28:5-20
+MERGED from [com.wdullaer:materialdatetimepicker:4.2.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/aa6703d0e383d029ac73cb01742c6395/AndroidManifest.xml:28:5-20
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/169d17a22539d26e36e2ea5bebe6ce4f/AndroidManifest.xml:7:5-12:19
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/169d17a22539d26e36e2ea5bebe6ce4f/AndroidManifest.xml:7:5-12:19
+MERGED from [androidx.core:core:1.0.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3dd6af6046e0987fc59567247ea7d535/AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.0.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3dd6af6046e0987fc59567247ea7d535/AndroidManifest.xml:22:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/c617efa1fa646f4f00022b41ce97d428/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/c617efa1fa646f4f00022b41ce97d428/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.0.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3dd6af6046e0987fc59567247ea7d535/AndroidManifest.xml:22:18-86
+	android:supportsRtl
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:15:9-35
+	android:label
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:13:9-41
+	android:windowSoftInputMode
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:16:9-48
+	android:roundIcon
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:14:9-54
+	android:icon
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:12:9-43
+	android:allowBackup
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:11:9-35
+	android:theme
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:17:9-40
+activity#com.example.my_fruits_diary.MainActivity
+ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:18:9-24:20
+	android:screenOrientation
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:19:13-49
+	android:name
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:18:19-47
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:20:13-23:29
+action#android.intent.action.MAIN
+ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:21:17-69
+	android:name
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:21:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:22:17-77
+	android:name
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml:22:27-74
+uses-sdk
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.0-beta1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/0f722d400d72bbdd8ff28baef7e3ffd3/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.0-beta1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/0f722d400d72bbdd8ff28baef7e3ffd3/AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.android.material:material:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/48925f3b8e9ecfbc5538ec0ae5f11e6e/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/48925f3b8e9ecfbc5538ec0ae5f11e6e/AndroidManifest.xml:20:5-44
+MERGED from [com.wdullaer:materialdatetimepicker:4.2.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/aa6703d0e383d029ac73cb01742c6395/AndroidManifest.xml:22:5-24:41
+MERGED from [com.wdullaer:materialdatetimepicker:4.2.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/aa6703d0e383d029ac73cb01742c6395/AndroidManifest.xml:22:5-24:41
+MERGED from [androidx.appcompat:appcompat:1.0.2] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/11b4a17cab5825258da6a08436bebc20/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.2] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/11b4a17cab5825258da6a08436bebc20/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/db100de412022a802a11aaa031ecac47/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/db100de412022a802a11aaa031ecac47/AndroidManifest.xml:20:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/169d17a22539d26e36e2ea5bebe6ce4f/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/169d17a22539d26e36e2ea5bebe6ce4f/AndroidManifest.xml:5:5-44
+MERGED from [androidx.media:media:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/0090b952378817c2fe59bf095af7b5ba/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/0090b952378817c2fe59bf095af7b5ba/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/809453f3ba34b4cc0f9edf3e4b859d42/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/809453f3ba34b4cc0f9edf3e4b859d42/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/fab5409bef549614c46de6de888c2df2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/fab5409bef549614c46de6de888c2df2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/f9eb0765c3ac7dd6bddbf23137fdb6d8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/f9eb0765c3ac7dd6bddbf23137fdb6d8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/2d22817c7feeb8f25946ee64a3611089/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/2d22817c7feeb8f25946ee64a3611089/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/c55b3826a954b44b8ba204f95d95ac81/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/c55b3826a954b44b8ba204f95d95ac81/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/bd69254e183c62494be2427e00f75953/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/bd69254e183c62494be2427e00f75953/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/2df4ff4c51510bb4000a20b3de3cbbc0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/2df4ff4c51510bb4000a20b3de3cbbc0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/81ee4b20143a04d89531272ff4807c1b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/81ee4b20143a04d89531272ff4807c1b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/6e573835a4cdbcfc9bdf86864bbd6aa9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/6e573835a4cdbcfc9bdf86864bbd6aa9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/1db1df1abf7c433af2e57db66b6bebcc/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/1db1df1abf7c433af2e57db66b6bebcc/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/87e2eee6151d69475d513ae86f991c69/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/87e2eee6151d69475d513ae86f991c69/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/bdb9bd37a70d00dabaeaa9faefa19f7d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/bdb9bd37a70d00dabaeaa9faefa19f7d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/6856f18415771c074c951e38b636aa75/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/6856f18415771c074c951e38b636aa75/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/af6e11158a43c5864cbc0d4e43cdee86/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/af6e11158a43c5864cbc0d4e43cdee86/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/a87d51de4b51cc1123ad7cae7d8f7de6/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/a87d51de4b51cc1123ad7cae7d8f7de6/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3dd6af6046e0987fc59567247ea7d535/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3dd6af6046e0987fc59567247ea7d535/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/c617efa1fa646f4f00022b41ce97d428/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/c617efa1fa646f4f00022b41ce97d428/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/8eb045b1384b2c8d7720fc9cc71ef45e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/8eb045b1384b2c8d7720fc9cc71ef45e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/8639a0465ba2b6a8dfd0110f52688d1a/AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/8639a0465ba2b6a8dfd0110f52688d1a/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/a1edae776abf96c9bfac1d959849b0a0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/a1edae776abf96c9bfac1d959849b0a0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/f362d79081a132ea1a045722d20c4ccf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/f362d79081a132ea1a045722d20c4ccf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3ca9b0c7960aa27e4f3dd8149731f75c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3ca9b0c7960aa27e4f3dd8149731f75c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/1641126cb73daedd7bb7c54bda8ed94e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/1641126cb73daedd7bb7c54bda8ed94e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/009b21e8ca0b5ad053065e13af1c434b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/009b21e8ca0b5ad053065e13af1c434b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3547a96bbbd93993964d5d93796a1f3e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/3547a96bbbd93993964d5d93796a1f3e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/f2e82d2e59c880610506f88a8d6e95b9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/f2e82d2e59c880610506f88a8d6e95b9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/74be19d4163d379d997c63e6d0b1b1d3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/74be19d4163d379d997c63e6d0b1b1d3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/a48c30511f7305abd56a065a93ee264f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/a48c30511f7305abd56a065a93ee264f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/7961656602ea937ddcdc532a9177eca9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/7961656602ea937ddcdc532a9177eca9/AndroidManifest.xml:20:5-44
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+		ADDED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/anastasija/Desktop/Android/My_Fruits_Diary/app/src/main/AndroidManifest.xml
+uses-permission#android.permission.VIBRATE
+ADDED from [com.wdullaer:materialdatetimepicker:4.2.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/aa6703d0e383d029ac73cb01742c6395/AndroidManifest.xml:26:5-66
+	android:name
+		ADDED from [com.wdullaer:materialdatetimepicker:4.2.1] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/aa6703d0e383d029ac73cb01742c6395/AndroidManifest.xml:26:22-63
+provider#com.squareup.picasso.PicassoProvider
+ADDED from [com.squareup.picasso:picasso:2.71828] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/169d17a22539d26e36e2ea5bebe6ce4f/AndroidManifest.xml:8:9-11:40
+	android:authorities
+		ADDED from [com.squareup.picasso:picasso:2.71828] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/169d17a22539d26e36e2ea5bebe6ce4f/AndroidManifest.xml:10:13-72
+	android:exported
+		ADDED from [com.squareup.picasso:picasso:2.71828] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/169d17a22539d26e36e2ea5bebe6ce4f/AndroidManifest.xml:11:13-37
+	android:name
+		ADDED from [com.squareup.picasso:picasso:2.71828] /Users/anastasija/.gradle/caches/transforms-2/files-2.1/169d17a22539d26e36e2ea5bebe6ce4f/AndroidManifest.xml:9:13-64
