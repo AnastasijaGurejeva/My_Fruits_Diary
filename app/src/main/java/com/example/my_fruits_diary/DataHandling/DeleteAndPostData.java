@@ -15,11 +15,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-enum PostStatus { IDLE, PROCESSING, NOT_INITIALISED, FAILED, OK }
+enum PostStatus {IDLE, PROCESSING, NOT_INITIALISED, FAILED, OK}
 
-public class PostDeleteData extends AsyncTask<String, Void, String> {
+public class DeleteAndPostData extends AsyncTask<String, Void, String> {
 
-    private static final String TAG = "PostDeleteData";
+    private static final String TAG = "DeleteAndPostData";
     private PostStatus mPostStatus;
     private final OnPostComplete mCallBack;
     private String mPostRequest;
@@ -29,7 +29,7 @@ public class PostDeleteData extends AsyncTask<String, Void, String> {
         void onPostComplete(String data, PostStatus status);
     }
 
-    public PostDeleteData(OnPostComplete mCallBack) {
+    public DeleteAndPostData(OnPostComplete mCallBack) {
         this.mCallBack = mCallBack;
         this.mPostStatus = PostStatus.IDLE;
     }
@@ -42,7 +42,7 @@ public class PostDeleteData extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        if(mCallBack != null) {
+        if (mCallBack != null) {
             mCallBack.onPostComplete(s, mPostStatus);
         }
     }
@@ -53,8 +53,8 @@ public class PostDeleteData extends AsyncTask<String, Void, String> {
         InputStream inputStream = null;
         mPostRequest = requestType;
 
-        if(url == null) {
-          mPostStatus = PostStatus.NOT_INITIALISED;
+        if (url == null) {
+            mPostStatus = PostStatus.NOT_INITIALISED;
             return null;
         }
         try {
@@ -77,14 +77,14 @@ public class PostDeleteData extends AsyncTask<String, Void, String> {
             inputStream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder sb = new StringBuilder();
-            String line ;
+            String line;
 
             try {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line + "\n");
                 }
             } catch (IOException e) {
-                Log.e(TAG, "doInBackground: IOException" + e.getMessage() );
+                Log.e(TAG, "doInBackground: IOException" + e.getMessage());
                 e.printStackTrace();
             }
             mPostStatus = PostStatus.OK;

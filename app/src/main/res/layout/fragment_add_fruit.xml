@@ -4,46 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context=".MyDiary.AddFruitFragment">
+    android:clickable="true"
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/select_fruit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:hint="Select Fruit"
         android:textAlignment="center"
         android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/select_amount"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/back_button_add_fruit_fragment" />
 
     <EditText
         android:id="@+id/select_amount"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="10dp"
         android:hint="Amount"
+        android:maxLines="1"
+        android:imeOptions="actionDone"
         android:inputType="number"
         android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/select_fruit"
         app:layout_constraintEnd_toStartOf="@id/save_entry"
         app:layout_constraintStart_toEndOf="@+id/select_fruit"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/select_fruit" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/frame_availavle_fruits"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,16 +58,35 @@
 
     <Button
         android:id="@+id/save_entry"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="Ok"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/rounded_corners"
         android:clickable="true"
+        android:focusable="true"
+        android:text="Ok"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/select_amount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/select_amount"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/select_amount" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/back_button_add_fruit_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="0dp"
+        app:backgroundTint="@color/colorWhite"
+        app:elevation="0dp"
+        app:fabSize="mini"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="@dimen/mdtp_minimum_margin_top_bottom"
+        app:srcCompat="@drawable/ic_baseline_keyboard_backspace_24px" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

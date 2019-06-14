@@ -1,6 +1,4 @@
-package com.example.my_fruits_diary.DataHandling;
-
-import com.example.my_fruits_diary.MyDiary.Entry;
+package com.example.my_fruits_diary.Model;
 
 import java.util.List;
 import java.util.Observable;

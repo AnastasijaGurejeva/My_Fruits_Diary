@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_fruits_diary.DataHandling.DataHandler;
-import com.example.my_fruits_diary.DataHandling.EntriesData;
-import com.example.my_fruits_diary.DataHandling.FruitsData;
 import com.example.my_fruits_diary.MainActivity;
+import com.example.my_fruits_diary.Model.EntriesData;
+import com.example.my_fruits_diary.Model.Fruit;
+import com.example.my_fruits_diary.Model.FruitsData;
 import com.example.my_fruits_diary.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,45 +32,55 @@ import java.util.Observer;
 import java.util.Set;
 
 public class AddFruitFragment extends Fragment
-        implements RecyclerViewAdapterForAvialableFruits.OnEntryListener, Observer {
+        implements RecyclerViewAdapterForAvailableFruits.OnEntryListener, Observer {
 
     private List<Fruit> mFruitList;
     private static final String TAG = "AddFruitFragment";
-    private RecyclerViewAdapterForAvialableFruits mAdapterForFruits;
+    private RecyclerViewAdapterForAvailableFruits mAdapterForFruits;
     private FruitsData mFruitsData;
     private EntriesData mEntriesData;
     private int mSelectedEntryID;
     private int mSelectedFruitId;
     private String mSelectedAmount;
     private Button mSaveEntry;
-    private TextView mSelectFruit;
-    private EditText mSelectAmount;
+    private TextView mSelectFruitView;
+    private EditText mSelectAmountView;
     private DataHandler dataHandler = new DataHandler();
     private int mPosition;
-
+    private RecyclerView mRecyclerView;
+    private int mFruitPosition;
+    private FloatingActionButton onBackPressed;
+    private boolean isDetailedEntry = false;
 
 
     public AddFruitFragment() {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAdapterForFruits = new RecyclerViewAdapterForAvailableFruits(mFruitList, getActivity(), this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_add_fruit, container, false);
-
-        mSelectFruit = view.findViewById(R.id.select_fruit);
-
-        mSelectAmount = view.findViewById(R.id.select_amount);
+        mSelectFruitView = view.findViewById(R.id.select_fruit);
+        mSelectAmountView = view.findViewById(R.id.select_amount);
         mSaveEntry = view.findViewById(R.id.save_entry);
-
-        RecyclerView recyclerView = view.findViewById(R.id.frame_availavle_fruits);
-        mAdapterForFruits = new RecyclerViewAdapterForAvialableFruits(mFruitList, getActivity(), this);
-        recyclerView.setAdapter(mAdapterForFruits);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        onOkClickActivated();
+        mRecyclerView = view.findViewById(R.id.frame_availavle_fruits);
+        onBackPressed = view.findViewById(R.id.back_button_add_fruit_fragment);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mRecyclerView.setAdapter(mAdapterForFruits);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        onOkClickActivated();
+        activateOnBackPressed();
     }
 
 
@@ -90,54 +102,74 @@ public class AddFruitFragment extends Fragment
     @Override
     public void onEntryClick(int position) {
         Log.d(TAG, "onEntryClick: clicked : " + position);
-        List<Entry> entries = mEntriesData.getEntriesData();
         Fruit fruit = mFruitList.get(position);
         mSelectedFruitId = fruit.getID();
-        mSelectFruit.setText(fruit.getType());
+        mSelectFruitView.setText(fruit.getType());
     }
 
     public void onPassId(int id) {
         mSelectedEntryID = id;
     }
 
-    public void onPassedDataFromDetailedFragment(EntriesData entriesData, FruitsData fruitsData, int position) {
+    public void onPassedDataFromDetailedFragment(EntriesData entriesData, FruitsData fruitsData, int position, boolean isDetailedEntry) {
         mSelectedEntryID = entriesData.getEntriesData().get(position).getEntryId();
         mEntriesData = entriesData;
         mFruitList = fruitsData.getFruitData();
         mFruitsData = fruitsData;
         mPosition = position;
+        this.isDetailedEntry = isDetailedEntry;
     }
+
+    public void activateOnBackPressed() {
+        onBackPressed.setOnClickListener(v -> {
+           getFragmentManager().popBackStack();
+        });
+    }
+
+
 
     public void onOkClickActivated() {
         mSaveEntry.setOnClickListener(v -> {
             Log.d(TAG, "onOkClick: activated");
-            mSelectedAmount = mSelectAmount.getText().toString().trim();
+            mSelectedAmount = mSelectAmountView.getText().toString().trim();
             Log.d(TAG, "onClick: amount is " + mSelectedAmount);
-            if(mEntriesData.getEntriesData().size() > 1) {
-                HashMap<Integer,Integer> eatenFruits = mEntriesData.getEntriesData().get(mPosition).getmEatenFruits();
+            if (mEntriesData.getEntriesData().size() > 1) {
+                HashMap<Integer, Integer> eatenFruits = mEntriesData.getEntriesData().get(mPosition).getmEatenFruits();
                 Set<Integer> keys = eatenFruits.keySet();
                 List<Integer> fruitsId = new ArrayList<>(keys);
-               for(int i = 0; i < fruitsId.size(); i++) {
-                   if(mSelectedFruitId == fruitsId.get(i)) {
-                      int newAmount = Integer.parseInt(mSelectedAmount) + eatenFruits.get(mSelectedFruitId);
-                      mSelectedAmount = Integer.toString(newAmount);
-                   }
-               }
+                for (int i = 0; i < fruitsId.size(); i++) {
+                    if (mSelectedFruitId == fruitsId.get(i)) {
+                        int newAmount = Integer.parseInt(mSelectedAmount) + eatenFruits.get(mSelectedFruitId);
+                        mSelectedAmount = Integer.toString(newAmount);
+                    }
+                }
             }
 
             if (mSelectedAmount.isEmpty()) {
-                mSelectAmount.setError("Field must be filled");
+                mSelectAmountView.setError("Field must be filled");
             } else if (Integer.parseInt(mSelectedAmount) <= 0) {
-                mSelectAmount.setError("Amount must be larger than 0");
-            } else if (mSelectFruit.length() == 0) {
+                mSelectAmountView.setError("Amount must be larger than 0");
+            } else if (mSelectFruitView.length() == 0) {
                 Toast toast = Toast.makeText(getActivity(), "Please select fruit", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP, 0, 300);
                 toast.show();
             } else if (mSelectedEntryID != 0) {
-                    dataHandler.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
+                dataHandler.editEntry(mSelectedEntryID, mSelectedFruitId, mSelectedAmount);
+                if (!isDetailedEntry) {
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    mEntriesData.getEntriesData().get(mPosition).getmEatenFruits()
+                            .put(mSelectedFruitId, Integer.parseInt(mSelectedAmount));
+                    DetailedEntryFragment detailedEntryFragment = new DetailedEntryFragment();
+                    detailedEntryFragment.dataPassed(mEntriesData, mFruitsData, mPosition);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame_fragment, detailedEntryFragment)
+                            .commit();
                 }
+            }
         });
     }
+
 }

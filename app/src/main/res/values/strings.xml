@@ -1,17 +1,27 @@
 <resources>
-    <string name="app_name">My_Fruits_Diary</string>
+    <string name="app_name">My Fruits Diary</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_diary">My Diary</string>
     <string name="about">About</string>
-    <string name="total_vitamins">Total Vitamins</string>
+    <string name="total_vitamins">Vitamins</string>
     <string name="date">Date</string>
-    <string name="fruit_amount">Fruit amount</string>
+    <string name="fruit_amount">Fruit</string>
     <string name="select_fruit">Select Fruit</string>
-    <string name="delete_entries">Delete All Entries</string>
+    <string name="delete_entries">Delete All Records</string>
     <string name="mnu">do something</string>
     <string name="total_vitamins_consumed">Total Vitamins Consumed</string>
-    <string name="total_number_of_fruits">Total Number of Fruits</string>
+    <string name="total_number_of_fruits">Total Count of Fruits</string>
     <string name="amount_detailed_row">Amount:</string>
+    <string name="refresh_data">Refresh Data</string>
+    <string name="about_this_app">About This App</string>
+    <string name="text_about">Track the amount of your daily
+        fruit intake.</string>
+    <string name="text_vitamins">Calculate the amount of vitamins you consumed.</string>
+    <string name="text_about_the_app"> This app allows to create your daily records and add the fruits you have ate.
+        Every record has a detailed view with vitamin count.
+        Fruit amount can be edited and fruit can be deleted by swiping to the left.</string>
+    <string name="set_your_goal">Set your goal</string>
+    <string name="set_your_goal_button">Set Your Goal</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.my_fruits_diary.MyDiary;
+package com.example.my_fruits_diary.Model;
 
 
 public class Fruit {
@@ -47,7 +47,6 @@ public class Fruit {
     }
 
 
-
     @Override
     public String toString() {
         return "Fruit{" +
@@ -57,5 +56,4 @@ public class Fruit {
                 ", mImage'" + mImage + '\'' +
                 '}';
     }
-
 }

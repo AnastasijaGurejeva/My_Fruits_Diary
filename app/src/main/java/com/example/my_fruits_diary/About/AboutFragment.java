@@ -20,9 +20,9 @@ public class AboutFragment extends Fragment {
     public static final String TAG ="TabAboutFragment";
 
 
-//    public AboutFragment() {
-//        // Required empty public constructor
-//    }
+    public AboutFragment() {
+
+    }
 
 
     @Override

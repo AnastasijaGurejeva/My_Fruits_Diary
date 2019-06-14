@@ -1,4 +1,4 @@
-package com.example.my_fruits_diary.MyDiary;
+package com.example.my_fruits_diary.Model;
 
 public interface OnEntryDeleteListener {
     void onEntryRemoved(int entryId);
